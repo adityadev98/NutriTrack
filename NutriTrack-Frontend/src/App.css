@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+/* Deacon Font Family Definitions */
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-Black-BF63c8afdb5bf2d.otf') format('opentype');
+  font-weight: 900; /* Black */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-BlackOblique-BF63c8afdc83979.otf') format('opentype');
+  font-weight: 900; /* Black Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-Bold-BF63c8afdb5bf0c.otf') format('opentype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-BoldOblique-BF63c8afc11533.otf') format('opentype');
+  font-weight: 700; /* Bold Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-Book-BF63c8afdc2df1.otf') format('opentype');
+  font-weight: 400; /* Book (Regular) */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-BookOblique-BF63c8afdc6ddfd4.otf') format('opentype');
+  font-weight: 400; /* Book Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-Light-BF63c8afdc847d7.otf') format('opentype');
+  font-weight: 300; /* Light */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-LightOblique-BF63c8afdc847a.otf') format('opentype');
+  font-weight: 300; /* Light Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-Medium-BF63c8afdae2eb.otf') format('opentype');
+  font-weight: 500; /* Medium */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-MediumOblique-BF63c8afdd90d08.otf') format('opentype');
+  font-weight: 500; /* Medium Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-Thin-BF63c8afdde094.otf') format('opentype');
+  font-weight: 100; /* Thin */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconCondensedTest-ThinOblique-BF63c8afddd9430.otf') format('opentype');
+  font-weight: 100; /* Thin Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-Black-BF63c8afce83979.otf') format('opentype');
+  font-weight: 900; /* Black */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-BlackOblique-BF63c8afce68560.otf') format('opentype');
+  font-weight: 900; /* Black Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-Bold-BF63c8afceea0c9.otf') format('opentype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-BoldOblique-BF63c8afcc11533.otf') format('opentype');
+  font-weight: 700; /* Bold Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-Book-BF63c8afcf16e7a.otf') format('opentype');
+  font-weight: 400; /* Book (Regular) */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-BookOblique-BF63c8afce68560.otf') format('opentype');
+  font-weight: 400; /* Book Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-Light-BF63c8afce2745.otf') format('opentype');
+  font-weight: 300; /* Light */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-LightOblique-BF63c8afce847a.otf') format('opentype');
+  font-weight: 300; /* Light Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-Medium-BF63c8afceb851c.otf') format('opentype');
+  font-weight: 500; /* Medium */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-MediumOblique-BF63c8afc1f11813.otf') format('opentype');
+  font-weight: 500; /* Medium Oblique */
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-Thin-BF63c8afcf6b14f.otf') format('opentype');
+  font-weight: 100; /* Thin */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Deacon';
+  src: url('/Fonts/deacon-font-family/DeaconTest-ThinOblique-BF63c8afcdf47fc.otf') format('opentype');
+  font-weight: 100; /* Thin Oblique */
+  font-style: oblique;
+}
+
+:root {
+  /* NutriTrack Colors */
+  --fresh-green: #4CAF50;
+  --warm-orange: #FF9800;
+  --calm-blue: #2196F3;
+  --soft-white: #F8F9FA;
+  --dark-gray: #2C3E50;
+  --light-beige: #F5E6CA;
+
+  /* Custom Colors */
+  --dark-green: #122215; /* Background color */
+  --bright-green: #54dd48; /* Text and button highlight color */
+  --off-white: #f1ede4; /* Log In text color */
+}
+
+/* Backgrounds */
+body {
+  font-family: 'Roboto', sans-serif; /* Roboto font for the entire app */
+  color: var(--dark-gray);
+  background-color: var(--soft-white);
+}
+
+/* Buttons */
+button {
+  background-color: var(--bright-green);
+  color: var(--soft-white);
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--fresh-green);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--dark-green);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Links */
+a {
+  color: var(--bright-green);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.main-heading {
+  background-color: var(--light-beige);
+  color: var(--dark-gray);
+  font-family: 'Deacon', Arial, sans-serif; /* Apply Deacon font with fallbacks */
+  font-weight: 900; /* Black weight */
+  font-size: 2.5rem; /* Heading size */
+  text-align: center; /* Center-align text */
+  padding: 20px; /* Add padding */
+  margin: 0 auto; /* Optional: Center the div */
+  border-radius: 8px; /* Optional: Add rounded corners */
+}

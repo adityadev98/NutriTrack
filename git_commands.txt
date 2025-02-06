@@ -1,0 +1,24 @@
+// Add the Remote Repository
+git remote add origin https://github.com/NutriTrack-UoW/NutriTrack.git
+git remote -v
+
+// Navigate to Your Project Directory
+cd your-repository
+
+// Pull the Latest Changes from Remote
+git pull origin main
+
+// Check the Status of Your Local Changes
+git status
+
+// Add All Changes to Staging
+git add .
+
+// Commit the Changes
+git commit -m "Your commit message"
+
+// Creating a New Branch
+git checkout -b new-feature
+
+// Push Your Changes to the Remote Repository
+git push origin new-feature
