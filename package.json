@@ -4,17 +4,20 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-      "dev": "cross-env NODE_ENV=development nodemon NutriTrack-Backend/index.js",
-      "build": "npm install && npm install --prefix NutriTrack-Frontend && npm run build --prefix NutriTrack-Frontend",
-      "start": "cross-env NODE_ENV=production node NutriTrack-Backend/index.js"
+    "dev": "cross-env NODE_ENV=development nodemon NutriTrack-Backend/index.js",
+    "build": "npm install && npm install --prefix NutriTrack-Frontend && npm run build --prefix NutriTrack-Frontend",
+    "start": "cross-env NODE_ENV=production node NutriTrack-Backend/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.0"
   },
   "devDependencies": {
