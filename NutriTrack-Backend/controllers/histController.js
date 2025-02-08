@@ -5,7 +5,7 @@ import trackingModel from '../models/trackingModel.js';
 import mongoose from "mongoose";
 
 
-// Controller to get all food items
+// Controller to get aggregate nutrient history of the user
 export const getNutrientHistory = async (req, res) => {
     try {
         const timeAgg = req.query.timeAgg || 'month'; // Default to 'monthly' if not provided
