@@ -28,6 +28,7 @@ router.post("/track",verifyToken,trackfoodItem)
 // Historical Weekly/Monthly View APIs
 
 //endpoint to get history of food items
+// Param: timeAgg (week/month)
 router.get("/history",getNutrientHistory);
 
 export default router;
