@@ -1,4 +1,4 @@
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import React from 'react';
 
 const data = [
@@ -47,13 +47,13 @@ const data = [
     ];
 
 
-const HistoricalLineGraph: React.FC = () => {
+const HistoricalLineGraph: React.FC = ({ historicalData }) => {
     return (
         <div className="flex justify-center items-center w-full h-full">
         <LineChart
           width={500}
           height={300}
-          data={data}
+          data={historicalData}
           margin={{
             top: 5,
             right: 30,
@@ -62,12 +62,12 @@ const HistoricalLineGraph: React.FC = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="eatenDate" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="linear" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="linear" dataKey="uv" stroke="#82ca9d" />
+          <Line type="linear" dataKey="totalCalories" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <Line type="linear" dataKey="totalProtein" stroke="#82ca9d" />
         </LineChart>
       </div>
     );
