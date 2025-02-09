@@ -51,8 +51,8 @@ const HistoricalLineGraph: React.FC = ({ historicalData }) => {
     return (
         <div className="flex justify-center items-center w-full h-full">
         <LineChart
-          width={500}
-          height={300}
+          width={700}
+          height={400}
           data={historicalData}
           margin={{
             top: 5,
@@ -63,11 +63,15 @@ const HistoricalLineGraph: React.FC = ({ historicalData }) => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="eatenDate" />
-          <YAxis />
+          <YAxis yAxisId="left" label={{ value: "Calories (kCal)", angle: -90, position: 'left' }} />
+          <YAxis yAxisId="right" orientation="right" label={{ value: "Nutrients (g)", angle: -90, position: 'insideRight' }} />
           <Tooltip />
           <Legend />
-          <Line type="linear" dataKey="totalCalories" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="linear" dataKey="totalProtein" stroke="#82ca9d" />
+          <Line yAxisId="left" type="linear" dataKey="totalCalories" stroke="#4E79A7" activeDot={{ r: 8 }} />
+          <Line yAxisId="right" type="linear" dataKey="totalProtein" stroke="#F28E2B" />
+          <Line yAxisId="right" type="linear" dataKey="totalFat" stroke="#E15759" />
+          <Line yAxisId="right" type="linear" dataKey="totalCarbohydrate" stroke="#76B7B2" />
+          <Line yAxisId="right" type="linear" dataKey="totalFiber" stroke="#B07AA1" />
         </LineChart>
       </div>
     );

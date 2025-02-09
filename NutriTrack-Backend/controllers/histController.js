@@ -81,7 +81,7 @@ export const getNutrientHistory = async (req, res) => {
                     _id: 0,
                     eatenDate: "$_id",
                     totalCalories: 1,
-                    totalFibre: 1,
+                    totalFiber: 1,
                     totalProtein: 1,
                     totalFat: 1,
                     totalCarbohydrate: 1,
