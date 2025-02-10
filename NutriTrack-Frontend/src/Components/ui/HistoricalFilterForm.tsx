@@ -12,7 +12,8 @@ const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
 
     return (
         <form className="w-full max-w-full flex justify-center" onSubmit={handleSubmit}>
-            <div className="flex flex-row items-center p-4">
+            
+            <div className="flex flex-row items-center gap-x-4">
                 <label className="inline-flex items-center mt-2">
                     <input
                         type="radio"
@@ -37,7 +38,7 @@ const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
                 </label>
                 <button
                     type="submit"
-                    className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+                    className="mt-4 bg-blue-500 text-white py-2 px-4 rounded ml-6 hover:bg-blue-600"
                 >
                     Submit
                 </button>
