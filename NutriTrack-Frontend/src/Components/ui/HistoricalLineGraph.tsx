@@ -1,51 +1,6 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import React from 'react';
-
-const data = [
-    {
-        name: 'Page A',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-    },
-    {
-        name: 'Page B',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'Page C',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'Page D',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'Page E',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'Page F',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-    },
-    {
-        name: 'Page G',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-    ];
-
+import { convertEpochToFormattedDate }  from '../../Services/historicalViewServices.js';
 
 const HistoricalLineGraph: React.FC = ({ historicalData }) => {
     return (
@@ -62,16 +17,17 @@ const HistoricalLineGraph: React.FC = ({ historicalData }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="eatenDate" />
+          <XAxis dataKey="aggTime" angle="-45" tickMargin="20" tickFormatter={convertEpochToFormattedDate}
+          scale="time" type="number" domain={['dataMin','dataMax + 1000']} />
           <YAxis yAxisId="left" label={{ value: "Calories (kCal)", angle: -90, position: 'left' }} />
           <YAxis yAxisId="right" orientation="right" label={{ value: "Nutrients (g)", angle: -90, position: 'insideRight' }} />
-          <Tooltip />
-          <Legend />
-          <Line yAxisId="left" type="linear" dataKey="totalCalories" stroke="#4E79A7" activeDot={{ r: 8 }} />
-          <Line yAxisId="right" type="linear" dataKey="totalProtein" stroke="#F28E2B" />
-          <Line yAxisId="right" type="linear" dataKey="totalFat" stroke="#E15759" />
-          <Line yAxisId="right" type="linear" dataKey="totalCarbohydrate" stroke="#76B7B2" />
-          <Line yAxisId="right" type="linear" dataKey="totalFiber" stroke="#B07AA1" />
+          <Tooltip labelFormatter={convertEpochToFormattedDate} />
+          <Legend wrapperStyle={{ position: 'relative' }}/>
+          <Line connectNulls yAxisId="left" type="linear" dataKey="totalCalories" stroke="#4E79A7" activeDot={{ r: 8 }} />
+          <Line connectNulls yAxisId="right" type="linear" dataKey="totalProtein" stroke="#F28E2B" />
+          <Line connectNulls yAxisId="right" type="linear" dataKey="totalFat" stroke="#E15759" />
+          <Line connectNulls yAxisId="right" type="linear" dataKey="totalCarbohydrate" stroke="#76B7B2" />
+          <Line connectNulls yAxisId="right" type="linear" dataKey="totalFiber" stroke="#B07AA1" />
         </LineChart>
       </div>
     );

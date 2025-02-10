@@ -10,13 +10,6 @@ export const getNutrientHistory = async (req, res) => {
     try {
         const timeAgg = req.query.timeAgg || 'month'; // Default to 'monthly' if not provided
 
-        let dateFormat;
-        if (timeAgg === 'week') {
-            dateFormat = "%Y-%U"; // Year and week number
-        } else {
-            dateFormat = "%Y-%m"; // Year and month
-        }
-
         // Aggregate function to get the total calories, protein, fat, fiber, and carbohydrates consumed by the user in a month
         const trackings = await trackingModel.aggregate([
             {
@@ -42,7 +35,7 @@ export const getNutrientHistory = async (req, res) => {
             },
             {
                 $addFields: {
-                    aggTime: { $dateToString: { format: dateFormat, date: "$eatenDateObj" } }
+                    aggTime: { $dateTrunc: { date: "$eatenDateObj" , unit: timeAgg } }
                 }
             },
             {
@@ -73,13 +66,15 @@ export const getNutrientHistory = async (req, res) => {
                             $multiply: ["$quantity", "$foodDetails.carbohydrates"]
                         }
                     }
-
                 }
+            },
+            {
+                $sort: { _id: 1 } // Sort by eatenDateObj in ascending order
             },
             {
                 $project: {
                     _id: 0,
-                    eatenDate: "$_id",
+                    aggTime: "$_id",
                     totalCalories: 1,
                     totalFiber: 1,
                     totalProtein: 1,

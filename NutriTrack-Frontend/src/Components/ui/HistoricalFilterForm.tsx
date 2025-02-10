@@ -22,7 +22,7 @@ const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
                         checked={selectedOption === 'week'}
                         onChange={() => setSelectedOption('week')}
                     />
-                    <span className="ml-2">Week</span>
+                    <span className="ml-2">Weekly</span>
                 </label>
                 <label className="inline-flex items-center mt-2">
                     <input
@@ -33,7 +33,7 @@ const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
                         checked={selectedOption === 'month'}
                         onChange={() => setSelectedOption('month')}
                     />
-                    <span className="ml-2">Month</span>
+                    <span className="ml-2">Monthly</span>
                 </label>
                 <button
                     type="submit"
