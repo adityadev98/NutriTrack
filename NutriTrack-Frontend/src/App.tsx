@@ -4,6 +4,7 @@ import { Box } from "@chakra-ui/react";
 
 import HomePage from "./Pages/HomePage";
 import Navbar from "./Components/Sections/Navbar";
+import HistoricalViewPage from './Pages/HistoricalViewPage';
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
 			<Navbar />
 			<Routes>
 				<Route path='/' element={<HomePage />} />
+        <Route path='/historical' element={<HistoricalViewPage />} />
 			</Routes>
 		</Box>
     </>
