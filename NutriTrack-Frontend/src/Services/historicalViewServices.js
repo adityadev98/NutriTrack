@@ -2,11 +2,13 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:7000';
 
-export const getHistoricalData = async (timeAggParam = 'month') => {
+export const getHistoricalData = async (timeAggParam = 'month', startDate = null, endDate = null) => {
     try {
         const response = await axios.get(`${BASE_URL}/history`, {
             params: {
-                timeAgg: timeAggParam
+                timeAgg: timeAggParam,
+                startDate: startDate,
+                endDate: endDate
             }
         });
         let filledTrackings = fillMissingDates(response.data.data.trackings);

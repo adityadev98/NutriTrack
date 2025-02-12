@@ -9,13 +9,31 @@ import mongoose from "mongoose";
 export const getNutrientHistory = async (req, res) => {
     try {
         const timeAgg = req.query.timeAgg || 'month'; // Default to 'monthly' if not provided
+        const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
+        const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+
+        const matchStage = {
+            userId: new mongoose.Types.ObjectId('67a64dc0ee7a29f5fb571ba8')
+        };
+
+        if (startDate) {
+            matchStage.eatenDateObj = { $gte: startDate };
+        }
+
+        if (endDate) {
+            matchStage.eatenDateObj = matchStage.eatenDateObj || {};
+            matchStage.eatenDateObj.$lte = endDate;
+        }
 
         // Aggregate function to get the total calories, protein, fat, fiber, and carbohydrates consumed by the user in a month
         const trackings = await trackingModel.aggregate([
             {
-                $match: {
-                    userId: new mongoose.Types.ObjectId('67a64dc0ee7a29f5fb571ba8')
+                $addFields: {
+                    eatenDateObj: { $dateFromString: { dateString: "$eatenDate" } }
                 }
+            },
+            {
+                $match: matchStage
             },
             {
                 $lookup: {
@@ -27,11 +45,6 @@ export const getNutrientHistory = async (req, res) => {
             },
             {
                 $unwind: '$foodDetails'
-            },
-            {
-                $addFields: {
-                    eatenDateObj: { $dateFromString: { dateString: "$eatenDate" } }
-                }
             },
             {
                 $addFields: {
