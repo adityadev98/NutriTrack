@@ -2,10 +2,8 @@ import './App.css'
 import { Route, Routes } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 
-import HomePage from "./Pages/HomePage";
-import Navbar from "./Components/Sections/Navbar";
-import HistoricalViewPage from './Pages/HistoricalViewPage';
-import SignInSide from './Pages/SignInSide';
+import {Navbar} from "./Components/Sections";
+import {HomePage, HistoricalViewPage,SignInSide} from "./Pages"
 //import SignUp from './Pages/SignUp'; 
 
 function App() {
