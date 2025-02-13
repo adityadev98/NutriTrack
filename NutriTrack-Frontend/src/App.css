@@ -234,3 +234,7 @@ a:hover {
   margin: 0 auto; /* Optional: Center the div */
   border-radius: 8px; /* Optional: Add rounded corners */
 }
+
+.bg-primary {
+  background-color: var(--dark-green); /* or any defined color */
+}
