@@ -1,6 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
+interface Measure {
+    serving_weight: number;
+    measure: string;
+    seq?: number | null;
+    qty: number;
+}
+
 interface FoodProps {
     food: {
         name: string;
@@ -10,7 +17,7 @@ interface FoodProps {
         fat: number;
         fiber: number;
         serving_weight_grams: number;
-        alt_measures: any;
+        alt_measures: Measure[];
         serving_unit : string;
         _id?: string;
     };
@@ -18,13 +25,13 @@ interface FoodProps {
 
 const FoodItem: React.FC<FoodProps> = ({ food }) => {
  
-    const [eatenQuantity, setEatenQuantity] = useState<number>(100);
+    const [eatenQuantity, setEatenQuantity] = useState<number>(food.serving_weight_grams);
     const [foodData, setFoodData] = useState<FoodProps["food"]>(food);
     const [foodInitial, setFoodInitial] = useState<FoodProps["food"]>(food);
     const [selectedUnit, setSelectedUnit] = useState<string>("grams");
     const [unitOptions, setUnitOptions] = useState<Measure[]>([]);
     const loggedData = useContext(UserContext);
-    
+  
     useEffect(() => {
         setFoodData(food);
         setFoodInitial(food);
@@ -34,27 +41,38 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
         }
     }, [food]);
 
+   
     function calculateMacros(event: React.ChangeEvent<HTMLInputElement>) {
         let quantity = Number(event.target.value);
-
         if (quantity > 0) {
+            const selectedMeasure = unitOptions.find((unit) => unit.measure === selectedUnit);
+            const servingWeight = selectedMeasure ? selectedMeasure.serving_weight : food.serving_weight_grams;
+            const convertedQuantity = (servingWeight * quantity) / food.serving_weight_grams;
+            
+            console.log("selectedMeasure:", selectedMeasure);
+            console.log("servingWeight:", servingWeight);
+            console.log("convertedQuantity:", convertedQuantity);
+            console.log("food.serving_weight_grams:", food.serving_weight_grams);
+
             setEatenQuantity(quantity);
 
             let updatedFood = { ...foodInitial };
-            updatedFood.protein = Math.round((foodInitial.protein * quantity) / 100);
-            updatedFood.carbohydrates = Math.round((foodInitial.carbohydrates * quantity) / 100);
-            updatedFood.fat = Math.round((foodInitial.fat * quantity) / 100);
-            updatedFood.fiber = Math.round((foodInitial.fiber * quantity) / 100);
-            updatedFood.calories = Math.round((foodInitial.calories * quantity) / 100);
-            
-            
+            updatedFood.protein = Math.round(foodInitial.protein * convertedQuantity );
+            updatedFood.carbohydrates = Math.round(foodInitial.carbohydrates *convertedQuantity) ;
+            updatedFood.fat = Math.round(foodInitial.fat * convertedQuantity) ;
+            updatedFood.fiber = Math.round(foodInitial.fiber * convertedQuantity) ;
+            updatedFood.calories = Math.round(foodInitial.calories * convertedQuantity);
+              
+            console.log("Converted Quantity:", convertedQuantity);
+            console.log("Food Initial:", foodInitial);
+
             setFoodData(updatedFood);
         } else {
             setEatenQuantity(0);
-            setFoodData(foodInitial); // Reset macros if input is empty
+            setFoodData(foodInitial);
         }
-
     }
+
     function handleUnitChange(event: React.ChangeEvent<HTMLSelectElement>) {
         setSelectedUnit(event.target.value);
     }
@@ -82,24 +100,24 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
 
     return (
         <div className="food">
-            <h2>{foodData.name} ({foodData.calories} Kcal for {foodData.serving_weight_grams} {foodData.serving_unit})</h2>
+            <h2>{foodData.name} ({Math.round(foodData.calories)} Kcal)</h2>
 
             <>
             <div className="nutrient">
                 <p className="n-title">Protein</p>
-                <p className="n-value">{foodData.protein}g</p>
+                <p className="n-value">{Math.round(foodData.protein)}g</p>
             </div>
             <div className="nutrient">
                 <p className="n-title">Carbs</p>
-                <p className="n-value">{foodData.carbohydrates}g</p>
+                <p className="n-value">{Math.round(foodData.carbohydrates)}g</p>
             </div>
             <div className="nutrient">
                 <p className="n-title">Fat</p>
-                <p className="n-value">{foodData.fat}g</p>
+                <p className="n-value">{Math.round(foodData.fat)}g</p>
             </div>
             <div className="nutrient">
                 <p className="n-title">Fibre</p>
-                <p className="n-value">{foodData.fiber}g</p>
+                <p className="n-value">{Math.round(foodData.fiber)}g</p>
             </div>
         </>
 
@@ -125,7 +143,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
                                 </option>
                             ))
                         ) : (
-                            <option value="grams">grams</option>
+                            <option value="g">grams</option>
                         )}
                     </select>
                    
