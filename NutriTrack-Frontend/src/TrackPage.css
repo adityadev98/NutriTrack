@@ -295,3 +295,52 @@ button:active {
   font-size: 16px; /* Ensure text is large enough */
   color: black; /* Ensure text color is black */
 }
+
+
+/* css for quantity and units dropdown */
+.track-control {
+  display: flex;
+  flex-direction: column; /* Stack everything vertically */
+  align-items: center;    /* Center align all the elements */
+  gap: 15px;              /* Space between the quantity, unit dropdown, and the button */
+}
+
+.quantity-unit-wrapper {
+  display: flex;
+  align-items: center;    /* Align the input and dropdown side by side */
+  gap: 10px;              /* Space between the quantity input and the unit dropdown */
+}
+
+/* Specific styles for quantity-input class */
+.quantity-input {
+  width: 60px !important ; /* Adjust as needed */
+  height: 30px; /* Adjust as needed */         /* Adjust width to fit a 3-digit number */
+  text-align: center;     /* Center the number inside the input */
+  font-size: 1px important;
+  color: black;
+  padding: 5px 5px 5px 5px !important  ; /* top, right, bottom, left */
+
+}
+
+.unit-dropdown {
+  width: 150px;         /* Set the width of the unit dropdown */
+  padding: 5px 10px;    /* Padding inside the dropdown */
+  border-radius: 4px;   /* Rounded corners */
+  border: 1px solid #ccc; /* Border color */
+  font-size: 14px;      /* Font size */
+  color: black
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { searchFoodAPI, fetchFoodDetailsAPI } from "@/services/nutritionixApi";
+import { searchFoodAPI, fetchFoodDetailsAPI } from "../Services/nutritionixAPI";
 
 interface TrackSearchProps {
   setSelectedFood: (food: any) => void;
@@ -29,8 +29,13 @@ const TrackSearch: React.FC<TrackSearchProps> = ({ setSelectedFood }) => {
         name: food.food_name,
         calories: food.nf_calories,
         protein: food.nf_protein,
+        carbohydrates: food.nf_total_carbohydrate,
+        fiber: food.nf_dietary_fiber,
         fat: food.nf_total_fat,
         image: food.photo.thumb,
+        alt_measures: food.alt_measures,
+        serving_weight_grams: food.serving_weight_grams,
+        serving_unit: food.serving_unit
       });
       setFoodItems([]);
     }
