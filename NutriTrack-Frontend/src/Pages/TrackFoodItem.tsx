@@ -130,7 +130,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
 
     return (
         <div className="food">
-            <h2>{foodData.name} ({Math.round(foodData.calories)} Kcal)</h2>
+            <h2>{foodData.name} ({Math.round(foodData.calories)} Kcal )</h2>
 
             <>
             <div className="nutrient">
@@ -146,7 +146,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
                 <p className="n-value">{Math.round(foodData.fat)}g</p>
             </div>
             <div className="nutrient">
-                <p className="n-title">Fibre</p>
+                <p className="n-title">Fiber</p>
                 <p className="n-value">{Math.round(foodData.fiber)}g</p>
             </div>
         </>

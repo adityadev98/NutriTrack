@@ -1,5 +1,5 @@
-const NUTRITIONIX_APP_ID = "10670894";
-const NUTRITIONIX_API_KEY = "2f84f11f4b5a51f834a7291594d1d36e";
+const NUTRITIONIX_APP_ID = import.meta.env.VITE_NUTRITIONIX_APP_ID;
+const NUTRITIONIX_API_KEY = import.meta.env.VITE_NUTRITIONIX_API_KEY;
 
 const headers = {
   "x-app-id": NUTRITIONIX_APP_ID,

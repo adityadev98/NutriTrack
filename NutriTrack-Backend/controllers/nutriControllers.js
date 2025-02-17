@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userModel from '../models/userModel.js';
-import foodModel from '../models/foodModel.js';
+import foodModel from '../models/customFoodModel.js';
 import trackingModel from '../models/trackingModel.js';
 
 
