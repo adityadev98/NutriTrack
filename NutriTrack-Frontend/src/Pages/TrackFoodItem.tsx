@@ -51,6 +51,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
             const convertedQuantity = (servingWeight * quantity) / food.serving_weight_grams;
             
             console.log("selectedMeasure:", selectedMeasure);
+            console.log("selectedUnit", selectedUnit);
             console.log("servingWeight:", servingWeight);
             console.log("convertedQuantity:", convertedQuantity);
             console.log("food.serving_weight_grams:", food.serving_weight_grams);
@@ -83,17 +84,38 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
     }
 
     function trackFoodItem() {
+        console.log({
+            userId: "6792c2bbe61a8b6ed753af2c",
+            foodName: foodData.name,
+            eatenWhen: selectedWhen,
+            servingUnit: selectedUnit,
+            details: {  
+                calories: Math.round(foodData.calories), // Use updated macros
+                protein: Math.round(foodData.protein),
+                carbohydrates: Math.round(foodData.carbohydrates),
+                fat: Math.round(foodData.fat),
+                fiber: Math.round(foodData.fiber)
+             }, 
+            quantity: eatenQuantity
+        });
+        
         let trackedItem = {
             // userId: loggedData.loggedUser.userid,
             userId: "6792c2bbe61a8b6ed753af2c",
             foodName: foodData.name,
-            eaten_when: selectedWhen,
+            eatenWhen: selectedWhen,
             servingUnit: selectedUnit,
-            details: { ...foodData }, // Use updated macros
+            details: { 
+                calories: Math.round(foodData.calories), // Use updated macros
+                protein: Math.round(foodData.protein),
+                carbohydrates: Math.round(foodData.carbohydrates),
+                fat: Math.round(foodData.fat),
+                fiber: Math.round(foodData.fiber)
+            }, 
             quantity: eatenQuantity
         };
 
-        fetch("http://localhost:8001/track", {
+        fetch("http://localhost:7001/track", {
             method: "POST",
             body: JSON.stringify(trackedItem),
             headers: {
