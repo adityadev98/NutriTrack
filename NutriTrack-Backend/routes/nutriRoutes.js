@@ -23,7 +23,7 @@ router.get("/foods",verifyToken,getallFoodItems)
 router.get("/foods/:name",verifyToken,getFoodItembyName)
 
 // endpoint to track a food 
-router.post("/track",verifyToken,trackfoodItem)
+router.post("/track",trackfoodItem)
 
 // Historical Weekly/Monthly View APIs
 

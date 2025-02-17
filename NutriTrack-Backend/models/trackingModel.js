@@ -7,11 +7,10 @@ const trackingSchema = mongoose.Schema({
         ref:'users',
         required:true
     },
-    foodId:{
-        type:mongoose.Schema.Types.ObjectId,
-        type: Number,
+    foodId: {
+        type: mongoose.Schema.Types.ObjectId, 
+        default: () => new mongoose.Types.ObjectId(), 
         unique: true
-
     },
     foodName: { 
         type: String,
@@ -46,7 +45,6 @@ const trackingSchema = mongoose.Schema({
     },
 },{timestamps:true})
 
-trackingSchema.plugin(autoIncrement(mongoose), { inc_field: 'foodId' });
 
-const trackingModel = mongoose.model("trackings",trackingSchema);
+const trackingModel = mongoose.model("trackedFood",trackingSchema);
 export default trackingModel ;

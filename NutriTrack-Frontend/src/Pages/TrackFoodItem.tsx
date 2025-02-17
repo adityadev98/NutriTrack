@@ -30,6 +30,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
     const [foodInitial, setFoodInitial] = useState<FoodProps["food"]>(food);
     const [selectedUnit, setSelectedUnit] = useState<string>("grams");
     const [unitOptions, setUnitOptions] = useState<Measure[]>([]);
+    const [selectedWhen, setSelectedWhen] = useState<string>("breakfast");
     const loggedData = useContext(UserContext);
   
     useEffect(() => {
@@ -77,19 +78,26 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
         setSelectedUnit(event.target.value);
     }
 
+    function handleWhenChange(event: React.ChangeEvent<HTMLSelectElement>) {
+        setSelectedWhen(event.target.value);
+    }
+
     function trackFoodItem() {
         let trackedItem = {
-            userId: loggedData.loggedUser.userid,
+            // userId: loggedData.loggedUser.userid,
+            userId: "6792c2bbe61a8b6ed753af2c",
+            foodName: foodData.name,
+            eaten_when: selectedWhen,
+            servingUnit: selectedUnit,
             details: { ...foodData }, // Use updated macros
-            quantity: eatenQuantity,
-            foodName: foodData.name
+            quantity: eatenQuantity
         };
 
         fetch("http://localhost:8001/track", {
             method: "POST",
             body: JSON.stringify(trackedItem),
             headers: {
-                "Authorization": `Bearer ${loggedData.loggedUser.token}`,
+                // "Authorization": `Bearer ${loggedData.loggedUser.token}`,
                 "Content-Type": "application/json",
             },
         })
@@ -145,9 +153,22 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
                         ) : (
                             <option value="g">grams</option>
                         )}
+                    </select>    
+                </div>
+                <div className="when-dropdown-wrapper">
+                    <label htmlFor="when-dropdown">When:</label>
+                    <select 
+                        id="when-dropdown"
+                        onChange={handleWhenChange} 
+                        value={selectedWhen} 
+                        className="when-dropdown"
+                    >
+                        <option value="breakfast">Breakfast</option>
+                        <option value="AM snack">AM Snack</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="PM snack">PM Snack</option>
+                        <option value="dinner">Dinner</option>
                     </select>
-                   
-                    
                 </div>
 
                 <button className="btn" onClick={trackFoodItem}>Track</button>
