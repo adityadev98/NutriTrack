@@ -80,9 +80,9 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
     function trackFoodItem() {
         let trackedItem = {
             userId: loggedData.loggedUser.userid,
-            foodId: food._id,
             details: { ...foodData }, // Use updated macros
             quantity: eatenQuantity,
+            foodName: foodData.name
         };
 
         fetch("http://localhost:8001/track", {

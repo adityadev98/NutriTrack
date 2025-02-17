@@ -13,7 +13,7 @@ const trackingSchema = mongoose.Schema({
         unique: true
 
     },
-    food_name: { // Store the name of the food item
+    foodName: { 
         type: String,
         required: true
     },
@@ -35,11 +35,11 @@ const trackingSchema = mongoose.Schema({
         min:1,
         required:true
     },
-    serving_unit: { // Store the unit used for tracking
+    servingUnit: { 
         type: String,
         required: true
     },
-    eaten_when: { // Stores meal type
+    eatenWhen: {
         type: String,
         enum: ["breakfast", "AM snack", "lunch", "PM snack", "dinner"],
         required: true
