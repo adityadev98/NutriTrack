@@ -11,7 +11,7 @@ export const getNutrientHistory = async (req, res) => {
         const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
 
         const matchStage = {
-            userId: new mongoose.Types.ObjectId('67a64dc0ee7a29f5fb571ba8')
+            userId: new mongoose.Types.ObjectId('6792c2bbe61a8b6ed753af2c')
         };
 
         if (startDate) {
@@ -34,17 +34,6 @@ export const getNutrientHistory = async (req, res) => {
                 $match: matchStage
             },
             {
-                $lookup: {
-                    from: 'foods',
-                    localField: 'foodId',
-                    foreignField: '_id',
-                    as: 'foodDetails'
-                }
-            },
-            {
-                $unwind: '$foodDetails'
-            },
-            {
                 $addFields: {
                     aggTime: { $dateTrunc: { date: "$eatenDateObj" , unit: timeAgg } }
                 }
@@ -54,27 +43,27 @@ export const getNutrientHistory = async (req, res) => {
                     _id: "$aggTime",
                     totalCalories: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.calories"]
+                            $multiply: ["$quantity", "$details.calories"]
                         }
                     },
                     totalProtein: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.protein"]
+                            $multiply: ["$quantity", "$details.protein"]
                         }
                     },
                     totalFat: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.fat"]
+                            $multiply: ["$quantity", "$details.fat"]
                         }
                     },
                     totalFiber: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.fiber"]
+                            $multiply: ["$quantity", "$details.fiber"]
                         }
                     },
                     totalCarbohydrate: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.carbohydrates"]
+                            $multiply: ["$quantity", "$details.carbohydrates"]
                         }
                     }
                 }
