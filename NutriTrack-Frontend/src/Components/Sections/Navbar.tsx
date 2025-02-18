@@ -1,8 +1,14 @@
-import { Container, Flex, HStack, Text } from "@chakra-ui/react";
+import { Container, Flex, HStack, Text,Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
+import { useState } from "react";
+import SignUpDialog from '../../Pages/SignUp'; // Import the Signup Dialog
+
 const Navbar = () => {
-		return (
+  const [openSignUp, setOpenSignUp] = useState(false); // State to control the dialog
+
+  return (
+    <>
 		<Container maxW={"7xl"} py={4}>
 			<Flex
 				h={16}
@@ -27,11 +33,29 @@ const Navbar = () => {
 
 				<HStack alignItems={"center"}>
 					<Link to={"/"}>
-						Page 2
+						Features
 					</Link>
 				</HStack>
+				<HStack alignItems={"center"}>
+					<Link to={"/"}>
+						About Us
+					</Link>
+				</HStack>
+				<HStack alignItems={"center"}>
+					<Link to={"/sign-in"}>
+						Sign In
+					</Link>
+				</HStack>
+				<HStack alignItems={"center"}>
+           		 <Button colorScheme="blue" onClick={() => setOpenSignUp(true)}>
+              		Sign Up
+            	</Button>
+          		</HStack>
 			</Flex>
 		</Container>
-	);
+		<SignUpDialog open={openSignUp} onClose={() => setOpenSignUp(false)} />
+    </>
+  );
 };
+
 export default Navbar;

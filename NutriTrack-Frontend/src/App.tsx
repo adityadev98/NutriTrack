@@ -2,19 +2,20 @@ import './App.css'
 import { Route, Routes } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 
-import HomePage from "./Pages/HomePage";
-import Navbar from "./Components/Sections/Navbar";
-import HistoricalViewPage from './Pages/HistoricalViewPage';
-
+import {Navbar} from "./Components/Sections";
+import {HomePage, HistoricalViewPage,SignInSide, TrackPage} from "./Pages"
 function App() {
 
   return (
     <>
-      <Box minH={"100vh"}>
+      <Box minH={"100vh"} className="bg-primary w-full overflow-hidden">
 			<Navbar />
 			<Routes>
 				<Route path='/' element={<HomePage />} />
+        <Route path='/sign-in' element={<SignInSide />} />
+        {/* <Route path='/sign-up' element={<SignUp />} /> */}
         <Route path='/historical' element={<HistoricalViewPage />} />
+        <Route path='/track' element={< TrackPage/>} />
 			</Routes>
 		</Box>
     </>

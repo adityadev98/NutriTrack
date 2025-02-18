@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import autoIncrement from 'mongoose-sequence';
 
 const trackingSchema = mongoose.Schema({
     userId:{
@@ -7,19 +7,21 @@ const trackingSchema = mongoose.Schema({
         ref:'users',
         required:true
     },
-    foodId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'foods',
-        required:true
+    foodId: {
+        type: mongoose.Schema.Types.ObjectId, 
+        default: () => new mongoose.Types.ObjectId(), 
+        unique: true
+    },
+    foodName: { 
+        type: String,
+        required: true
     },
     details:{
-       
         calories:Number,
         protein:Number,
         carbohydrates:Number,
         fat:Number,
-        fiber:Number,
-       
+        fiber:Number,   
     },
     eatenDate:{
         type:String,
@@ -29,9 +31,18 @@ const trackingSchema = mongoose.Schema({
         type:Number,
         min:1,
         required:true
-    }
+    },
+    servingUnit: { 
+        type: String,
+        required: true
+    },
+    eatenWhen: {
+        type: String,
+        enum: ["breakfast", "AM snack", "lunch", "PM snack", "dinner"],
+        required: true
+    },
 },{timestamps:true})
 
 
-const trackingModel = mongoose.model("trackings",trackingSchema);
+const trackingModel = mongoose.model("trackedFood",trackingSchema);
 export default trackingModel ;

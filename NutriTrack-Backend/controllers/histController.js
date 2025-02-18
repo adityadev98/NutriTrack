@@ -1,5 +1,3 @@
-import userModel from '../models/userModel.js';
-import foodModel from '../models/foodModel.js';
 import trackingModel from '../models/trackingModel.js';
 
 import mongoose from "mongoose";
