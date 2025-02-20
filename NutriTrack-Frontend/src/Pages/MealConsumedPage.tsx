@@ -39,8 +39,9 @@ const MealsConsumedPage = () => {
         setLoading(false);
       }
     };
-
+   
     fetchMeals();
+    
   }, []);
 
   // Function to categorize meals based on 'eatenWhen'

@@ -27,7 +27,7 @@ const CreateCustomFoodPage: React.FC = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:7001/getcustomFoods")
+    fetch("http://localhost:7001/getCustomFood")
         .then((response) => response.json())
         .then((data) => {
             console.log("Fetched stored food items:", data);
@@ -36,10 +36,13 @@ const CreateCustomFoodPage: React.FC = () => {
         .catch((error) => console.error("Error fetching custom foods:", error));
 }, []);
 
+
   useEffect(() => {
     console.log("Updated foodItems:", foodItems);
   }, [foodItems]);
 
+  // Merge stored food items and newly added ones
+  const allFoodItems = [...storedFoodItems, ...foodItems];
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,19 +148,19 @@ const CreateCustomFoodPage: React.FC = () => {
 
       {/* Display added food items */}
       <div>
-        <h2>Added Food Items</h2>
-        {foodItems.length === 0 ? (
-          <p>No food items added yet.</p>
-        ) : (
-          <ul style={styles.list}>
-            {foodItems.map((food, index) => (
-              <li key={index} style={styles.listItem}>
-                <strong>{food.foodName}</strong> - {food.details.calories} cal per {food.servingUnit}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+            <h2>Added Food Items</h2>
+            {allFoodItems.length === 0 ? (
+                <p>No food items added yet.</p>
+            ) : (
+                <ul style={styles.list}>
+                    {allFoodItems.map((food, index) => (
+                        <li key={index} style={styles.listItem}>
+                            <strong>{food.foodName}</strong> - {food.details.calories} cal per {food.servingUnit}
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
     </div>
   );
 };
