@@ -6,6 +6,7 @@ import {getallFoodItems } from "../controllers/nutriControllers.js";
 import { getFoodItembyName } from "../controllers/nutriControllers.js";
 import { trackfoodItem } from "../controllers/nutriControllers.js";
 import { getNutrientHistory } from "../controllers/histController.js";
+import { getMealsConsumed } from "../controllers/nutriControllers.js";
 const router = express.Router();
 
 
@@ -15,16 +16,14 @@ router.post("/register",registeration)
 //endpoint creation for login
 router.post("/login", login)
 
-//endpoint to fetch food data 
-router.get("/foods",verifyToken,getallFoodItems)
-
-//endpoint to search food by name through URL
-router.get("/foods/:name",verifyToken,getFoodItembyName)
-
 // endpoint to track a food 
 router.post("/track",trackfoodItem)
 
-// endpoint to create custom food 
+// endpoint to create custom food
+// router.post("/customFood",addCustomFoodItem) 
+
+// // endpoint to view meals consumed
+router.get("/mealsConsumed", getMealsConsumed)
 
 
 // Historical Weekly/Monthly View APIs
