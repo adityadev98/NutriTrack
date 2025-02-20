@@ -1,5 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import { useNavigate } from 'react-router-dom';
+
 
 interface Measure {
     serving_weight: number;
@@ -24,7 +26,7 @@ interface FoodProps {
 }
 
 const FoodItem: React.FC<FoodProps> = ({ food }) => {
- 
+    const navigate = useNavigate();
     const [eatenQuantity, setEatenQuantity] = useState<number>(food.serving_weight_grams);
     const [foodData, setFoodData] = useState<FoodProps["food"]>(food);
     const [foodInitial, setFoodInitial] = useState<FoodProps["food"]>(food);
@@ -84,20 +86,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
     }
 
     function trackFoodItem() {
-        console.log({
-            userId: "6792c2bbe61a8b6ed753af2c",
-            foodName: foodData.name,
-            eatenWhen: selectedWhen,
-            servingUnit: selectedUnit,
-            details: {  
-                calories: Math.round(foodData.calories), // Use updated macros
-                protein: Math.round(foodData.protein),
-                carbohydrates: Math.round(foodData.carbohydrates),
-                fat: Math.round(foodData.fat),
-                fiber: Math.round(foodData.fiber)
-             }, 
-            quantity: eatenQuantity
-        });
+     
         
         let trackedItem = {
             // userId: loggedData.loggedUser.userid,
@@ -124,8 +113,13 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
             },
         })
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+                console.log(data);
+                // Redirect to the MealsConsumedPage upon successful submission
+                navigate('/mealsConsumed');  
+              })
             .catch((err) => console.log(err));
+        
     }
 
     return (
