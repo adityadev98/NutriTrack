@@ -4,6 +4,8 @@ import { Box } from "@chakra-ui/react";
 
 import {Navbar} from "./Components/Sections";
 import {HomePage, HistoricalViewPage,SignInSide, TrackPage} from "./Pages"
+import MealsConsumedPage from './Pages/MealConsumedPage';
+import CreateCustomFoodPage from './Pages/CreateCustomFoodPage';
 function App() {
 
   return (
@@ -16,6 +18,8 @@ function App() {
         {/* <Route path='/sign-up' element={<SignUp />} /> */}
         <Route path='/historical' element={<HistoricalViewPage />} />
         <Route path='/track' element={< TrackPage/>} />
+        <Route path='/mealsConsumed' element={< MealsConsumedPage/>} />
+        <Route path='/customFood' element={<CreateCustomFoodPage />} />
 			</Routes>
 		</Box>
     </>

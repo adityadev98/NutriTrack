@@ -124,3 +124,25 @@ export const trackfoodItem = async (req,res)=>{
         res.status(500).send({message:"Some Problem in adding the food"})
     }
 }
+
+export const getMealsConsumed = async (req,res)=>{
+    const getTodayDate = new Date().toLocaleDateString();
+    try{
+        const mealsConsumed = await trackingModel.find({ eatenDate: getTodayDate })
+        .select('foodName details'); // Select only relevant fields
+        if(mealsConsumed.length!=0)
+        {
+            res.send(mealsConsumed);
+        }
+        else{
+            res.status(404).send({message:"No meals consumed for today"})
+        }
+        
+    } 
+    catch(err){
+        console.log(err);
+        res.status(500).send({message:"Error in retreiving data"})
+
+    }
+}
+  
