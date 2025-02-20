@@ -15,6 +15,7 @@ import React, { useState, useEffect} from "react";
 const CreateCustomFoodPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [foodItems, setFoodItems] = useState<any[]>([]);
+  const [storedFoodItems, setStoredFoodItems] = useState([]);  // Fetched from DB
   const [formData, setFormData] = useState({
     foodName: "",
     servingUnit: "",
@@ -24,6 +25,16 @@ const CreateCustomFoodPage: React.FC = () => {
     fat: "",
     fiber: "",
   });
+
+  useEffect(() => {
+    fetch("http://localhost:7001/getcustomFoods")
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Fetched stored food items:", data);
+            setStoredFoodItems(data);
+        })
+        .catch((error) => console.error("Error fetching custom foods:", error));
+}, []);
 
   useEffect(() => {
     console.log("Updated foodItems:", foodItems);
