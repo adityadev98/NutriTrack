@@ -6,8 +6,8 @@ import close from "./close.svg";
 import google from "./google.svg";
 import arrowUp from "./arrow-up.svg";
 import linkedin from "./linkedin.svg";
-
-export {
+import HeroPic from "./HeroPic.svg";
+export { 
   logo,
   sm_logo,
   NT_icon,
@@ -16,4 +16,5 @@ export {
   arrowUp,
   linkedin,
   google,
+  HeroPic,
 };

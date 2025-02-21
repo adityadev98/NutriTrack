@@ -16,6 +16,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import axios, {AxiosError} from "axios";
 import {ForgotPassword} from "../index.ts";
 import { logo, google } from "../../../Assets/index.ts";
 
@@ -62,15 +63,32 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
   };
 
   // ✅ Form Submission Logic
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateInputs()) return;
-
-    console.log({
-      email: emailRef.current?.value,
-      password: passwordRef.current?.value,
-    });
-    onClose();
+  
+    try {
+      const response = await axios.post("/api/auth/login", {
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      });
+  
+      const { token, user } = response.data;
+  
+      console.log("Login successful!", user);
+      
+      // ✅ Store token in localStorage
+      localStorage.setItem("token", token);
+  
+      // ✅ Close the modal
+      onClose();
+    } catch (err) {
+      // ✅ Ensure 'err' is treated as an AxiosError
+      const error = err as AxiosError<{ message: string }>;
+  
+      console.error("Login Error:", error.response?.data?.message);
+      alert(error.response?.data?.message || "Login failed.");
+    }
   };
 
   useEffect(() => {

@@ -175,7 +175,7 @@
   --fresh-green: #4CAF50;
   --warm-orange: #FF9800;
   --calm-blue: #2196F3;
-  --soft-white: #F8F9FA;
+  --soft-white: #f1ede4;
   --dark-gray: #2C3E50;
   --light-beige: #F5E6CA;
   --footer-color: #f3ede499;
@@ -237,7 +237,7 @@ a:hover {
 }
 
 .bg-primary {
-  background-color: var(--soft-white); /* or any defined color */
+  background-color: var(--dark-green); /* or any defined color */
 }
 
 .bg-navbar{

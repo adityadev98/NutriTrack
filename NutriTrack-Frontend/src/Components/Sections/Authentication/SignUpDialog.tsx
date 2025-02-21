@@ -17,8 +17,10 @@ import {
   ModalCloseButton,
   Progress,
 } from "@chakra-ui/react";
-import { logo, google } from "../../../Assets/index.ts";
+import axios, { AxiosError } from "axios";
 import zxcvbn from "zxcvbn";
+
+import { logo, google } from "../../../Assets/index.ts";
 
 interface SignUpDialogProps {
   open: boolean;
@@ -88,18 +90,31 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
   };
 
   // ✅ Handle Form Submission
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateInputs()) return;
-
-    console.log({
-      email: emailRef.current?.value,
-      password: passwordRef.current?.value,
-    });
-
-    onClose();
+  
+    try {
+      const response = await axios.post("/api/auth/register", {
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      });
+  
+      console.log("User registered successfully!", response.data);
+  
+      // ✅ Show success message
+      alert("User registered successfully!");
+  
+      // ✅ Close the modal
+      onClose();
+    } catch (err) {
+      // ✅ Type the error properly
+      const error = err as AxiosError<{ message: string }>;
+  
+      console.error("Registration Error:", error.response?.data?.message);
+      alert(error.response?.data?.message || "Registration failed.");
+    }
   };
-
   // ✅ Handle Password Strength
   const checkPasswordStrength = (password: string) => {
     const result = zxcvbn(password);

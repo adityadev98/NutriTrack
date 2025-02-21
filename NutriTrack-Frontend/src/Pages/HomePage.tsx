@@ -1,5 +1,5 @@
 import {Navbar, Footer, Hero, HomepageMidSection1} from "../Components/Sections";
-import { Box, Text} from "@chakra-ui/react";
+import { Box} from "@chakra-ui/react";
 //import styles from "../../style";
 
 const HomePage = () => {
