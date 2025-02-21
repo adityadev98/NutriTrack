@@ -6,6 +6,7 @@ const UserProfileSchema = new mongoose.Schema({
   age: { type: Number },
   gender: { type: String },
   fitnessGoals: { type: String },
+  height: {type: Number},
 });
 
 const UserProfile = mongoose.model("UserProfile", UserProfileSchema);
