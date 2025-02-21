@@ -1,8 +1,8 @@
-import {Navbar, Footer, Hero, HomepageMidSection1} from "../Components/Sections";
-import { Box} from "@chakra-ui/react";
+import {Navbar, Footer} from "../Components/Sections";
+import { Box } from "@chakra-ui/react";
 //import styles from "../../style";
 
-const HomePage = () => {
+const FAQ = () => {
 	
 	return (
 		<Box className="w-full min-h-screen flex flex-col">
@@ -14,10 +14,7 @@ const HomePage = () => {
 	
 			{/* ✅ Ensures content starts below the navbar */}
 			<Box className="flex-grow pt-[80px] bg-primary">  
-				<Hero />
-			</Box>
-			<Box className="flex-grow pt-[80px] bg-primary">  
-				<HomepageMidSection1 />
+				Hi
 			</Box>
 	
 			{/* ✅ Footer stays at bottom */}
@@ -27,4 +24,4 @@ const HomePage = () => {
 		</Box>
 	);
 };
-export default HomePage;
+export default FAQ;

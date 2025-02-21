@@ -1,5 +1,4 @@
-
-const SignUp = () => {
+const temp2 = () => {
   return (
     <div>
       
@@ -7,4 +6,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default temp2

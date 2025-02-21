@@ -1,10 +1,16 @@
-import Header from "./Header";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Hero from "./Hero";
+import HomepageMidSection1 from "./Homepage-mid-section1.tsx";
+import ForgotPassword from "./Authentication/ForgotPassword.tsx";
+import SignInDialog from "./Authentication/SignInDialog.tsx";
+import SignUpDialog from "./Authentication/SignUpDialog.tsx";
 export {
     Navbar,
-    Header,
     Footer,
     Hero,
+    HomepageMidSection1,
+    ForgotPassword,
+    SignInDialog,
+    SignUpDialog,
 };
