@@ -3,15 +3,15 @@ import ReactDOM from "react-dom/client";
 import './index.css'
 import App from './App.tsx'
 
-import { Provider } from "@/Components/ui/provider"
+import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<Provider>
+			<ChakraProvider>
 				<App />
-			</Provider>
+			</ChakraProvider>
 		</BrowserRouter>
 	</React.StrictMode>
 );
