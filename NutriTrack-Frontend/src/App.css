@@ -175,9 +175,10 @@
   --fresh-green: #4CAF50;
   --warm-orange: #FF9800;
   --calm-blue: #2196F3;
-  --soft-white: #F8F9FA;
+  --soft-white: #f1ede4;
   --dark-gray: #2C3E50;
   --light-beige: #F5E6CA;
+  --footer-color: #f3ede499;
 
   /* Custom Colors */
   --dark-green: #122215; /* Background color */
@@ -233,4 +234,30 @@ a:hover {
   padding: 20px; /* Add padding */
   margin: 0 auto; /* Optional: Center the div */
   border-radius: 8px; /* Optional: Add rounded corners */
+}
+
+.bg-primary {
+  background-color: var(--dark-green); /* or any defined color */
+}
+
+.bg-navbar{
+  background-color: var(--dark-green); /* or any defined color */
+}
+
+.bg-footer {
+  background-color: var(--dark-green);
+}
+
+/* Add this to App.css */
+.signup-container {
+  padding: 20px;
+  background-color: var(--soft-white);
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the logo */
+.signup-container img {
+  display: block;
+  margin: 0 auto;
 }
