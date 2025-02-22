@@ -3,7 +3,18 @@ import React, { useState } from 'react';
 import { convertEpochToFormattedDate }  from '../../Services/historicalViewServices';
 
 
-const HistoricalLineGraph: React.FC = ({ historicalData }) => {
+interface HistoricalLineGraphProps {
+  historicalData: Array<{
+    aggTime: number;
+    totalCalories: number;
+    totalProtein: number;
+    totalFat: number;
+    totalFiber: number;
+    totalCarbohydrate: number;
+  }>;
+}
+
+const HistoricalLineGraph: React.FC<HistoricalLineGraphProps> = ({ historicalData }) => {
 
     const [visibleLines, setVisibleLines] = useState({
       totalCalories: true,
@@ -17,7 +28,7 @@ const HistoricalLineGraph: React.FC = ({ historicalData }) => {
       const { dataKey } = e;
       setVisibleLines((prev) => ({
         ...prev,
-        [dataKey]: !prev[dataKey], // Toggle visibility
+        [dataKey as keyof typeof prev]: !prev[dataKey as keyof typeof prev], // Toggle visibility
       }));   
     };
 
@@ -25,7 +36,7 @@ const HistoricalLineGraph: React.FC = ({ historicalData }) => {
         <div className="flex justify-center items-center w-full h-full">
         <LineChart
           width={700}
-          height={400}
+          height={450}
           data={historicalData}
           margin={{
             top: 5,
@@ -35,7 +46,7 @@ const HistoricalLineGraph: React.FC = ({ historicalData }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis includeHidden dataKey="aggTime" angle="-45" tickMargin="20" tickFormatter={convertEpochToFormattedDate}
+          <XAxis includeHidden dataKey="aggTime" angle={-45} tickMargin={20} tickFormatter={convertEpochToFormattedDate}
           scale="time" type="number" domain={['dataMin','dataMax + 1000']} />
           <YAxis includeHidden yAxisId="left" label={{ value: "Calories (kCal)", angle: -90, position: 'left' }} />
           <YAxis includeHidden yAxisId="right" orientation="right" label={{ value: "Nutrients (g)", angle: -90, position: 'insideRight' }} />
