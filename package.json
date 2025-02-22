@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon NutriTrack-Backend/index.js",
     "build": "npm install && npm install --prefix NutriTrack-Frontend && npm run build --prefix NutriTrack-Frontend",
-    "start": "cross-env NODE_ENV=production node NutriTrack-Backend/index.js"
+    "start": "cross-env NODE_ENV=production node NutriTrack-Backend/index.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -18,14 +20,21 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.0",
     "mongoose-sequence": "^6.0.1",
     "nodemailer": "^6.10.0",
-    "recharts": "^2.15.1"
+    "recharts": "^2.15.1",
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "babel-jest": "^29.7.0",
     "cross-env": "^7.0.3",
+    "mongodb-memory-server": "^10.1.4",
     "nodemon": "^3.1.9"
   }
 }

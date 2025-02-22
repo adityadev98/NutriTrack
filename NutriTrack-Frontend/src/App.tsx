@@ -1,6 +1,6 @@
 import './App.css'
 import { Route, Routes } from "react-router-dom";
-import {HomePage, HistoricalViewPage,Features, Pricing, FAQ, Testimonials, TrackPage, MealsConsumedPage, CreateCustomFoodPage} from "./Pages"
+import {HomePage, HistoricalViewPage,Features, Pricing, FAQ, Testimonials, TrackPage, MealsConsumedPage, CreateCustomFoodPage, DailyDashboardPage} from "./Pages"
 
 function App() {
 
