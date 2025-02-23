@@ -7,6 +7,9 @@ import { getFoodItembyName } from "../controllers/nutriControllers.js";
 import { trackfoodItem } from "../controllers/nutriControllers.js";
 import { getNutrientHistory } from "../controllers/histController.js";
 import { getMealsConsumed } from "../controllers/nutriControllers.js";
+import {addCustomFoodItem} from "../controllers/nutriControllers.js";
+import {getCustomFoods} from "../controllers/nutriControllers.js";
+
 const router = express.Router();
 
 
@@ -20,7 +23,10 @@ router.post("/login", login)
 router.post("/track",trackfoodItem)
 
 // endpoint to create custom food
-// router.post("/customFood",addCustomFoodItem) 
+router.post("/customFood",addCustomFoodItem) 
+
+// endpoint to fetch custom food
+router.get("/getCustomFood",getCustomFoods)
 
 // // endpoint to view meals consumed
 router.get("/mealsConsumed", getMealsConsumed)

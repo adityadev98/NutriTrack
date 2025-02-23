@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  Box, Container, Heading, Text, Spinner, VStack,SimpleGrid} from '@chakra-ui/react';
+import {  Button, Box, Container, Heading, Text, Spinner, VStack,SimpleGrid, HStack} from '@chakra-ui/react';
 import { Stat,StatLabel, StatNumber,StatHelpText,} from "@chakra-ui/stat"
 interface FoodDetails {
   foodName: string;
@@ -103,9 +103,13 @@ const MealsConsumedPage = () => {
 
   return (
     <Container maxW="container.lg" py={6}>
-      <Heading as="h1" size="xl" mb={6}>
-        Meals Consumed Today
-      </Heading>
+     <HStack justifyContent="space-between" mb={6}>
+        <Heading as="h1" size="xl">Meals Consumed Today</Heading>
+        <HStack>
+          <Button colorScheme="blue" onClick={() => router.push('/track')}>Search Food</Button>
+          <Button colorScheme="green">Add Your Own Meal</Button>
+        </HStack>
+      </HStack>
 
       {/* Loop through the categories and render them */}
       {Object.keys(categorizedMeals).map((mealTime) => (

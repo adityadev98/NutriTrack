@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import userModel from '../models/userModel.js';
 import foodModel from '../models/customFoodModel.js';
 import trackingModel from '../models/trackingModel.js';
-
+import customFoodModel from '../models/customFoodModel.js';
 
 
 export const registeration = async (req,res)=>{ 
@@ -129,7 +129,7 @@ export const getMealsConsumed = async (req,res)=>{
     const getTodayDate = new Date().toLocaleDateString();
     try{
         const mealsConsumed = await trackingModel.find({ eatenDate: getTodayDate })
-        .select('foodName details'); // Select only relevant fields
+        .select('foodName details eatenWhen'); // Select only relevant fields
         if(mealsConsumed.length!=0)
         {
             res.send(mealsConsumed);
@@ -145,4 +145,38 @@ export const getMealsConsumed = async (req,res)=>{
 
     }
 }
-  
+export const addCustomFoodItem = async (req,res)=>{
+    
+    let customFood = req.body;
+   
+    try 
+    {
+        let data = await customFoodModel.create(customFood);
+        console.log(data)
+        res.status(201).send({success:true, message:"Custom food Added",  data: data});
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.status(500).send({message:"Some Problem in adding the food"})
+    }
+}
+
+
+
+export const getCustomFoods = async (req, res) => {
+    try {
+        const customFoods = await customFoodModel.find()
+            .select('foodName details servingUnit'); // Select only relevant fields
+
+        if (customFoods.length !== 0) {
+            res.send(customFoods);
+        } else {
+            res.status(404).send({ message: "No custom meals found" });
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ message: "Error in retrieving data" });
+    }
+}
