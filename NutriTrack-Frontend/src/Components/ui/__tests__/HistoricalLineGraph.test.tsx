@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import HistoricalLineGraph from '../HistoricalLineGraph';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 
 test('renders HistoricalLineGraph component', () => {
@@ -23,6 +23,27 @@ test('renders HistoricalLineGraph component', () => {
   render(<HistoricalLineGraph historicalData={historicalData} />);
 
   expect(screen.getByText(/totalCalories/i)).toBeInTheDocument();
+});
+
+test('toggles line visibility on legend click', () => {
+  const historicalData = [
+    { aggTime: 1627849200000, totalCalories: 2000, totalProtein: 50, totalFat: 70, totalFiber: 30, totalCarbohydrate: 250 },
+    { aggTime: 1627935600000, totalCalories: 1800, totalProtein: 60, totalFat: 65, totalFiber: 25, totalCarbohydrate: 230 },
+  ];
+
+  render(<HistoricalLineGraph historicalData={historicalData} />);
+
+  const legendItem = screen.getByText(/totalCalories/i);
+  const legendParent = legendItem.closest('li');
+  fireEvent.click(legendItem);
+
+  // Assuming the line is hidden after clicking the legend item
+  expect(legendParent?.classList.contains("inactive")).toBe(true);
+
+
+  // Click again to toggle visibility back
+  fireEvent.click(legendItem);
+  expect(legendParent?.classList.contains("inactive")).toBe(false);
 });
 
 test('renders all lines initially', () => {

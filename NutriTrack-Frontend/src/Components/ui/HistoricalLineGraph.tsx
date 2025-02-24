@@ -53,7 +53,7 @@ const HistoricalLineGraph: React.FC<HistoricalLineGraphProps> = ({ historicalDat
           <Tooltip labelFormatter={convertEpochToFormattedDate} />
           <Legend wrapperStyle={{ position: 'relative' }} onClick={handleLegendClick} />
 
-          <Line connectNulls yAxisId="left" type="linear" dataKey="totalCalories" stroke="#4E79A7" activeDot={{ r: 8 }} hide={!visibleLines.totalCalories} />
+          <Line connectNulls yAxisId="left" type="linear" dataKey="totalCalories" stroke="#4E79A7" activeDot={{ r: 8 }} hide={!visibleLines.totalCalories} data-testid="line-totalCalories" />
           <Line connectNulls yAxisId="right" type="linear" dataKey="totalProtein" stroke="#F28E2B" hide={!visibleLines.totalProtein} />
           <Line connectNulls yAxisId="right" type="linear" dataKey="totalFat" stroke="#E15759" hide={!visibleLines.totalFat} />
           <Line connectNulls yAxisId="right" type="linear" dataKey="totalCarbohydrate" stroke="#76B7B2" hide={!visibleLines.totalCarbohydrate} />

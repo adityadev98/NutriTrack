@@ -27,6 +27,14 @@ describe('GET /history', () => {
         await mongoServer.stop();
     });
 
+    afterEach(async () => {
+        const collections = mongoose.connection.collections;
+        for (const key in collections) {
+            const collection = collections[key];
+            await collection.deleteMany({});
+        }
+    });
+
     it('should return nutrient history with default monthly aggregation', async () => {
         const res = await request(app).get('/history');
         expect(res.statusCode).toEqual(200);
@@ -59,6 +67,7 @@ describe('GET /history', () => {
     });
 
     it('should return aggregated nutrient history based on inserted mock data', async () => {
+
         await trackingModel.insertMany([
             {
                 userId: new mongoose.Types.ObjectId("6792c2bbe61a8b6ed753af2c"),
