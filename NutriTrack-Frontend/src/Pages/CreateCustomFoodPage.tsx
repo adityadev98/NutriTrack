@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -20,17 +21,19 @@ import {
 } from "@chakra-ui/react";
 
 const CreateCustomFoodPage: React.FC = () => {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [foodItems, setFoodItems] = useState<any[]>([]);
   const [storedFoodItems, setStoredFoodItems] = useState([]);
   const [formData, setFormData] = useState({
     foodName: "",
-    servingUnit: "",
     calories: "",
     protein: "",
     carbohydrates: "",
     fat: "",
     fiber: "",
+    serving_unit:"",
+    serving_weight_grams:""
   });
 
   useEffect(() => {
@@ -49,7 +52,7 @@ const CreateCustomFoodPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.foodName || !formData.servingUnit || !formData.calories) {
+    if (!formData.foodName || !formData.serving_unit || !formData.calories) {
       alert("Food name, serving unit, and calories are required!");
       return;
     }
@@ -64,7 +67,9 @@ const CreateCustomFoodPage: React.FC = () => {
         fat: Number(formData.fat) || 0,
         fiber: Number(formData.fiber) || 0,
       },
-      servingUnit: formData.servingUnit,
+      serving_unit: formData.serving_unit,
+      serving_weight_grams: formData.serving_weight_grams
+
     };
 
     try {
@@ -82,7 +87,7 @@ const CreateCustomFoodPage: React.FC = () => {
       }
 
       onClose();
-      setFormData({ foodName: "", servingUnit: "", calories: "", protein: "", carbohydrates: "", fat: "", fiber: "" });
+      setFormData({ foodName: "", calories: "", protein: "", carbohydrates: "", fat: "", fiber: "" , serving_unit:"",serving_weight_grams:""});
     } catch (error) {
       console.error(error);
       alert("Error adding food item.");
@@ -103,10 +108,15 @@ const CreateCustomFoodPage: React.FC = () => {
           <ModalBody>
             <VStack spacing={4} as="form" onSubmit={handleSubmit}>
               {Object.keys(formData).map((key) => (
-                <FormControl key={key} isRequired={key === "foodName" || key === "servingUnit" || key === "calories"}>
-                  <FormLabel textTransform="capitalize">{key.replace(/([A-Z])/g, " $1")}</FormLabel>
-                  <Input
-                    type={key === "calories" || key === "protein" || key === "carbohydrates" || key === "fat" || key === "fiber" ? "number" : "text"}
+                <FormControl key={key} isRequired={key === "foodName" || key === "serving_unit" || key === "calories" || key=== "serving_weight_grams"}>
+                <FormLabel textTransform="capitalize">
+                                    {key === "serving_unit"
+                                    ? "Serving unit"
+                                    : key === "serving_weight_grams"
+                                    ? "Serving Weight Grams"
+                                    : key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}
+                                </FormLabel>                  <Input
+                    type={key === "calories" || key === "protein" || key === "carbohydrates" || key === "fat" || key === "fiber" || key== "serving_weight_grams" ? "number" : "text"}
                     name={key}
                     value={formData[key]}
                     onChange={handleChange}
@@ -140,7 +150,7 @@ const CreateCustomFoodPage: React.FC = () => {
               borderWidth={1}
               borderRadius="md"
               cursor="pointer"
-              onClick={() => navigate(`/track-food/${food._id}`)}
+              onClick={() => navigate(`/trackCustomFood`, { state: { food: food } })}
               _hover={{ bg: "gray.100" }}
             >
               <strong>{food.foodName}</strong> - {food.details.calories} cal per {food.servingUnit}

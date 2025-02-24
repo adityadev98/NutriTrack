@@ -10,8 +10,12 @@ const customFoodSchema = mongoose.Schema({
         type: String, 
         required: true 
     },
-    servingUnit: { 
+    serving_unit: { 
         type: String,
+        required: true
+    },
+    serving_weight_grams:{
+        type: Number,
         required: true
     },
     details: {

@@ -98,7 +98,7 @@ export const addCustomFoodItem = async (req,res)=>{
 export const getCustomFoods = async (req, res) => {
     try {
         const customFoods = await customFoodModel.find()
-            .select('foodName details servingUnit'); // Select only relevant fields
+            .select('foodName details serving_unit serving_weight_grams'); // Select only relevant fields
 
         if (customFoods.length !== 0) {
             res.send(customFoods);
