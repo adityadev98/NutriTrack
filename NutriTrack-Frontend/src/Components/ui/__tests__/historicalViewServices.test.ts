@@ -46,6 +46,52 @@ describe('historicalViewServices', () => {
             await expect(getHistoricalData('month', '2023-01-01', '2023-01-02')).rejects.toThrow('Network Error');
             consoleErrorSpy.mockRestore();
         });
+
+        it('should use default parameters when none are provided', async () => {
+            const mockData = {
+                data: {
+                    trackings: [
+                        { aggTime: '2023-01-01', totalCalories: 2000, totalProtein: 50, totalFat: 70, totalFiber: 30, totalCarbohydrate: 250, timeAgg: 'day' },
+                        { aggTime: '2023-01-02', totalCalories: 1800, totalProtein: 45, totalFat: 65, totalFiber: 25, totalCarbohydrate: 230, timeAgg: 'day' }
+                    ]
+                }
+            };
+            mockedAxios.get.mockResolvedValueOnce({ data: mockData });
+    
+            const result = await getHistoricalData();
+    
+            expect(mockedAxios.get).toHaveBeenCalledWith('http://localhost:7001/history', {
+                params: {
+                    timeAgg: 'month',
+                    startDate: null,
+                    endDate: null
+                }
+            });
+            expect(result).toEqual(expect.any(Array));
+        });
+    
+        it('should handle null startDate and endDate', async () => {
+            const mockData = {
+                data: {
+                    trackings: [
+                        { aggTime: '2023-01-01', totalCalories: 2000, totalProtein: 50, totalFat: 70, totalFiber: 30, totalCarbohydrate: 250, timeAgg: 'day' },
+                        { aggTime: '2023-01-02', totalCalories: 1800, totalProtein: 45, totalFat: 65, totalFiber: 25, totalCarbohydrate: 230, timeAgg: 'day' }
+                    ]
+                }
+            };
+            mockedAxios.get.mockResolvedValueOnce({ data: mockData });
+    
+            const result = await getHistoricalData('month', null, null);
+    
+            expect(mockedAxios.get).toHaveBeenCalledWith('http://localhost:7001/history', {
+                params: {
+                    timeAgg: 'month',
+                    startDate: null,
+                    endDate: null
+                }
+            });
+            expect(result).toEqual(expect.any(Array));
+        });
     });
 
     describe('fillMissingDates', () => {
@@ -148,4 +194,7 @@ describe('historicalViewServices', () => {
             expect(result[0].aggTime).toBe('Invalid Date');
         });
     });
+describe('getHistoricalData', () => {
+    
+});
 });
