@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 
 const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
     const [selectedOption, setSelectedOption] = useState('month');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (selectedOption !== null) {
-            onSubmit(selectedOption); // Pass selected value to parent
+            onSubmit(selectedOption, startDate, endDate); // Pass selected value to parent
         }
     };
 
@@ -35,6 +37,24 @@ const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
                         onChange={() => setSelectedOption('month')}
                     />
                     <span className="ml-2">Monthly</span>
+                </label>
+                <label className="inline-flex items-center mt-2">
+                    <span className="ml-2">Start Date:</span>
+                    <input
+                        type="date"
+                        className="form-input ml-2"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    />
+                </label>
+                <label className="inline-flex items-center mt-2">
+                    <span className="ml-2">End Date:</span>
+                    <input
+                        type="date"
+                        className="form-input ml-2"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                    />
                 </label>
                 <button
                     type="submit"

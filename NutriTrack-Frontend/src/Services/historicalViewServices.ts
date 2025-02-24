@@ -1,12 +1,22 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:7001';
+interface Tracking {
+    totalCalories?: number;
+    totalProtein?: number;
+    totalFat?: number;
+    totalFiber?: number;
+    totalCarbohydrate?: number;
+    aggTime: string; // ISO date string
+    timeAgg?: string; // Represents the aggregation period (e.g., "month")
+  }
 
-export const getHistoricalData = async (timeAggParam = 'month') => {
+export const getHistoricalData = async (timeAggParam: string = 'month', startDate: string | null = null, endDate: string | null = null) => {
     try {
-        const response = await axios.get(`${BASE_URL}/history`, {
+        const response = await axios.get(`/api/history`, {
             params: {
-                timeAgg: timeAggParam
+                timeAgg: timeAggParam,
+                startDate: startDate,
+                endDate: endDate
             }
         });
         let filledTrackings = fillMissingDates(response.data.data.trackings);
@@ -19,30 +29,42 @@ export const getHistoricalData = async (timeAggParam = 'month') => {
     }
 };
 
-export const fillMissingDates = (trackings) => {
+
+
+
+export const fillMissingDates = (trackings: Tracking[]): Tracking[] => {
     if (trackings.length === 0) return trackings;
 
-    const filledTrackings = [];
+    const filledTrackings : Tracking[] = [];
     const startDate = new Date(trackings[0].aggTime);
     const endDate = new Date(trackings[trackings.length - 1].aggTime);
     let currentDate = new Date(startDate);
 
     const trackingMap = new Map(trackings.map(tracking => [new Date(tracking.aggTime).toDateString(), tracking]));
 
+    
     while (currentDate < endDate) {
         const dateString = currentDate.toDateString();
         if (trackingMap.has(dateString)) {
-            filledTrackings.push(trackingMap.get(dateString));
+            filledTrackings.push(trackingMap.get(dateString)!);
         } else {
-            filledTrackings.push({ aggTime: currentDate.getTime() });
+            filledTrackings.push({
+                totalCalories: undefined,
+                totalProtein: undefined,
+                totalFat: undefined,
+                totalFiber: undefined,
+                totalCarbohydrate: undefined,
+                aggTime: currentDate.toDateString(),
+                timeAgg: undefined
+            });
         }
         currentDate.setDate(currentDate.getDate() + 1);
     }
-    filledTrackings.push(trackingMap.get(endDate.toDateString()));
+    filledTrackings.push(trackingMap.get(endDate.toDateString())!);
     return filledTrackings;
 };
 
-export const convertTrackingDatesToEpoch = (trackings) => {
+export const convertTrackingDatesToEpoch = (trackings: Tracking[]) => {
     return trackings.map(tracking => {
         const date = new Date(tracking.aggTime);
         const epochTime = date.getTime();
@@ -54,7 +76,7 @@ export const convertTrackingDatesToEpoch = (trackings) => {
 };
 
 
-export const convertEpochToFormattedDate = (epochTime) => {
+export const convertEpochToFormattedDate = (epochTime: number): string => {
     const date = new Date(epochTime);
     return date.toLocaleDateString("en-GB", {
         day: "2-digit",
@@ -65,7 +87,7 @@ export const convertEpochToFormattedDate = (epochTime) => {
 };
 
 
-export const formatTrackingDates = (trackings) => {
+export const formatTrackingDates = (trackings: Tracking[]): Tracking[] => {
     return trackings.map(tracking => {
         const date = new Date(tracking.aggTime);
         const formattedDate = date.toLocaleDateString("en-GB", {

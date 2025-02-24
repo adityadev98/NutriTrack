@@ -27,7 +27,12 @@
     /* Chakra UI lines */ 
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    /* For Jest  */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
   },
-  "include": ["src"]
+  "include": ["src"],
 }

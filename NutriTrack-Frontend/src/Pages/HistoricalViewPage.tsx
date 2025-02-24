@@ -12,8 +12,8 @@ const HistoricalViewPage: React.FC = () => {
           .then(setHistoricalData);
       }, []);
 
-    const handleFormSubmit = (selectedValue = 'month') => {
-        getHistoricalData(selectedValue)
+    const handleFormSubmit = (selectedValue = 'month', startDate = null, endDate = null) => {
+        getHistoricalData(selectedValue, startDate, endDate)
           .then(setHistoricalData);
     };
 

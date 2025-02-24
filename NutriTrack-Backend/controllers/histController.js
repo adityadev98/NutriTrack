@@ -7,29 +7,31 @@ import mongoose from "mongoose";
 export const getNutrientHistory = async (req, res) => {
     try {
         const timeAgg = req.query.timeAgg || 'month'; // Default to 'monthly' if not provided
+        const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
+        const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+
+        const matchStage = {
+            userId: new mongoose.Types.ObjectId('6792c2bbe61a8b6ed753af2c')
+        };
+
+        if (startDate) {
+            matchStage.eatenDateObj = { $gte: startDate };
+        }
+
+        if (endDate) {
+            matchStage.eatenDateObj = matchStage.eatenDateObj || {};
+            matchStage.eatenDateObj.$lte = endDate;
+        }
 
         // Aggregate function to get the total calories, protein, fat, fiber, and carbohydrates consumed by the user in a month
         const trackings = await trackingModel.aggregate([
             {
-                $match: {
-                    userId: new mongoose.Types.ObjectId('67a64dc0ee7a29f5fb571ba8')
-                }
-            },
-            {
-                $lookup: {
-                    from: 'foods',
-                    localField: 'foodId',
-                    foreignField: '_id',
-                    as: 'foodDetails'
-                }
-            },
-            {
-                $unwind: '$foodDetails'
-            },
-            {
                 $addFields: {
                     eatenDateObj: { $dateFromString: { dateString: "$eatenDate" } }
                 }
+            },
+            {
+                $match: matchStage
             },
             {
                 $addFields: {
@@ -41,27 +43,27 @@ export const getNutrientHistory = async (req, res) => {
                     _id: "$aggTime",
                     totalCalories: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.calories"]
+                            $multiply: ["$quantity", "$details.calories"]
                         }
                     },
                     totalProtein: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.protein"]
+                            $multiply: ["$quantity", "$details.protein"]
                         }
                     },
                     totalFat: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.fat"]
+                            $multiply: ["$quantity", "$details.fat"]
                         }
                     },
                     totalFiber: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.fiber"]
+                            $multiply: ["$quantity", "$details.fiber"]
                         }
                     },
                     totalCarbohydrate: {
                         $sum: {
-                            $multiply: ["$quantity", "$foodDetails.carbohydrates"]
+                            $multiply: ["$quantity", "$details.carbohydrates"]
                         }
                     }
                 }

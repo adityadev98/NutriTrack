@@ -15,6 +15,9 @@ dist-ssr
 # Environment Files to be ignored
 .env
 
+# Testing
+coverage/
+
 # Node Modules to be ignored
 node_modules/
 NutriTrack-Frontend/node_modules

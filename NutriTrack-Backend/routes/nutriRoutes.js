@@ -29,7 +29,9 @@ router.get("/mealsConsumed", getMealsConsumed)
 // Historical Weekly/Monthly View APIs
 
 //endpoint to get history of food items
-// Param: timeAgg (week/month)
-router.get("/history",getNutrientHistory);
+// Param: timeAgg (week/month) (Default: month)
+// Param: startDate (YYYY-MM-DD) (Optional)
+// Param: endDate (YYYY-MM-DD) (Optional)
+router.get("/api/history",getNutrientHistory);
 
 export default router;
