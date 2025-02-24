@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from 'react-router-dom';
-
+import { Grid, Box, Button, Input, Select, Text, HStack, Heading } from "@chakra-ui/react";
+import '../App.css';
 
 interface Measure {
     serving_weight: number;
@@ -123,74 +124,45 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
     }
 
     return (
-        <div className="food">
-            <h2>{foodData.name} ({Math.round(foodData.calories)} Kcal )</h2>
+        <Box p={5} bg="gray.800" color="white" borderRadius="md" boxShadow="lg">
+            <Heading size="md" color="white" textAlign="center">{foodData.name.charAt(0).toUpperCase() + foodData.name.slice(1)} ({Math.round(foodData.calories)} Kcal)</Heading>
+             {/* Protein, Carbs in one row and Fat, Fiber in another using Grid */}
+    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={10}>
+        <Text textAlign="center">Protein: {Math.round(foodData.protein)}g</Text>
+        <Text textAlign="center">Carbs: {Math.round(foodData.carbohydrates)}g</Text>
+    </Grid>
 
-            <>
-            <div className="nutrient">
-                <p className="n-title">Protein</p>
-                <p className="n-value">{Math.round(foodData.protein)}g</p>
-            </div>
-            <div className="nutrient">
-                <p className="n-title">Carbs</p>
-                <p className="n-value">{Math.round(foodData.carbohydrates)}g</p>
-            </div>
-            <div className="nutrient">
-                <p className="n-title">Fat</p>
-                <p className="n-value">{Math.round(foodData.fat)}g</p>
-            </div>
-            <div className="nutrient">
-                <p className="n-title">Fiber</p>
-                <p className="n-value">{Math.round(foodData.fiber)}g</p>
-            </div>
-        </>
-
-            {/* Track Control */}
-            <div className="track-control">
-                <div className="quantity-unit-wrapper">
-                <input 
-                        type="number" 
-                        onChange={calculateMacros} 
-                        className="inp quantity-input"  
-                        placeholder={`Quantity`} 
-                    />
-
-                    <select 
-                        onChange={handleUnitChange} 
-                        value={selectedUnit} 
-                        className="unit-dropdown"
-                    >
-                        {unitOptions.length > 0 ? (
-                            unitOptions.map((unit, index) => (
-                                <option key={index} value={unit.measure}>
-                                    {unit.measure}
-                                </option>
-                            ))
-                        ) : (
-                            <option value="g">grams</option>
-                        )}
-                    </select>    
-                </div>
-                <div className="when-dropdown-wrapper">
-                    <label htmlFor="when-dropdown">When:</label>
-                    <select 
-                        id="when-dropdown"
-                        onChange={handleWhenChange} 
-                        value={selectedWhen} 
-                        className="when-dropdown"
-                    >
-                        <option value="breakfast">Breakfast</option>
-                        <option value="AM snack">AM Snack</option>
-                        <option value="lunch">Lunch</option>
-                        <option value="PM snack">PM Snack</option>
-                        <option value="dinner">Dinner</option>
-                    </select>
-                </div>
-
-                <button className="btn" onClick={trackFoodItem}>Track</button>
-            </div>
-
-        </div>
+    <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={2}>
+        <Text textAlign="center">Fat: {Math.round(foodData.fat)}g</Text>
+        <Text textAlign="center">Fiber: {Math.round(foodData.fiber)}g</Text>
+    </Grid>
+    <Box mt={10} />
+            <HStack align="center" justify="center" spacing={4} mt={2}>
+            <Input type="number" placeholder="Quantity" onChange={calculateMacros} bg="white" color="black" size="sm" width="80px" flexShrink={0} />
+      <Select onChange={handleUnitChange} value={selectedUnit} bg="white" color="black" size="sm" flexGrow={1}>
+                    {unitOptions.length > 0 ? (
+                        unitOptions.map((unit, index) => (
+                            <option key={index} value={unit.measure}>{unit.measure}</option>
+                        ))
+                    ) : (
+                        <option value="g">grams</option>
+                    )}
+                </Select>
+            </HStack>
+            <HStack spacing={3} mt={4}>
+                <Text>When:</Text>
+                <Select onChange={handleWhenChange} value={selectedWhen} bg="white" color="black" size="sm">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="AM snack">AM Snack</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="PM snack">PM Snack</option>
+                    <option value="dinner">Dinner</option>
+                </Select>
+            </HStack>
+            <Box display="flex" justifyContent="center" alignItems="center" height="10vh">
+                <Button mt={4} colorScheme="green" onClick={trackFoodItem}>Track</Button>
+            </Box>        
+        </Box>
     );
 };
 
