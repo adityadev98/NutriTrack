@@ -10,7 +10,7 @@ import trackingModel from '../models/trackingModel.js';
 
 const app = express();
 app.use(express.json());
-app.get('/history', getNutrientHistory);
+app.get('/api/history', getNutrientHistory);
 
 describe('GET /history', () => {
     let mongoServer;
@@ -36,21 +36,21 @@ describe('GET /history', () => {
     });
 
     it('should return nutrient history with default monthly aggregation', async () => {
-        const res = await request(app).get('/history');
+        const res = await request(app).get('/api/history');
         expect(res.statusCode).toEqual(200);
         expect(res.body.status).toBe('success');
         expect(res.body.data.trackings).toBeInstanceOf(Array);
     });
 
     it('should return nutrient history with specified time aggregation', async () => {
-        const res = await request(app).get('/history').query({ timeAgg: 'week' });
+        const res = await request(app).get('/api/history').query({ timeAgg: 'week' });
         expect(res.statusCode).toEqual(200);
         expect(res.body.status).toBe('success');
         expect(res.body.data.trackings).toBeInstanceOf(Array);
     });
 
     it('should return nutrient history within specified date range', async () => {
-        const res = await request(app).get('/history').query({ startDate: '2023-01-01', endDate: '2023-12-31' });
+        const res = await request(app).get('/api/history').query({ startDate: '2023-01-01', endDate: '2023-12-31' });
         expect(res.statusCode).toEqual(200);
         expect(res.body.status).toBe('success');
         expect(res.body.data.trackings).toBeInstanceOf(Array);
@@ -60,7 +60,7 @@ describe('GET /history', () => {
         jest.spyOn(mongoose.Model, 'aggregate').mockImplementationOnce(() => {
             throw new Error('Test error');
         });
-        const res = await request(app).get('/history');
+        const res = await request(app).get('/api/history');
         expect(res.statusCode).toEqual(400);
         expect(res.body.status).toBe('fail');
         expect(res.body.message).toBe('Test error');
@@ -101,7 +101,7 @@ describe('GET /history', () => {
             }
         ]); 
 
-        const res = await request(app).get('/history').query({
+        const res = await request(app).get('/api/history').query({
             // Add your query parameters here if needed
         });
 

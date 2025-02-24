@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:7001';
-
 interface Tracking {
     totalCalories?: number;
     totalProtein?: number;
@@ -14,7 +12,7 @@ interface Tracking {
 
 export const getHistoricalData = async (timeAggParam: string = 'month', startDate: string | null = null, endDate: string | null = null) => {
     try {
-        const response = await axios.get(`${BASE_URL}/history`, {
+        const response = await axios.get(`/api/history`, {
             params: {
                 timeAgg: timeAggParam,
                 startDate: startDate,

@@ -19,7 +19,7 @@ describe('historicalViewServices', () => {
 
             const result = await getHistoricalData('month', '2023-01-01', '2023-01-02');
 
-            expect(mockedAxios.get).toHaveBeenCalledWith('http://localhost:7001/history', {
+            expect(mockedAxios.get).toHaveBeenCalledWith('/api/history', {
                 params: {
                     timeAgg: 'month',
                     startDate: '2023-01-01',
@@ -60,7 +60,7 @@ describe('historicalViewServices', () => {
     
             const result = await getHistoricalData();
     
-            expect(mockedAxios.get).toHaveBeenCalledWith('http://localhost:7001/history', {
+            expect(mockedAxios.get).toHaveBeenCalledWith('/api/history', {
                 params: {
                     timeAgg: 'month',
                     startDate: null,
@@ -83,7 +83,7 @@ describe('historicalViewServices', () => {
     
             const result = await getHistoricalData('month', null, null);
     
-            expect(mockedAxios.get).toHaveBeenCalledWith('http://localhost:7001/history', {
+            expect(mockedAxios.get).toHaveBeenCalledWith('/api/history', {
                 params: {
                     timeAgg: 'month',
                     startDate: null,

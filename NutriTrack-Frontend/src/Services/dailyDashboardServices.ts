@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:7001';
-
 export const getDailyData = async () => {
     try {
-        const response = await axios.get(`${BASE_URL}/history`, {
+        const response = await axios.get(`/api/history`, {
             // TO DO: change to current date
             params: {
                 timeAgg: 'day',
