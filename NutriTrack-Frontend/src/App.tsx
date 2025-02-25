@@ -15,6 +15,7 @@ function App() {
         <Route path='/faq' element={<FAQ />} />
         <Route path='/testimonials' element={<Testimonials />} />
         <Route path='/historical' element={<HistoricalViewPage />} />
+        <Route path='/dailydashboard' element={<DailyDashboardPage />} />
         <Route path='/track' element={< TrackPage/>} />
         <Route path='/mealsConsumed' element={< MealsConsumedPage/>} />
         <Route path='/customFood' element={<CreateCustomFoodPage />} />
