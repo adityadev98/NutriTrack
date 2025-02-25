@@ -9,7 +9,7 @@ import SignUp from './SignUp';
 import CreateCustomFoodPage from './CreateCustomFoodPage';
 import MealsConsumedPage from './MealConsumedPage';
 import TrackPage from "./TrackPage";
-import TrackCustomFoodPage from "./TrackCustomFoodPage"
+import TrackCustomFoodPage from "./TrackCustomFoodPage";
 import DailyDashboardPage from "./DailyDashboardPage";
 
 export {
@@ -24,6 +24,6 @@ export {
     CreateCustomFoodPage,
     MealsConsumedPage,
     TrackPage,
-    TrackCustomFoodPage
+    TrackCustomFoodPage,
     DailyDashboardPage
 };
