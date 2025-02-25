@@ -20,7 +20,7 @@ app.use(cors());
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/",nutriRoutes)
+app.use("/api",nutriRoutes)
 
 app.listen(PORT,()=>{
     connectDB();

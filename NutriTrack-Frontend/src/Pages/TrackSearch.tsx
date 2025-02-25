@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { searchFoodAPI, fetchFoodDetailsAPI } from "../Services/nutritionixAPI";
+import { Input, Box, Text, Image, VStack } from "@chakra-ui/react";
+import '../App.css';
 
 interface TrackSearchProps {
   setSelectedFood: (food: any) => void;
@@ -41,28 +43,48 @@ const TrackSearch: React.FC<TrackSearchProps> = ({ setSelectedFood }) => {
     }
   };
 
-  return (
-    <div className="search">
-      <input
+
+return (
+  <Box className="search" p={4}>
+      <Input
         className="search-inp"
         onChange={searchFood}
         type="search"
         placeholder="Search Food Item"
         value={query}
+        size="lg"
+        mb={4}
       />
 
       {foodItems.length > 0 && (
-        <div className="search-results">
+        <VStack align="stretch" spacing={3}>
           {foodItems.map((item, index) => (
-            <p className="item" onClick={() => fetchFoodDetails(item.food_name)} key={index}>
-              <img src={item.photo.thumb} alt={item.food_name} className="food-image" />
-              <span className="item-text">{item.food_name}</span>
-            </p>
+            <Box
+              key={index}
+              onClick={() => fetchFoodDetails(item.food_name)}
+              display="flex"
+              alignItems="center"
+              cursor="pointer"
+              p={2}
+              border="1px"
+              borderColor="gray.200"
+              borderRadius="md"
+              _hover={{ bg: "gray.100" }}
+            >
+              <Image
+                src={item.photo.thumb}
+                alt={item.food_name}
+                boxSize="40px"
+                objectFit="cover"
+                mr={3}
+              />
+              <Text>{item.food_name}</Text>
+            </Box>
           ))}
-        </div>
+        </VStack>
       )}
-    </div>
-  );
+    </Box>
+);
 };
 
 export default TrackSearch;
