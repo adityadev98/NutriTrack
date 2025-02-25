@@ -24,7 +24,7 @@ const MealsConsumedPage = () => {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await fetch('http://localhost:7001/mealsConsumed', {
+        const response = await fetch('/api/mealsConsumed', {
           method: 'GET',
           headers: {
             "Content-Type": "application/json",

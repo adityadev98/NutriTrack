@@ -37,7 +37,7 @@ const CreateCustomFoodPage: React.FC = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:7001/getCustomFood")
+    fetch("api/getCustomFood")
       .then((response) => response.json())
       .then((data) => setStoredFoodItems(data))
       .catch((error) => console.error("Error fetching custom foods:", error));
@@ -73,7 +73,7 @@ const CreateCustomFoodPage: React.FC = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:7001/customFood", {
+      const response = await fetch("api/customFood", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),
