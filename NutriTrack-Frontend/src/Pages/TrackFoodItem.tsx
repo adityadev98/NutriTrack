@@ -105,12 +105,12 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
             quantity: eatenQuantity
         };
 
-        fetch("http://localhost:7001/track", {
+        fetch("api/track", {
             method: "POST",
             body: JSON.stringify(trackedItem),
             headers: {
                 // "Authorization": `Bearer ${loggedData.loggedUser.token}`,
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
         })
             .then((response) => response.json())
