@@ -105,7 +105,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
             quantity: eatenQuantity
         };
 
-        fetch("api/track", {
+        fetch("/api/track", {
             method: "POST",
             body: JSON.stringify(trackedItem),
             headers: {

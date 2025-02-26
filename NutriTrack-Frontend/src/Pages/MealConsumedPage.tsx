@@ -34,7 +34,7 @@ const MealsConsumedPage = () => {
           throw new Error('Error fetching meals data');
         }
         const data = await response.json();
-        setMeals(data);
+        setMeals(data.data);
         setLoading(false);
       } catch (err) {
         setError('Error fetching meals data');

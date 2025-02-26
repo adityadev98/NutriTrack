@@ -39,7 +39,7 @@ const CreateCustomFoodPage: React.FC = () => {
   useEffect(() => {
     fetch("api/getCustomFood")
       .then((response) => response.json())
-      .then((data) => setStoredFoodItems(data))
+      .then((data) => setStoredFoodItems(data.data))
       .catch((error) => console.error("Error fetching custom foods:", error));
   }, []);
 

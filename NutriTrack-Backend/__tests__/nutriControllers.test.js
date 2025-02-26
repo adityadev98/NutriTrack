@@ -180,14 +180,17 @@ describe('NutriControllers', () => {
         });
     
         it('should return 500 if there is an error', async () => {
-            jest.spyOn(customFoodModel, 'create').mockImplementationOnce(() => {
-                throw new Error('Test error');
-            });
-            const res = await request(app).post('/api/track').send({});
+            jest.spyOn(customFoodModel, 'create').mockRejectedValueOnce(new Error('Test error'));
+
+            const res = await request(app).post('/api/customFood').send({userId: new mongoose.Types.ObjectId(),
+                foodName: 'custom banana',
+                details: { calories: 60, protein: 2, carbohydrates: 20, fat: 1, fiber: 2 },
+                serving_unit: 'grams',
+                serving_weight_grams: 100});
             
             console.log('Error Response:', res.body); 
             expect(res.statusCode).toEqual(500);
-            expect(res.body).toStrictEqual({ failure: true, message: 'Some Problem in adding the food' });
+            expect(res.body).toStrictEqual({ failure: true, message: 'Some Problem in adding custom food'});
         });
 	});
 

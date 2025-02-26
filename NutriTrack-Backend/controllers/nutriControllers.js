@@ -47,7 +47,7 @@ export const addCustomFoodItem = async (req,res)=>{
     }
     catch(err)
     {
-        res.status(500).send({failure:true,message:"Some Problem in adding the food"})
+        res.status(500).send({failure:true,message:"Some Problem in adding custom food"})
     }
 }
 
