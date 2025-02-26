@@ -8,13 +8,6 @@ import {getCustomFoods} from "../controllers/nutriControllers.js";
 
 const router = express.Router();
 
-
-// //endpoint creation for registeration
-// router.post("/register",registeration)
-
-// //endpoint creation for login
-// router.post("/login", login)
-
 // endpoint to track a food 
 router.post("/track",trackfoodItem)
 
