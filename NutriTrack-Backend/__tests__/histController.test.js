@@ -1,16 +1,26 @@
-
-
 import request from 'supertest';
 import express from 'express';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { getNutrientHistory } from '../controllers/histController.js';
 import trackingModel from '../models/trackingModel.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
 
+jest.mock("../middleware/authMiddleware", () => ({
+    authMiddleware: (req, res, next) => {
+        req.user =  {
+        id: '67bcf8a1d2b0084ae91ea486',
+        email: 'test@test.com',
+        iat: 1740525928,
+        exp: 1740529528
+        }; // Mocked user
+      next();
+    },
+}));
 
 const app = express();
 app.use(express.json());
-app.get('/api/history', getNutrientHistory);
+app.get('/api/history', authMiddleware, getNutrientHistory);
 
 describe('GET /history', () => {
     let mongoServer;
@@ -70,7 +80,7 @@ describe('GET /history', () => {
 
         await trackingModel.insertMany([
             {
-                userId: new mongoose.Types.ObjectId("6792c2bbe61a8b6ed753af2c"),
+                userId: new mongoose.Types.ObjectId("67bcf8a1d2b0084ae91ea486"),
                 foodName: "banana",
                 details: {
                     calories: 60,
@@ -85,7 +95,7 @@ describe('GET /history', () => {
                 eatenWhen: "AM snack"
             },
             {
-                userId: new mongoose.Types.ObjectId("6792c2bbe61a8b6ed753af2c"),
+                userId: new mongoose.Types.ObjectId("67bcf8a1d2b0084ae91ea486"),
                 foodName: "apple",
                 details: {
                     calories: 50,

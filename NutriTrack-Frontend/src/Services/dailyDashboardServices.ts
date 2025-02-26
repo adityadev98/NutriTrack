@@ -2,6 +2,8 @@ import axios from 'axios';
 
 export const getDailyData = async () => {
     try {
+        const token = localStorage.getItem("token");
+        console.log("Token being sent:", token); // Debug log
         const response = await axios.get(`/api/history`, {
             // TO DO: change to current date
             params: {
@@ -9,6 +11,9 @@ export const getDailyData = async () => {
                 startDate: '2025-01-18',
                 endDate: '2025-01-18'
             }
+            ,headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
         let result = {};
         if (response.data.data.trackings.length > 0) {

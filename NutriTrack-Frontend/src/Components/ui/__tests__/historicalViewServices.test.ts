@@ -24,7 +24,11 @@ describe('historicalViewServices', () => {
                     timeAgg: 'month',
                     startDate: '2023-01-01',
                     endDate: '2023-01-02'
-                }
+                },
+                headers: {
+                    Authorization: expect.any(String), // or set a specific token
+                },
+
             });
             expect(result).toEqual(expect.any(Array));
         });
@@ -65,7 +69,10 @@ describe('historicalViewServices', () => {
                     timeAgg: 'month',
                     startDate: null,
                     endDate: null
-                }
+                },
+                headers: {
+                    Authorization: expect.any(String), // or set a specific token
+                },
             });
             expect(result).toEqual(expect.any(Array));
         });
@@ -88,7 +95,10 @@ describe('historicalViewServices', () => {
                     timeAgg: 'month',
                     startDate: null,
                     endDate: null
-                }
+                },
+                headers: {
+                    Authorization: expect.any(String), // or set a specific token
+                },
             });
             expect(result).toEqual(expect.any(Array));
         });

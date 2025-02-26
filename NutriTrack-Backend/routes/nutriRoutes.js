@@ -5,6 +5,7 @@ import { getNutrientHistory } from "../controllers/histController.js";
 import { getMealsConsumed } from "../controllers/nutriControllers.js";
 import {addCustomFoodItem} from "../controllers/nutriControllers.js";
 import {getCustomFoods} from "../controllers/nutriControllers.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -34,6 +35,6 @@ router.get("/mealsConsumed", getMealsConsumed)
 // Param: timeAgg (week/month) (Default: month)
 // Param: startDate (YYYY-MM-DD) (Optional)
 // Param: endDate (YYYY-MM-DD) (Optional)
-router.get("/api/history",getNutrientHistory);
+router.get("/history",authMiddleware, getNutrientHistory);
 
 export default router;
