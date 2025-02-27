@@ -6,6 +6,9 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "nutritrackapp";
 
 export const authMiddleware = (req, res, next) => {
+
+
+
   const authHeader = req.header("Authorization");
 
   if (!authHeader) {
