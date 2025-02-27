@@ -20,8 +20,8 @@ export const trackfoodItem = async (req,res)=>{
 export const getMealsConsumed = async (req,res)=>{
     const getTodayDate = new Date().toLocaleDateString();
     try{
-        const mealsConsumed = await trackingModel.find({ eatenDate: getTodayDate })
-        .select('foodName details eatenWhen'); // Select only relevant fields
+        const mealsConsumed = await trackingModel.find({ eatenDate: getTodayDate, userId: req.user.id })
+        .select('foodName details eatenWhen');
         if(mealsConsumed.length!=0)
         {
             res.send({success:true,data:mealsConsumed});
@@ -55,7 +55,7 @@ export const addCustomFoodItem = async (req,res)=>{
 
 export const getCustomFoods = async (req, res) => {
     try {
-        const customFoods = await customFoodModel.find()
+        const customFoods = await customFoodModel.find({userId: req.user.id})
             .select('foodName details serving_unit serving_weight_grams'); // Select only relevant fields
 
         if (customFoods.length !== 0) {

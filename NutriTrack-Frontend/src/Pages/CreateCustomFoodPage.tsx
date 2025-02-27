@@ -36,12 +36,77 @@ const CreateCustomFoodPage: React.FC = () => {
     serving_weight_grams:""
   });
 
+  const [authError, setAuthError] = useState(false);  // Track authentication status
+  const [loading, setLoading] = useState(true);  // Loading state
+
   useEffect(() => {
-    fetch("api/getCustomFood")
-      .then((response) => response.json())
+    // Function to check if the token is valid
+    const verifyToken = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setAuthError(true);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/auth/protected", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          setAuthError(true);
+          localStorage.removeItem("token"); // Remove invalid token
+        } else {
+          setAuthError(false);  // Token is valid
+        }
+      } catch (error) {
+        setAuthError(true);
+        localStorage.removeItem("token");  // Remove invalid token
+      }
+
+      setLoading(false);
+    };
+
+    verifyToken();
+  }, []);
+
+  useEffect(() => {
+    if (authError) {
+      alert("Authentication failed. Invalid token. Please log in to continue.");
+      navigate("/home");  // Redirect to login page
+    }
+  }, [authError, navigate]);
+
+  useEffect(() => {
+    if (authError || loading) return;  // Prevent fetching data if there's an auth error or still loading
+
+   
+    // Fetch custom food items if token is valid
+    fetch("api/getCustomFood", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`, // Attach token in Authorization header
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch custom foods");
+        }
+        return response.json();
+      })
       .then((data) => setStoredFoodItems(data.data))
       .catch((error) => console.error("Error fetching custom foods:", error));
-  }, []);
+  }, [authError, loading]);
+
+    // Conditionally return null in the component's render
+    if (authError || loading) {
+      return null;
+    }
 
   const allFoodItems = [...storedFoodItems, ...foodItems];
 
@@ -58,7 +123,7 @@ const CreateCustomFoodPage: React.FC = () => {
     }
 
     const requestBody = {
-      userId: "6792c1e74bfde7cb9da062de",
+      userId: localStorage.user,
       foodName: formData.foodName,
       details: {
         calories: Number(formData.calories),
@@ -72,12 +137,14 @@ const CreateCustomFoodPage: React.FC = () => {
 
     };
 
+    console.log("allFoodItems", allFoodItems);
     try {
       const response = await fetch("api/customFood", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {  "Authorization": `Bearer ${localStorage.token}`, "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),
       });
+
 
       if (!response.ok) throw new Error("Failed to add food item");
 
@@ -153,7 +220,7 @@ const CreateCustomFoodPage: React.FC = () => {
               onClick={() => navigate(`/trackCustomFood`, { state: { food: food } })}
               _hover={{ bg: "gray.100" }}
             >
-              <strong>{food.foodName}</strong> - {food.details.calories} cal per {food.servingUnit}
+              <strong>{food.foodName}</strong> - {food.details.calories} cal per {food.serving_unit}
             </ListItem>
           ))
         )}

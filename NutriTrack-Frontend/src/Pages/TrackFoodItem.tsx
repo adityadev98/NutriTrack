@@ -91,7 +91,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
         
         let trackedItem = {
             // userId: loggedData.loggedUser.userid,
-            userId: "6792c2bbe61a8b6ed753af2c",
+            userId: localStorage.user,
             foodName: foodData.name,
             eatenWhen: selectedWhen,
             servingUnit: selectedUnit,
@@ -109,7 +109,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
             method: "POST",
             body: JSON.stringify(trackedItem),
             headers: {
-                // "Authorization": `Bearer ${loggedData.loggedUser.token}`,
+                "Authorization": `Bearer ${localStorage.token}`,
                 "Content-Type": "application/json"
             },
         })
