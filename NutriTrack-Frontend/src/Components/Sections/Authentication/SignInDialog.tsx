@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import {
   Button,
   Input,
@@ -15,8 +15,10 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  useToast,
 } from "@chakra-ui/react";
 import axios, {AxiosError} from "axios";
+import { UserContext } from "../../../contexts/UserContext"; 
 import {ForgotPassword} from "../index.ts";
 import { logo, google } from "../../../Assets/index.ts";
 
@@ -34,8 +36,9 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
-
-  // ✅ Input Validation Logic
+  const toast = useToast();
+  const { setLoggedUser } = useContext(UserContext) ?? {};
+  // Input Validation Logic
   const validateInputs = () => {
     const email = emailRef.current?.value || "";
     const password = passwordRef.current?.value || "";
@@ -62,7 +65,7 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
     return isValid;
   };
 
-  // ✅ Form Submission Logic
+  // Form Submission Logic
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateInputs()) return;
@@ -73,21 +76,40 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
         password: passwordRef.current?.value,
       });
   
-      const { token, user } = response.data;
-  
-      console.log("Login successful!", user);
-      
-      // ✅ Store token in localStorage
+      const { token, userType, profileCompleted, userProfile } = response.data;
+      console.log("Login successful!", userProfile.user);
+      // Update the loggedUser state
+      // Ensure setLoggedUser exists before calling it
+      if (setLoggedUser) {
+        setLoggedUser({
+          userid: userProfile.user,  
+          token,
+          name: userProfile.name, 
+          profileCompleted,
+          userType,
+        });
+      } else {
+        console.error("UserContext is not available.");
+      }
+      // Store token in localStorage
       localStorage.setItem("token", token);
   
-      // ✅ Close the modal
+      // Close the modal
       onClose();
     } catch (err) {
-      // ✅ Ensure 'err' is treated as an AxiosError
+      // Ensure 'err' is treated as an AxiosError
       const error = err as AxiosError<{ message: string }>;
   
       console.error("Login Error:", error.response?.data?.message);
-      alert(error.response?.data?.message || "Login failed.");
+      // alert(error.response?.data?.message || "Login failed.");
+      toast({
+        title: "Login failed",
+        description: error.response?.data?.message || "Something went wrong. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
 
@@ -168,8 +190,8 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      e.preventDefault(); // ✅ Prevents accidental activation of Forgot Password
-                      document.getElementById("signInButton")?.click(); // ✅ Manually triggers sign-in
+                      e.preventDefault(); // Prevents accidental activation of Forgot Password
+                      document.getElementById("signInButton")?.click(); // Manually triggers sign-in
                     }
                   }}
                 />
@@ -195,8 +217,8 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      e.preventDefault(); // ✅ Prevents accidental activation of Forgot Password
-                      document.getElementById("signInButton")?.click(); // ✅ Manually triggers sign-in
+                      e.preventDefault(); // Prevents accidental activation of Forgot Password
+                      document.getElementById("signInButton")?.click(); // Manually triggers sign-in
                     }
                   }}
                 />

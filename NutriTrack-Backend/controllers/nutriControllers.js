@@ -1,10 +1,4 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import userModel from '../models/userModel.js';
-import foodModel from '../models/customFoodModel.js';
-import trackingModel from '../models/trackingModel.js';
-import customFoodModel from '../models/customFoodModel.js';
-
+import {foodModel, trackingModel, customFoodModel} from '../models/index.js';
 
 //basic idea: GET request
 export const getallFoodItems =  async(req,res)=>{

@@ -1,6 +1,25 @@
 import './App.css'
 import { Route, Routes } from "react-router-dom";
-import {HomePage, HistoricalViewPage,Features, Pricing, FAQ, Testimonials, TrackPage, MealsConsumedPage, CreateCustomFoodPage, TrackCustomFoodPage, DailyDashboardPage} from "./Pages"
+import {
+  HomePage,
+  Features, 
+  Pricing, 
+  FAQ, 
+  Testimonials, 
+  Login,
+  ProfileSetup, 
+  Dashboard, 
+  TrackPage, 
+  MealsConsumedPage, 
+  CreateCustomFoodPage,
+  TrackCustomFoodPage, 
+  DailyDashboardPage, 
+  HistoricalViewPage,
+  AdminDashboard,
+  NotFound,
+} from "./Pages"
+
+import { ProtectedRoute, AdminRoute } from "./Components/Routes"
 
 function App() {
 
@@ -8,18 +27,34 @@ function App() {
     <>
       <div>
 			<Routes>
+        {/* Public Routes */}
 				<Route path='/' element={<HomePage />} />
         <Route path='/home' element={<HomePage />} />
         <Route path='/features' element={<Features />} />
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/faq' element={<FAQ />} />
         <Route path='/testimonials' element={<Testimonials />} />
-        <Route path='/historical' element={<HistoricalViewPage />} />
-        <Route path='/dailydashboard' element={<DailyDashboardPage />} />
-        <Route path='/track' element={< TrackPage/>} />
-        <Route path='/mealsConsumed' element={< MealsConsumedPage/>} />
-        <Route path='/customFood' element={<CreateCustomFoodPage />} />
-        <Route path='/trackCustomFood' element={<TrackCustomFoodPage />} />
+        <Route path="/login" element={<Login />} />
+
+         {/* Protected Routes for Logged-in Users */}
+         <Route element={<ProtectedRoute />}>
+            <Route path="/profile-setup" element={<ProfileSetup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/track" element={<TrackPage />} />
+            <Route path="/mealsConsumed" element={<MealsConsumedPage />} />
+            <Route path="/customFood" element={<CreateCustomFoodPage />} />
+            {/* <Route path="/trackCustomFood" element={<TrackCustomFoodPage />} /> */}
+            <Route path="/dailydashboard" element={<DailyDashboardPage />} />
+            <Route path='/historical' element={<HistoricalViewPage />} />
+          </Route>
+
+        {/* Admin-only Routes */}
+        <Route element={<AdminRoute />}>
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          </Route>
+
+          {/* 404 Page Route */}
+          <Route path="*" element={<NotFound />} />
 			</Routes>
 		</div>
     </>

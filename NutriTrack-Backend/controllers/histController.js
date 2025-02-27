@@ -1,4 +1,4 @@
-import trackingModel from '../models/trackingModel.js';
+import {trackingModel} from '../models/index.js';
 
 import mongoose from "mongoose";
 

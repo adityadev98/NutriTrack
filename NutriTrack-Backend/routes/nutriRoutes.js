@@ -1,5 +1,4 @@
 import express from "express";
-import verifyToken from '../verifyToken.js';
 import { trackfoodItem } from "../controllers/nutriControllers.js";
 import { getNutrientHistory } from "../controllers/histController.js";
 import { getMealsConsumed } from "../controllers/nutriControllers.js";
