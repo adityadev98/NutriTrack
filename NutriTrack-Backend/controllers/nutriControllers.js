@@ -54,6 +54,7 @@ export const addCustomFoodItem = async (req,res)=>{
 
 
 export const getCustomFoods = async (req, res) => {
+    console.log(req.user);
     try {
         const customFoods = await customFoodModel.find({userId: req.user.id})
             .select('foodName details serving_unit serving_weight_grams'); // Select only relevant fields

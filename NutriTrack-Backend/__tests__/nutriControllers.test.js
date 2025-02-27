@@ -2,6 +2,8 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import trackingModel from '../models/trackingModel.js';
 import customFoodModel from '../models/customFoodModel.js';
+import userModel from '../models/user.js';
+import jwt from 'jsonwebtoken';
 import express from 'express';
 import mongoose from 'mongoose';
 import request from 'supertest';
@@ -9,6 +11,11 @@ import { trackfoodItem, getMealsConsumed, addCustomFoodItem, getCustomFoods } fr
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+    req.user = { id: req.headers['user-id'] || null }; // Read from headers
+    console.log("Mocked req.user:", req.user);
+    next();
+});
 app.post('/api/track', trackfoodItem);
 app.get('/api/mealsConsumed', getMealsConsumed);
 app.post('/api/customFood', addCustomFoodItem);
@@ -21,7 +28,9 @@ describe('NutriControllers', () => {
 		mongoServer = await MongoMemoryServer.create();
 		const uri = mongoServer.getUri();
 		await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+
 	});
+
 
 	afterAll(async () => {
 		await mongoose.connection.dropDatabase();
@@ -39,6 +48,7 @@ describe('NutriControllers', () => {
 
     beforeEach(async () => {
         await trackingModel.deleteMany({});
+        await userModel.deleteMany({});
     });
 
 	describe('POST /api/track', () => {
@@ -77,13 +87,29 @@ describe('NutriControllers', () => {
         });
     });
 
-	describe('GET /api/mealsConsumed', () => {
+	describe('GET /api/mealsConsumed', () => { 
+
+        let userId, token;
+        beforeAll(async () => {
+        // Create a test user
+        const user = await userModel.create({
+            email: 'test@example.com',
+            password: 'password123',
+
+        });
+        console.log("user Created:", user);
+        userId = user._id.toString(); 
+        console.log("User ID:", userId);
+        
+        // Generate JWT token
+        token = jwt.sign({ id: userId, email: user.email }, "nutritrackapp", { expiresIn: '1h' });
+
+    });
         it('should return meals consumed for today', async () => {
-            const today = new Date().toLocaleDateString(); // Ensure consistent date format
-    
+            const today = new Date().toLocaleDateString();  // Ensure consistent date format
             // Create a meal record for today
             const meal = await trackingModel.create({
-                userId: new mongoose.Types.ObjectId(),
+                userId: userId,
                 foodId: new mongoose.Types.ObjectId(),
                 foodName: 'banana',
                 details: {
@@ -98,8 +124,14 @@ describe('NutriControllers', () => {
                 servingUnit: 'grams',
                 eatenWhen: 'AM snack'
             });
+
+            console.log("Meal:", meal);
+            console.log("Token before API call:", token); 
             // Fetch meals consumed from the API
-            const res = await request(app).get('/api/mealsConsumed');
+            const res = await request(app)
+            .get('/api/mealsConsumed')
+            .set('Authorization', `Bearer ${token}`)
+            .set('user-id', userId); ;            
             console.log('Response:', res.body); 
             // Validate response
             expect(res.statusCode).toEqual(200);
@@ -195,10 +227,27 @@ describe('NutriControllers', () => {
 	});
 
     describe('GET /api/getCustomFood', () => {
+        let userId, token;
+        beforeAll(async () => {
+            // Create a test user
+            const user = await userModel.create({
+                email: 'test@example.com',
+                password: 'password123',
+    
+            });
+            console.log("user Created:", user);
+            userId = user._id.toString(); 
+            console.log("User ID:", userId);
+            
+            // Generate JWT token
+            token = jwt.sign({ id: userId, email: user.email }, "nutritrackapp", { expiresIn: '1h' });
+    
+        });
+
         it('should return custom foods', async () => {
             const insertedMeal = await customFoodModel.insertMany([
                 {
-                    userId: new mongoose.Types.ObjectId(),
+                    userId: userId,
                     foodName: "Custom Banana",
                     details: {
                         calories: 60,
@@ -211,7 +260,7 @@ describe('NutriControllers', () => {
                     serving_weight_grams: 100
                 },
                 {
-                    userId: new mongoose.Types.ObjectId(),
+                    userId: userId,
                     foodName: "Custom Apple",
                     details: {
                         calories: 50,
@@ -224,8 +273,11 @@ describe('NutriControllers', () => {
                     serving_weight_grams: 100
                 }
             ]);
+
             console.log("Inserted Meal:", insertedMeal);
-            const res = await request(app).get('/api/getCustomFood');
+            const res = await request(app).get('/api/getCustomFood') 
+            .set('Authorization', `Bearer ${token}`)
+            .set('user-id', userId); 
             console.log('Response:', res.body);
             expect(res.statusCode).toEqual(200);
             expect(Array.isArray(res.body.data)).toBe(true);
