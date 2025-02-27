@@ -19,14 +19,59 @@ const MealsConsumedPage = () => {
   const [meals, setMeals] = useState<FoodDetails[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [authError, setAuthError] = useState(false);  // Track authentication status
+useEffect(() => {
+    // Function to check if the token is valid
+    const verifyToken = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setAuthError(true);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/auth/protected", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          setAuthError(true);
+          localStorage.removeItem("token"); // Remove invalid token
+        } else {
+          setAuthError(false);  // Token is valid
+        }
+      } catch (error) {
+        setAuthError(true);
+        localStorage.removeItem("token");  // Remove invalid token
+      }
+
+      setLoading(false);
+    };
+
+    verifyToken();
+  }, []);
+
+  useEffect(() => {
+    if (authError) {
+      alert("Authentication failed. Invalid token. Please log in to continue.");
+      navigate("/home");  // Redirect to login page
+    }
+  }, [authError, navigate]);
 
   // Fetch today's food tracking data using fetch
   useEffect(() => {
+    if (authError || loading) return; 
+
     const fetchMeals = async () => {
       try {
         const response = await fetch('/api/mealsConsumed', {
           method: 'GET',
           headers: {
+            "Authorization": `Bearer ${localStorage.token}`,
             "Content-Type": "application/json",
           },
         });
@@ -34,7 +79,7 @@ const MealsConsumedPage = () => {
           throw new Error('Error fetching meals data');
         }
         const data = await response.json();
-        setMeals(data);
+        setMeals(data.data);
         setLoading(false);
       } catch (err) {
         setError('Error fetching meals data');
@@ -44,7 +89,13 @@ const MealsConsumedPage = () => {
    
     fetchMeals();
     
-  }, []);
+  }, [[authError, loading]]);
+
+   // Conditionally return null in the component's render
+   if (authError || loading) {
+    return null;
+  }
+
 
   // Function to categorize meals based on 'eatenWhen'
   const categorizeMeals = (meals: FoodDetails[]) => {

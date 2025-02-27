@@ -73,12 +73,13 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
         password: passwordRef.current?.value,
       });
   
-      const { token, user } = response.data;
-  
-      console.log("Login successful!", user);
+      const { token, userProfile } = response.data;
+      console.log("Login successful!", userProfile);
       
       // ✅ Store token in localStorage
       localStorage.setItem("token", token);
+      // ✅ Store userProfile.user in localStorage
+      localStorage.setItem("user", userProfile.user);
   
       // ✅ Close the modal
       onClose();
