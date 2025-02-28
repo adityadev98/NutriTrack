@@ -4,6 +4,6 @@
       "module": "CommonJS",
       "moduleResolution": "node",
       "jsx": "react-jsx",
-      "noImplicitAny": false,
+      "noImplicitAny": false
     }
   }

@@ -1,5 +1,4 @@
-import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Grid, Box, Button, Input, Select, Text, HStack, Heading } from "@chakra-ui/react";
 import '../App.css';
@@ -34,7 +33,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
     const [selectedUnit, setSelectedUnit] = useState<string>("grams");
     const [unitOptions, setUnitOptions] = useState<Measure[]>([]);
     const [selectedWhen, setSelectedWhen] = useState<string>("breakfast");
-    const loggedData = useContext(UserContext);
+    // const loggedData = useContext(UserContext);
   
     useEffect(() => {
         setFoodData(food);
