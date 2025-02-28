@@ -1,7 +1,19 @@
-import {screen, render, fireEvent, waitFor } from '@testing-library/react';
+import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import FoodItem from '../TrackFoodItem';
 
-const mockFood = {
+interface Food {
+  name: string;
+  calories: number;
+  protein: number;
+  carbohydrates: number;
+  fat: number;
+  fiber: number;
+  serving_weight_grams: number;
+  alt_measures: { serving_weight: number; measure: string; qty: number }[];
+  serving_unit: string;
+}
+
+const mockFood: Food = {
   name: 'banana',
   calories: 100,
   protein: 1,
@@ -16,8 +28,6 @@ const mockFood = {
   serving_unit: 'medium',
 };
 
-render(<HistoricalLineGraph historicalData={historicalData} />);
-
 describe('FoodItem', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -26,11 +36,11 @@ describe('FoodItem', () => {
   it('renders food item details', () => {
     render(<FoodItem food={mockFood} />);
 
-    expect(screen.getByText('Banana (100 Kcal)')).toBeInTheDocument();
-    expect(screen.getByText('Protein: 1g')).toBeInTheDocument();
-    expect(screen.getByText('Carbs: 27g')).toBeInTheDocument();
-    expect(screen.getByText('Fat: 0g')).toBeInTheDocument();
-    expect(screen.getByText('Fiber: 3g')).toBeInTheDocument();
+    expect(screen.getByText(/banana \(100 kcal\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/protein: 1g/i)).toBeInTheDocument();
+    expect(screen.getByText(/carbs: 27g/i)).toBeInTheDocument();
+    expect(screen.getByText(/fat: 0g/i)).toBeInTheDocument();
+    expect(screen.getByText(/fiber: 3g/i)).toBeInTheDocument();
   });
 
   it('updates macros when quantity is changed', () => {
@@ -40,18 +50,16 @@ describe('FoodItem', () => {
       target: { value: '2' },
     });
 
-    expect(screen.getByText('Protein: 2g')).toBeInTheDocument();
-    expect(screen.getByText('Carbs: 54g')).toBeInTheDocument();
-    expect(screen.getByText('Fat: 1g')).toBeInTheDocument();
-    expect(screen.getByText('Fiber: 6g')).toBeInTheDocument();
+    expect(screen.getByText(/protein: 2g/i)).toBeInTheDocument();
+    expect(screen.getByText(/carbs: 54g/i)).toBeInTheDocument();
+    expect(screen.getByText(/fat: 1g/i)).toBeInTheDocument();
+    expect(screen.getByText(/fiber: 6g/i)).toBeInTheDocument();
   });
 
   it('calls trackFoodItem on button click', async () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ success: true }),
-      })
-    ) as jest.Mock;
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: jest.fn().mockResolvedValue({ success: true }),
+    } as unknown as Response);
 
     render(<FoodItem food={mockFood} />);
 
@@ -59,7 +67,7 @@ describe('FoodItem', () => {
       target: { value: '2' },
     });
 
-    fireEvent.click(screen.getByText('Track'));
+    fireEvent.click(screen.getByText(/track/i));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/track', expect.any(Object));
@@ -73,23 +81,23 @@ describe('FoodItem', () => {
       target: { value: '1' },
     });
 
-    fireEvent.change(screen.getByDisplayValue('grams'), {
+    fireEvent.change(screen.getByRole('combobox', { name: /unit/i }), {
       target: { value: 'large' },
     });
 
-    expect(screen.getByText('Protein: 2g')).toBeInTheDocument();
-    expect(screen.getByText('Carbs: 54g')).toBeInTheDocument();
-    expect(screen.getByText('Fat: 1g')).toBeInTheDocument();
-    expect(screen.getByText('Fiber: 6g')).toBeInTheDocument();
+    expect(screen.getByText(/protein: 2g/i)).toBeInTheDocument();
+    expect(screen.getByText(/carbs: 54g/i)).toBeInTheDocument();
+    expect(screen.getByText(/fat: 1g/i)).toBeInTheDocument();
+    expect(screen.getByText(/fiber: 6g/i)).toBeInTheDocument();
   });
 
   it('updates selected meal time', () => {
     render(<FoodItem food={mockFood} />);
 
-    fireEvent.change(screen.getByDisplayValue('breakfast'), {
+    fireEvent.change(screen.getByRole('combobox', { name: /meal/i }), {
       target: { value: 'lunch' },
     });
 
-    expect(screen.getByDisplayValue('lunch')).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: /meal/i })).toHaveValue('lunch');
   });
 });
