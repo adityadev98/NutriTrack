@@ -105,6 +105,7 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
         }));
 
         localStorage.setItem("token", token); // Store token separately for requests
+        localStorage.setItem("user", userProfile.user);  // Store userProfile.user in localStorage
 
       } else {
         console.error("UserContext is not available.");
