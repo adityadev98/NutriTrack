@@ -1,5 +1,5 @@
-import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { useEffect, useState } from "react";
+// import { UserContext } from "../contexts/UserContext";
 import { useNavigate,useLocation } from 'react-router-dom';
 
 import { Grid, Box, Button, Input, Select, Text, HStack, Heading } from "@chakra-ui/react";
@@ -25,12 +25,24 @@ interface FoodProps {
 const FoodItem: React.FC<FoodProps> = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { food } = location.state||{};
+    const defaultFood = {
+        foodName: '',
+        details: {
+          calories: 0,
+          protein: 0,
+          carbohydrates: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        serving_unit: '',
+        serving_weight_grams: 0,
+      };
+      const { food = defaultFood } = location.state || {};
     const [eatenQuantity, setEatenQuantity] = useState<number>(food.serving_weight_grams);
     const [foodData, setFoodData] = useState<FoodProps["food"]>(food);
     const [foodInitial, setFoodInitial] = useState<FoodProps["food"]>(food);
     const [selectedWhen, setSelectedWhen] = useState<string>("breakfast");
-    const loggedData = useContext(UserContext);
+    // const loggedData = useContext(UserContext);
   
     useEffect(() => {
         setFoodData(food);
