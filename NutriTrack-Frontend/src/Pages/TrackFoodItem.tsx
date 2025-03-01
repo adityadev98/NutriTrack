@@ -49,8 +49,9 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
         let quantity = Number(event.target.value);
         if (quantity > 0) {
             const selectedMeasure = unitOptions.find((unit) => unit.measure === selectedUnit);
-            const servingWeight = selectedMeasure ? selectedMeasure.serving_weight : food.serving_weight_grams;
-            const convertedQuantity = (servingWeight * quantity) / food.serving_weight_grams;
+            const servingWeight = selectedMeasure?.serving_weight ?? food.serving_weight_grams;
+            const qty = selectedMeasure?.qty ?? 1;
+            const convertedQuantity = ((servingWeight * quantity) / food.serving_weight_grams)/qty;
             
             console.log("selectedMeasure:", selectedMeasure);
             console.log("selectedUnit", selectedUnit);
@@ -150,7 +151,7 @@ const FoodItem: React.FC<FoodProps> = ({ food }) => {
             </HStack>
             <HStack spacing={3} mt={4}>
                 <Text>When:</Text>
-                <Select onChange={handleWhenChange} value={selectedWhen} bg="white" color="black" size="sm">
+                <Select id="when" onChange={handleWhenChange} value={selectedWhen} bg="white" color="black" size="sm">
                     <option value="breakfast">Breakfast</option>
                     <option value="AM snack">AM Snack</option>
                     <option value="lunch">Lunch</option>
