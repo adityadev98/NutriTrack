@@ -1,37 +1,4 @@
-import {foodModel, trackingModel, customFoodModel} from '../models/index.js';
-
-//basic idea: GET request
-export const getallFoodItems =  async(req,res)=>{
-    try{
-        let foods = await foodModel.find();
-        res.send(foods);
-    } 
-    catch(err){
-        console.log(err);
-        res.status(500).send({message:"Error in retreiving data"})
-
-    }
-}
-
-//basic idea: GET request
-export const getFoodItembyName = async(req,res)=>{
-    try{
-        let foods = await foodModel.find({name:{$regex:req.params.name,$options:'i'}});
-        if(foods.length!=0)
-        {
-            res.send(foods);
-        }
-        else{
-            res.status(404).send({message:"Food item doesnt exist"})
-        }
-        
-    } 
-    catch(err){
-        console.log(err);
-        res.status(500).send({message:"Error in retreiving data"})
-
-    }
-}
+import {trackingModel, customFoodModel} from '../models/index.js';
 
 export const trackfoodItem = async (req,res)=>{
     
@@ -40,33 +7,30 @@ export const trackfoodItem = async (req,res)=>{
     try 
     {
         let data = await trackingModel.create(trackData);
-        console.log(data)
-        res.status(201).send({message:"Food Added"});
+        res.status(201).send({success:true,message:"Food Added"});
     }
     catch(err)
     {
-        console.log(err);
-        res.status(500).send({message:"Some Problem in adding the food"})
+        res.status(500).send({failure:true,message:"Some Problem in adding the food"})
     }
 }
 
 export const getMealsConsumed = async (req,res)=>{
     const getTodayDate = new Date().toLocaleDateString();
     try{
-        const mealsConsumed = await trackingModel.find({ eatenDate: getTodayDate })
-        .select('foodName details eatenWhen'); // Select only relevant fields
+        const mealsConsumed = await trackingModel.find({ eatenDate: getTodayDate, userId: req.user.id })
+        .select('foodName details eatenWhen');
         if(mealsConsumed.length!=0)
         {
-            res.send(mealsConsumed);
+            res.send({success:true,data:mealsConsumed});
         }
         else{
-            res.status(404).send({message:"No meals consumed for today"})
+            res.status(404).send({failure:true,message:"No meals consumed for today"})
         }
         
     } 
     catch(err){
-        console.log(err);
-        res.status(500).send({message:"Error in retreiving data"})
+        res.status(500).send({failure:true,message:"Error in retreiving data"})
 
     }
 }
@@ -77,31 +41,30 @@ export const addCustomFoodItem = async (req,res)=>{
     try 
     {
         let data = await customFoodModel.create(customFood);
-        console.log(data)
         res.status(201).send({success:true, message:"Custom food Added",  data: data});
     }
     catch(err)
     {
-        console.log(err);
-        res.status(500).send({message:"Some Problem in adding the food"})
+        res.status(500).send({failure:true,message:"Some Problem in adding custom food"})
     }
 }
 
 
 
 export const getCustomFoods = async (req, res) => {
+    console.log(req.user);
     try {
-        const customFoods = await customFoodModel.find()
+        const customFoods = await customFoodModel.find({userId: req.user.id})
             .select('foodName details serving_unit serving_weight_grams'); // Select only relevant fields
 
         if (customFoods.length !== 0) {
-            res.send(customFoods);
+            res.send({success:true,data:customFoods});
         } else {
-            res.status(404).send({ message: "No custom meals found" });
+            res.status(404).send({ failure:true,message: "No custom meals found" });
         }
 
     } catch (err) {
         console.log(err);
-        res.status(500).send({ message: "Error in retrieving data" });
+        res.status(500).send({ failure:true,message: "Error in retrieving data" });
     }
 }
