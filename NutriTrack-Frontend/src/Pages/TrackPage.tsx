@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState} from "react";
 import TrackSearch from "@/Pages/TrackSearch";
 import FoodItem from "@/Pages/TrackFoodItem";
 import {Sidenav} from "../Components/Sections";

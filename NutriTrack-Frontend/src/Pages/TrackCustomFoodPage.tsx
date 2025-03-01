@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate,useLocation } from 'react-router-dom';
-
+import {Sidenav} from "../Components/Sections";
 import { Grid, Box, Button, Input, Select, Text, HStack, Heading } from "@chakra-ui/react";
 import '../App.css';
 
@@ -128,6 +128,7 @@ const FoodItem: React.FC<FoodProps> = () => {
     }
 
     return (
+        <Sidenav>
         <Box p={5} bg="gray.800" color="white" borderRadius="md" boxShadow="lg">
             <Heading size="md" color="white" textAlign="center">{foodData.foodName.charAt(0).toUpperCase() + foodData.foodName.slice(1)} ({Math.round(foodData.details.calories)} Kcal)</Heading>
              {/* Protein, Carbs in one row and Fat, Fiber in another using Grid */}
@@ -159,6 +160,7 @@ const FoodItem: React.FC<FoodProps> = () => {
                 <Button mt={4} colorScheme="green" onClick={trackFoodItem}>Track</Button>
             </Box>        
         </Box>
+        </Sidenav>
     );
 };
 
