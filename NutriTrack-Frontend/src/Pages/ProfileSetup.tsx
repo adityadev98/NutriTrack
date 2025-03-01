@@ -21,7 +21,7 @@ const ProfileSetup: React.FC = () => {
       const token = localStorage.getItem('token');
       const data = { name, age, gender, activityLevel, height, weight };
       console.log('Sending data:', data);
-      const response = await axios.post('http://localhost:5000/api/user/profile/setup', data, {
+      const response = await axios.post('/api/user/profile/setup', data, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Profile setup response:', response.data);

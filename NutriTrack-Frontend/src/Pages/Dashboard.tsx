@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Container, VStack, Heading, Text, Box, Stat, StatLabel, StatNumber, StatGroup, Button } from "@chakra-ui/react";
+import { Container, VStack, Heading, Text, Box, Stat, StatLabel, StatNumber, StatGroup, Button, Spinner} from "@chakra-ui/react";
+import {Sidebar, Sidenav} from "../Components/Sections";
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from "../utils/axiosInstance";
 //import '../style.css';
 
+     
 const Dashboard: React.FC = () => {
   const [profile, setProfile] = useState<any>(null);
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ const Dashboard: React.FC = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/user/profile', {
+        const response = await axiosInstance.get('/api/user/profile', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setProfile(response.data.userProfile);
@@ -25,7 +27,13 @@ const Dashboard: React.FC = () => {
   }, []);
 
   if (!profile) {
-    return <Text>Loading...</Text>;
+    return <Spinner
+      thickness='4px'
+      speed='0.65s'
+      emptyColor='gray.200'
+      color='blue.500'
+      size='xl'
+    />;
   }
 
   // Calculate BMR using the Harris-Benedict equation
@@ -67,6 +75,9 @@ const Dashboard: React.FC = () => {
   
 
   return (
+    <div style={{ display: "flex" }}>
+      {/* <Sidenav /> */}
+      <Sidebar />
     <Container maxW="container.lg" py={6}>
       <VStack gap={4} align="center">
         <Heading color="var(--dark-green)">Dashboard</Heading>
@@ -115,6 +126,7 @@ const Dashboard: React.FC = () => {
         </Box>
       </VStack>
     </Container>
+    </div>
   );
 };
 

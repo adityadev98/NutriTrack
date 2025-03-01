@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext} from "react";
 import { Flex, Heading, Stack, Text, Button, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { HeroPic } from "../../Assets/index.ts";
@@ -7,11 +7,13 @@ import {SignInDialog, SignUpDialog} from "../../Components/Sections/";
 const MotionHeading = motion(Heading);
 const MotionText = motion(Text);
 const MotionButton = motion(Button);
-
+import { UserContext } from "../../contexts/UserContext"; 
 
 export default function Hero() {
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
+  const userContext = useContext(UserContext);
+  const loggedUser = userContext?.loggedUser || null;
   return (
     <Flex
       bg={'var(--dark-green)'} 
@@ -77,32 +79,66 @@ export default function Hero() {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
 molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
         </MotionText>
-        <MotionButton
-          rounded={"full"}
-          px={8}
-          py={6}
-          borderRadius={'6px'}
-          colorScheme={"green"}
-          fontFamily={'Rubik, sans-serif'} 
-          fontWeight={600} 
-          bg={'var(--bright-green)'} 
-          color={'var(--dark-green)'} 
-          _hover={{ bg: "rgb(119, 228, 110)" }}
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5, delay: 1.5 }}
-          tabIndex={0} // Enables keyboard focusability
-          role="link"  // Explicitly sets the role as a link
-          aria-label="Sign up"  // Adds a label for screen readers
-          _focus={{
-            outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
-            outlineOffset: "2px",
-          }}
-          zIndex={10} position="relative"
-          onClick={() => setOpenSignUp(true)}
-        >
-          SIGN UP
-        </MotionButton>
+        {!loggedUser ? (
+            <>
+              <MotionButton
+                rounded={"full"}
+                px={8}
+                py={6}
+                borderRadius={'6px'}
+                colorScheme={"green"}
+                fontFamily={'Rubik, sans-serif'} 
+                fontWeight={600} 
+                bg={'var(--bright-green)'} 
+                color={'var(--dark-green)'} 
+                _hover={{ bg: "rgb(119, 228, 110)" }}
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 1.5 }}
+                tabIndex={0} // Enables keyboard focusability
+                role="link"  // Explicitly sets the role as a link
+                aria-label="Sign up"  // Adds a label for screen readers
+                _focus={{
+                  outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
+                  outlineOffset: "2px",
+                }}
+                zIndex={10} position="relative"
+                onClick={() => setOpenSignUp(true)}
+              >
+                SIGN UP
+              </MotionButton>
+            </>
+            ) : (
+            <>
+                <MotionButton
+                rounded={"full"}
+                px={8}
+                py={6}
+                borderRadius={'6px'}
+                colorScheme={"green"}
+                fontFamily={'Rubik, sans-serif'} 
+                fontWeight={600} 
+                bg={'var(--bright-green)'} 
+                color={'var(--dark-green)'} 
+                _hover={{ bg: "rgb(119, 228, 110)" }}
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 1.5 }}
+                tabIndex={0} // Enables keyboard focusability
+                role="link"  // Explicitly sets the role as a link
+                aria-label="Sign up"  // Adds a label for screen readers
+                _focus={{
+                  outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
+                  outlineOffset: "2px",
+                }}
+                zIndex={10} position="relative"
+              >
+                <a href="/dashboard" >
+                  User Dashboard
+                </a>
+              </MotionButton>
+            </>
+          )}
       </Stack>
       <Flex
       position="absolute"

@@ -1,4 +1,4 @@
 import AdminRoute from "./AdminRoute";
 import ProtectedRoute from "./ProtectedRoute";
-
-export { AdminRoute, ProtectedRoute };
+import PublicRoute from "./PublicRoute";
+export { AdminRoute, ProtectedRoute, PublicRoute};

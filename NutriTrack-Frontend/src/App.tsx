@@ -19,7 +19,7 @@ import {
   NotFound,
 } from "./Pages"
 
-import { ProtectedRoute, AdminRoute } from "./Components/Routes"
+import { ProtectedRoute, AdminRoute, PublicRoute } from "./Components/Routes"
 
 function App() {
 
@@ -34,7 +34,11 @@ function App() {
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/faq' element={<FAQ />} />
         <Route path='/testimonials' element={<Testimonials />} />
-        <Route path="/login" element={<Login />} />
+
+        {/* Public Routes (Blocked for Logged-In Users) */}
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
 
          {/* Protected Routes for Logged-in Users */}
          <Route element={<ProtectedRoute />}>

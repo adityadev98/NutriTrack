@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useContext, FC } from "react";
 import {
   Box,
   Flex,
@@ -10,6 +10,11 @@ import {
   Collapse,
   //useColorModeValue,
   useDisclosure,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
 } from '@chakra-ui/react'
 import {
   HamburgerIcon,
@@ -20,11 +25,15 @@ import { logo } from "../../Assets/index.ts";
 import { navLinks } from "../../Constants";
 
 import {SignInDialog, SignUpDialog} from "../../Components/Sections/";
+import { UserContext } from "../../contexts/UserContext"; 
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure()
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
+  const userContext = useContext(UserContext);
+  const loggedUser = userContext?.loggedUser || null;
+  const logout = userContext?.logout || (() => {});
 
   return (
     <Box>
@@ -53,54 +62,107 @@ export default function Navbar() {
             justify={'flex-end'}
             direction={'row'}
             spacing={6}>
-            <Button 
-              as={'a'} 
-              fontSize={'15px'} 
-              fontFamily={'Rubik, sans-serif'} 
-              fontWeight={600} 
-              color={'var(--off-white)'} 
-              bg={'var(--dark-green)'} 
-              px={'16px'} 
-              py={'12px'} 
-              tabIndex={0} // Enables keyboard focusability
-              role="link"  // Explicitly sets the role as a link
-              aria-label="Log in to your account"  // Adds a label for screen readers
-              border={'1px solid rgba(243, 237, 228, 0.5)'} 
-              borderRadius={'6px'}
-              _hover={{
-                bg: 'rgba(18, 35, 21, 0.8)', // Dark green with slight transparency
-              }} 
-              _focus={{
-                outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
-                outlineOffset: "2px",
-              }}
-              onClick={() => setOpenSignIn(true)}>
-              LOG IN
-            </Button>
-            <Button 
-              as={'a'} 
-              fontSize={'15px'} 
-              fontFamily={'Rubik, sans-serif'} 
-              fontWeight={600} 
-              color={'var(--dark-green)'}  // Uses --dark-green for text
-              bg={'var(--bright-green)'}  // Uses --bright-green for background
-              px={'16px'} 
-              py={'9px'} 
-              tabIndex={0} // Enables keyboard focusability
-              role="link"  // Explicitly sets the role as a link
-              aria-label="Sign up"  // Adds a label for screen readers
-              borderRadius={'6px'}
-              _hover={{
-                bg: 'rgba(84, 221, 72, 0.8)',  // Adjusted slightly darker version of --bright-green
-              }} 
-              _focus={{
-                outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
-                outlineOffset: "2px",
-              }}
-              onClick={() => setOpenSignUp(true)}>
-              SIGN UP
-            </Button>
-           </Stack>
+            {!loggedUser ? (
+            <>
+              <Button 
+                as={'a'} 
+                fontSize={'15px'} 
+                fontFamily={'Rubik, sans-serif'} 
+                fontWeight={600} 
+                color={'var(--off-white)'} 
+                bg={'var(--dark-green)'} 
+                px={'16px'} 
+                py={'12px'} 
+                tabIndex={0} // Enables keyboard focusability
+                role="link"  // Explicitly sets the role as a link
+                aria-label="Log in to your account"  // Adds a label for screen readers
+                border={'1px solid rgba(243, 237, 228, 0.5)'} 
+                borderRadius={'6px'}
+                _hover={{
+                  bg: 'rgba(18, 35, 21, 0.8)', // Dark green with slight transparency
+                }} 
+                _focus={{
+                  outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
+                  outlineOffset: "2px",
+                }}
+                onClick={() => setOpenSignIn(true)}>
+                LOG IN
+              </Button>
+              <Button 
+                as={'a'} 
+                fontSize={'15px'} 
+                fontFamily={'Rubik, sans-serif'} 
+                fontWeight={600} 
+                color={'var(--dark-green)'}  // Uses --dark-green for text
+                bg={'var(--bright-green)'}  // Uses --bright-green for background
+                px={'16px'} 
+                py={'9px'} 
+                tabIndex={0} // Enables keyboard focusability
+                role="link"  // Explicitly sets the role as a link
+                aria-label="Sign up"  // Adds a label for screen readers
+                borderRadius={'6px'}
+                _hover={{
+                  bg: 'rgba(84, 221, 72, 0.8)',  // Adjusted slightly darker version of --bright-green
+                }} 
+                _focus={{
+                  outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
+                  outlineOffset: "2px",
+                }}
+                onClick={() => setOpenSignUp(true)}>
+                SIGN UP
+              </Button>
+              </>
+          ) : (
+            <>
+              <Menu>
+              <MenuButton
+                px={'16px'} 
+                py={'12px'} 
+                tabIndex={0} // Enables keyboard focusability
+                aria-label="User Avatar"  // Adds a label for screen readers  
+                _hover={{ bg: "none" }}
+              >
+                <Avatar name={loggedUser?.name || "User"} bg='var(--bright-green)' />
+              </MenuButton>
+              <MenuList>
+                  <MenuItem 
+                  as={'a'}
+                  href="/dashboard" 
+                  tabIndex={0} // Enables keyboard focusability
+                  role="link"  // Explicitly sets the role as a link
+                  aria-label="Go to User Dashboard"  // Adds a label for screen readers
+                  fontSize={'14px'} 
+                  fontFamily={'Rubik, sans-serif'} 
+                  fontWeight={400} 
+                  >Dashboard</MenuItem>
+                  <MenuItem
+                    as={'a'}
+                    href="/dashboard" 
+                    tabIndex={0} // Enables keyboard focusability
+                    role="link"  // Explicitly sets the role as a link
+                    aria-label="Go to User Account Details"  // Adds a label for screen readers
+                    fontSize={'14px'} 
+                    fontFamily={'Rubik, sans-serif'} 
+                    fontWeight={400} 
+                  >
+                    My Account
+                  </MenuItem>
+                  <MenuItem 
+                  onClick={logout}
+                  tabIndex={0} // Enables keyboard focusability
+                  role="link"  // Explicitly sets the role as a link
+                  aria-label="Sign Out"  // Adds a label for screen readers
+                  fontSize={'14px'} 
+                  fontFamily={'Rubik, sans-serif'} 
+                  fontWeight={400} 
+                  >
+                    Sign Out
+                </MenuItem>
+              </MenuList>
+              </Menu>
+            </>
+          )}
+          </Stack>
       </Flex>
       {/* Mobile Menu */}
       <Flex 
@@ -140,7 +202,7 @@ export default function Navbar() {
       </Flex>  
       {/* Mobile Nav */}
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav loggedUser={loggedUser} logout={logout} />
       </Collapse>
       {/* Sign In & Sign Up Dialogs */}
       <SignUpDialog 
@@ -205,8 +267,11 @@ const DesktopNav = () => {
     </Stack>
   );
 };
-
-const MobileNav = () => {
+interface MobileNavProps {
+  loggedUser: any | null; // Replace `any` with a proper user type if available
+  logout: () => void;
+}
+const MobileNav: FC<MobileNavProps> = ({ loggedUser, logout }) => {
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
   return (
@@ -229,12 +294,29 @@ const MobileNav = () => {
       </Box>
       
       ))}
-      <Text fontWeight={600} color="var(--soft-white)" onClick={() => setOpenSignIn(true)} fontFamily={'Rubik, sans-serif'} fontSize={'15px'} textTransform={'uppercase'}  textAlign="center"  py={2}>
-        LOG IN
-      </Text>     
-      <Text fontWeight={600} color="var(--soft-white)" onClick={() => setOpenSignUp(true)} fontFamily={'Rubik, sans-serif'} fontSize={'15px'} textTransform={'uppercase'}  textAlign="center"  py={2}>
-        SIGN UP
-      </Text>     
+
+      {!loggedUser ? (
+      <>
+        <Text fontWeight={600} color="var(--soft-white)" onClick={() => setOpenSignIn(true)} fontFamily={'Rubik, sans-serif'} fontSize={'15px'} textTransform={'uppercase'}  textAlign="center"  py={2}>
+          LOG IN
+        </Text>     
+        <Text fontWeight={600} color="var(--soft-white)" onClick={() => setOpenSignUp(true)} fontFamily={'Rubik, sans-serif'} fontSize={'15px'} textTransform={'uppercase'}  textAlign="center"  py={2}>
+          SIGN UP
+        </Text>     
+      </>
+      ) : (
+      <>
+          <Text fontWeight={600} color="var(--soft-white)" fontFamily={'Rubik, sans-serif'} fontSize={'15px'} textTransform={'uppercase'} textAlign="center" py={2}>
+            <a href="/dashboard" style={{  alignItems: 'center'}}>
+              Profile
+            </a>
+          </Text>
+          <Text fontWeight={600} color="var(--soft-white)" onClick={logout} fontFamily={'Rubik, sans-serif'} fontSize={'15px'} textTransform={'uppercase'} textAlign="center" py={2}>
+            LOG OUT
+          </Text>
+      </>
+      )}
+
       <SignUpDialog 
         open={openSignUp} 
         onClose={() => setOpenSignUp(false)} 
@@ -250,3 +332,5 @@ const MobileNav = () => {
 
   )
 }
+
+

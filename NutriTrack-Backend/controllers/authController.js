@@ -80,6 +80,7 @@ export const login = async (req, res) => {
       userProfile, // Send user profile data
       userType: user.userType,  // Return userType
       profileCompleted: userProfile.profileCompleted, // Return profile completion status
+      expiresIn: 3600,  // Include token expiry duration (in seconds),
     });
   } catch (error) {
     console.error(error);
@@ -190,4 +191,28 @@ export const promoteToAdmin = async (req, res) => {
     console.error("Error promoting user:", error);
     res.status(500).json({ success: false, message: "Server error, try again later." });
   }
+};
+
+// Refresh Token Route
+export const refreshToken = async (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid or expired token" });
+    }
+
+    // Generate a new token with the same user data
+    const newToken = jwt.sign(
+      { id: decoded.id, email: decoded.email, userType: decoded.userType },
+      JWT_SECRET,
+      { expiresIn: "1h" } // Reset to another 1 hour
+    );
+
+    res.json({ token: newToken, expiresIn: 3600 }); // Return new token & expiry
+  });
 };

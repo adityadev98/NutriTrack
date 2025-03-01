@@ -1,5 +1,2 @@
-import db from "./db.js";
-
-export { 
-  db,
-};
+import { connectDB } from "./db.js";
+export { connectDB };

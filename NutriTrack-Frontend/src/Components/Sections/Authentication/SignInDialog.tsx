@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
@@ -17,7 +18,8 @@ import {
   ModalCloseButton,
   useToast,
 } from "@chakra-ui/react";
-import axios, {AxiosError} from "axios";
+import {AxiosError} from "axios";
+import axiosInstance from "../../../utils/axiosInstance.ts"; 
 import { UserContext } from "../../../contexts/UserContext"; 
 import {ForgotPassword} from "../index.ts";
 import { logo, google } from "../../../Assets/index.ts";
@@ -38,6 +40,7 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const toast = useToast();
   const { setLoggedUser } = useContext(UserContext) ?? {};
+  const navigate = useNavigate();
   // Input Validation Logic
   const validateInputs = () => {
     const email = emailRef.current?.value || "";
@@ -71,29 +74,50 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
     if (!validateInputs()) return;
   
     try {
-      const response = await axios.post("/api/auth/login", {
+      const response = await axiosInstance.post("/api/auth/login", {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
       });
   
-      const { token, userType, profileCompleted, userProfile } = response.data;
+      const { token, userType, profileCompleted, userProfile, expiresIn} = response.data;
       console.log("Login successful!", userProfile.user);
+
+      const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
+
       // Update the loggedUser state
       // Ensure setLoggedUser exists before calling it
       if (setLoggedUser) {
         setLoggedUser({
-          userid: userProfile.user,  
+          userid: userProfile.user,
           token,
-          name: userProfile.name, 
+          name: userProfile.name,
           profileCompleted,
           userType,
-        });
+          tokenExpiry,  // Store expiry timestamp
+        });    
+        localStorage.setItem("loggedUser", JSON.stringify({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          tokenExpiry, // Store in localStorage
+        }));
+
+        localStorage.setItem("token", token); // Store token separately for requests
+
       } else {
         console.error("UserContext is not available.");
       }
-      // Store token in localStorage
-      localStorage.setItem("token", token);
-  
+
+      // Redirect logic after login
+      if (userType === "admin") {
+        navigate("/admin-dashboard", { replace: true });
+      } else if (!profileCompleted) {
+        navigate("/profile-setup", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true }); // Redirect after successful login
+      }
       // Close the modal
       onClose();
     } catch (err) {
