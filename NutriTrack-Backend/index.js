@@ -8,7 +8,7 @@ import {nutriRoutes, authRoutes, profileRoutes} from './routes/index.js';
 dotenv.config();
 
 console.log(process.env.MONGO_URI);
-const PORT = process.env.PORT || 8001
+const PORT = process.env.VITE_PORT || 5000
 
 const app = express();
 
