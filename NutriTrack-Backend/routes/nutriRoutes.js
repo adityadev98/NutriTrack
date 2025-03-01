@@ -5,7 +5,6 @@ import { getNutrientHistory } from "../controllers/histController.js";
 import { getMealsConsumed } from "../controllers/nutriControllers.js";
 import {addCustomFoodItem} from "../controllers/nutriControllers.js";
 import {getCustomFoods} from "../controllers/nutriControllers.js";
-import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
