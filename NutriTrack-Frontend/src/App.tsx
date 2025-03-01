@@ -19,7 +19,7 @@ import {
   NotFound,
 } from "./Pages"
 
-import { ProtectedRoute, AdminRoute, PublicRoute } from "./Components/Routes"
+import { ProtectedRoute, AdminRoute, PublicRoute } from "./Routes"
 
 function App() {
 

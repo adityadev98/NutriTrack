@@ -52,21 +52,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [loggedUser]);
 
-  // Handle redirection after login
-  useEffect(() => {
-    if (loggedUser) {
-      localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
-
-      // Redirect users based on their status **only if they just logged in**
-      if (window.location.pathname === "/login") {
-        if (loggedUser.userType === "admin") {
-          navigate("/admin-dashboard", { replace: true });
-        } else if (!loggedUser.profileCompleted) {
-          navigate("/profile-setup", { replace: true });
-        } 
-      }
-    }
-  }, [loggedUser, navigate]);
 
   const logout = () => {
     navigate("/", { replace: true }); // Ensure user is redirected to Home FIRST

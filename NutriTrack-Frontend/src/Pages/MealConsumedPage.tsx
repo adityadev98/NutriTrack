@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {  Button, Box, Container, Heading, Text, Spinner, VStack,SimpleGrid, HStack} from '@chakra-ui/react';
 import { Stat,StatLabel, StatNumber,StatHelpText} from "@chakra-ui/stat"
+import {Sidenav} from "../Components/Sections";
 interface FoodDetails {
   foodName: string;
   eatenWhen: string; // Added to categorize meals
@@ -139,22 +140,27 @@ useEffect(() => {
   // Render loading state, error message, or the actual meal data
   if (loading) {
     return (
+      <Sidenav>
       <Container centerContent>
         <Spinner size="xl" />
         <Text mt={4}>Loading meals...</Text>
       </Container>
+      </Sidenav>
     );
   }
 
   if (error) {
     return (
+      <Sidenav>
       <Container centerContent>
         <Text color="red.500">{error}</Text>
       </Container>
+      </Sidenav>
     );
   }
 
   return (
+    <Sidenav>
     <Container maxW="container.lg" py={6}>
      <HStack justifyContent="space-between" mb={6}>
         <Heading as="h1" size="xl">Meals Consumed Today</Heading>
@@ -227,7 +233,7 @@ useEffect(() => {
   </SimpleGrid>
 </Box>
     </Container>
-    
+  </Sidenav>
   );
 };
 

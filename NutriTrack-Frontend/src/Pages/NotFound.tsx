@@ -1,5 +1,6 @@
 import { Box, Flex, Text, Image, Button, Link} from "@chakra-ui/react";
 import {Navbar, Footer} from "../Components/Sections";
+import { error } from "../Assets/index";
 
 export default function NotFoundPage() {
   return (
@@ -17,7 +18,7 @@ export default function NotFoundPage() {
       {/* Left Image (Slot Machine 404) */}
       <Box flex="1" display="flex" justifyContent="center">
         <Image 
-          src="/404-slot-machine.png"  // Replace with your actual image path
+          src={error} // Replace with your actual image path
           alt="404 Error Slot Machine"
           maxW="300px"
         />

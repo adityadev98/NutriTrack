@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, VStack, Input, Button, Heading, Select, FormControl, FormLabel } from "@chakra-ui/react";
 //import '../style.css';
+import {Sidenav} from "../Components/Sections";
 
 const ProfileSetup: React.FC = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const ProfileSetup: React.FC = () => {
   };
 
   return (
+    <Sidenav>
     <Container>
       <VStack gap={4} align="center">
         <Heading>Profile Setup</Heading>
@@ -77,6 +79,7 @@ const ProfileSetup: React.FC = () => {
         </form>
       </VStack>
     </Container>
+    </Sidenav>
   );
 };
 

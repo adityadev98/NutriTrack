@@ -7,6 +7,7 @@ import google from "./google.svg";
 import arrowUp from "./arrow-up.svg";
 import linkedin from "./linkedin.svg";
 import HeroPic from "./HeroPic.svg";
+import error from "./404error.svg"
 export { 
   logo,
   sm_logo,
@@ -17,4 +18,5 @@ export {
   linkedin,
   google,
   HeroPic,
+  error,
 };

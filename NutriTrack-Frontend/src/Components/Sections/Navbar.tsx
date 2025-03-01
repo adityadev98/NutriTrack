@@ -15,6 +15,7 @@ import {
   MenuList,
   MenuItem,
   Avatar,
+  Icon,
 } from '@chakra-ui/react'
 import {
   HamburgerIcon,
@@ -26,6 +27,10 @@ import { navLinks } from "../../Constants";
 
 import {SignInDialog, SignUpDialog} from "../../Components/Sections/";
 import { UserContext } from "../../contexts/UserContext"; 
+
+import { GrPowerShutdown } from "react-icons/gr";
+import { RiAccountCircleFill } from "react-icons/ri";
+import { RxDashboard } from "react-icons/rx";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure()
@@ -122,7 +127,7 @@ export default function Navbar() {
                 aria-label="User Avatar"  // Adds a label for screen readers  
                 _hover={{ bg: "none" }}
               >
-                <Avatar name={loggedUser?.name || "User"} bg='var(--bright-green)' />
+                <Avatar name={loggedUser?.name || "User"} bg='var(--bright-green)' size='md' />
               </MenuButton>
               <MenuList>
                   <MenuItem 
@@ -134,7 +139,9 @@ export default function Navbar() {
                   fontSize={'14px'} 
                   fontFamily={'Rubik, sans-serif'} 
                   fontWeight={400} 
-                  >Dashboard</MenuItem>
+                  >
+                    <Icon as={RxDashboard} boxSize="25px" mr="10px" />
+                    Dashboard</MenuItem>
                   <MenuItem
                     as={'a'}
                     href="/dashboard" 
@@ -145,6 +152,7 @@ export default function Navbar() {
                     fontFamily={'Rubik, sans-serif'} 
                     fontWeight={400} 
                   >
+                    <Icon as={RiAccountCircleFill} boxSize="25px" mr="10px" />
                     My Account
                   </MenuItem>
                   <MenuItem 
@@ -156,6 +164,7 @@ export default function Navbar() {
                   fontFamily={'Rubik, sans-serif'} 
                   fontWeight={400} 
                   >
+                    <Icon as={GrPowerShutdown} boxSize="25px" mr="10px" />
                     Sign Out
                 </MenuItem>
               </MenuList>

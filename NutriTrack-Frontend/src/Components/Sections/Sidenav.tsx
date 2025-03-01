@@ -1,160 +1,242 @@
-import React from "react";
-import { Sidebar, Menu, MenuItem, SubMenu,menuClasses, MenuItemStyles} from "react-pro-sidebar";
+'use client'
+import { useState, useContext } from "react";
+import {
+  IconButton,
+  Avatar,
+  Box,
+  CloseButton,
+  Flex,
+  HStack,
+  VStack,
+  Icon,
+  useColorModeValue,
+  Text,
+  Drawer,
+  DrawerContent,
+  useDisclosure,
+  BoxProps,
+  FlexProps,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+} from '@chakra-ui/react'
+import {
+  FiMenu,
+  FiBell,
+  FiChevronDown,
+} from 'react-icons/fi'
 import { logo } from "../../Assets/index.ts";
-import { Switch } from '../ui/SidebarComponents/Switch.tsx';
-import { SidebarHeader } from '../ui/SidebarComponents/SidebarHeader.tsx';
-import { SidebarFooter } from '../ui/SidebarComponents/SidebarFooter.tsx';
-import { Badge } from '../ui/SidebarComponents/Badge.tsx';
-import { Typography } from '../ui/SidebarComponents/Typography.tsx';
+import { DashNavLinks } from "../../Constants/index.ts";
+import { UserContext } from "../../contexts/UserContext.tsx";
+import { GrPowerShutdown } from "react-icons/gr";
+import { RiAccountCircleFill } from "react-icons/ri";
+import { RxDashboard } from "react-icons/rx";
 
-const Sidenav = () => {
+interface MobileProps extends FlexProps {
+  onOpen: () => void
+}
 
-  const [collapsed, setCollapsed] = React.useState(false);
-  const menuItemStyles: MenuItemStyles = {
-    root: {
-      fontSize: '13px',
-      fontWeight: 400,
-    },
-    icon: {
-      color: "var(--soft-white)",
-      [`&.${menuClasses.disabled}`]: {
-        color: "var(--bright-green)",
-      },
-    },
-    SubMenuExpandIcon: {
-      color: "var(--bright-green)" ,
-    },
-    subMenuContent: ({ level }) => ({
-      backgroundColor:
-        level === 0
-          ? "var(--dark-gray)" : 'transparent',
-    }),
-    button: {
-      [`&.${menuClasses.disabled}`]: {
-        color: "var(--bright-green)" ,
-      },
-      '&:hover': {
-        backgroundColor: "var(--dark-gray)",
-        color: "var(--soft-white)",
-      },
-    },
-    label: ({ open }) => ({
-      fontWeight: open ? 600 : undefined,
-    }),
-  };
+interface SidebarProps extends BoxProps {
+  onClose: () => void
+}
+
+const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
-    <div style={{ display: 'flex', height: '100%'}}>
-      <Sidebar
-        collapsed={collapsed}
-        image={logo}
-        breakPoint="md"
-        backgroundColor={"var( --dark-green)"}
-        rootStyles={{
-          color: "var(--bright-green)",
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          <SidebarHeader style={{ marginBottom: '24px', marginTop: '16px' }} />
-          <div style={{ flex: 1, marginBottom: '32px' }}>
-            <div style={{ padding: '0 24px', marginBottom: '8px' }}>
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                style={{ opacity: collapsed ? 0 : 0.7, letterSpacing: '0.5px' }}
+    <Box
+      transition="3s ease"
+      bg={"var(--dark-green)"}
+      borderRight="1px"
+      borderRightColor={'gray.200'}
+      w={{ base: 'full', md: 60 }}
+      pos="fixed"
+      h="full"
+      {...rest}>
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+          <a href="/">
+            <img src={logo} alt="NutriTrack" width="150px" />
+          </a>
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      </Flex>
+          {/* Navigation Links */}
+          <VStack align="start" spacing={4}>
+            {DashNavLinks.map((nav) => {
+              const isActive = location.pathname === `/${nav.id}` || (location.pathname === "/" && nav.id === "home");
+
+              return (
+                <Box
+                as="a"
+                key={nav.id}
+                href={`/${nav.id}`}
+                style={{ textDecoration: 'none' }}
+                _focus={{ boxShadow: 'none' }}>
+                 <Flex
+                  align="center"
+                  p="4"
+                  mx="4"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  bg={isActive ? "var(--bright-green)" : "transparent"}
+                  color={isActive ? "var(--dark-green)" : "var(--soft-white)"}
+                  fontWeight={500}
+                  fontFamily={'Rubik, sans-serif'}
+                  fontSize={'15px'}
+                  _hover={{
+                    bg: "var(--bright-green)",
+                    color: "var(--dark-green)",
+                  }}
+                  >
+                  <Icon
+                    as={nav.icon} 
+                    mr="4"
+                    fontSize="16"
+                    color={isActive ? "var(--dark-green)" : "inherit"}
+                    _groupHover={{
+                      color:"var(--dark-green)",
+                    }}
+                  />
+                  {nav.title}
+                </Flex>
+              </Box>
+            );
+          })}
+        </VStack>
+    </Box>
+  )
+}
+
+
+const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const userContext = useContext(UserContext);
+  const loggedUser = userContext?.loggedUser || null;
+  const logout = userContext?.logout || (() => {});
+  return (
+    <Flex
+      ml={{ base: 0, md: 60 }}
+      px={{ base: 4, md: 4 }}
+      height="20"
+      alignItems="center"
+      bg={"var(--dark-green)"}
+      borderBottomWidth="1px"
+      borderBottomColor={'gray.200'}
+      justifyContent={{ base: 'space-between', md: 'flex-end' }}
+      {...rest}>
+      <IconButton
+        display={{ base: 'flex', md: 'none' }}
+        onClick={onOpen}
+        variant="outline"
+        aria-label="open menu"
+        color="var(--off-white)"
+        icon={<FiMenu />}
+      />
+
+      <Flex
+        display={{ base: 'flex', md: 'none' }}>
+        <a href="/">
+            <img src={logo} alt="NutriTrack" width="150px" />
+          </a>
+      </Flex>
+
+      <HStack spacing={{ base: '0', md: '6' }}>
+        <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
+        <Flex alignItems={'center'}>
+          <Menu>
+              <MenuButton
+                py={2}
+                transition="all 0.3s"
+                _focus={{ boxShadow: 'none' }} 
+                tabIndex={0} // Enables keyboard focusability
+                aria-label="User Avatar"  // Adds a label for screen readers  
+                _hover={{ bg: "none" }}
               >
-                General
-              </Typography>
-            </div>
-            <Menu menuItemStyles={menuItemStyles}>
-              <SubMenu
-                label="Charts"
-                suffix={
-                  <Badge variant="danger" shape="circle">
-                    6
-                  </Badge>
-                }
-              >
-                <MenuItem> Pie charts</MenuItem>
-                <MenuItem> Line charts</MenuItem>
-                <MenuItem> Bar charts</MenuItem>
-              </SubMenu>
-              <SubMenu label="Maps">
-                <MenuItem> Google maps</MenuItem>
-                <MenuItem> Open street maps</MenuItem>
-              </SubMenu>
-              <SubMenu label="Theme">
-                <MenuItem> Dark</MenuItem>
-                <MenuItem> Light</MenuItem>
-              </SubMenu>
-              <SubMenu label="Components">
-                <MenuItem> Grid</MenuItem>
-                <MenuItem> Layout</MenuItem>
-                <SubMenu label="Forms">
-                  <MenuItem> Input</MenuItem>
-                  <MenuItem> Select</MenuItem>
-                  <SubMenu label="More">
-                    <MenuItem> CheckBox</MenuItem>
-                    <MenuItem> Radio</MenuItem>
-                  </SubMenu>
-                </SubMenu>
-              </SubMenu>
-              <SubMenu label="E-commerce">
-                <MenuItem> Product</MenuItem>
-                <MenuItem> Orders</MenuItem>
-                <MenuItem> Credit card</MenuItem>
-              </SubMenu>
-            </Menu>
+              <HStack>
+                <Avatar name={loggedUser?.name || "User"} bg='var(--bright-green)' />
+                <VStack
+                  display={{ base: 'none', md: 'flex' }}
+                  alignItems="flex-start"
+                  spacing="1px"
+                  ml="2">
+                  <Text fontSize="sm"> {loggedUser?.name || "User"}</Text>
+                </VStack>
+                <Box display={{ base: 'none', md: 'flex' }}>
+                  <FiChevronDown />
+                </Box>
+              </HStack>
+            </MenuButton>
+            <MenuList
+              bg={useColorModeValue('white', 'gray.900')}
+              borderColor={useColorModeValue('gray.200', 'gray.700')}>
+                  <MenuItem 
+                  as={'a'}
+                  href="/dashboard" 
+                  tabIndex={0} // Enables keyboard focusability
+                  role="link"  // Explicitly sets the role as a link
+                  aria-label="Go to User Dashboard"  // Adds a label for screen readers
+                  fontSize={'14px'} 
+                  fontFamily={'Rubik, sans-serif'} 
+                  fontWeight={400} 
+                  >
+                    <Icon as={RxDashboard} boxSize="25px" mr="10px" />
+                    Dashboard</MenuItem>
+                  <MenuItem
+                    as={'a'}
+                    href="/dashboard" 
+                    tabIndex={0} // Enables keyboard focusability
+                    role="link"  // Explicitly sets the role as a link
+                    aria-label="Go to User Account Details"  // Adds a label for screen readers
+                    fontSize={'15px'} 
+                    fontFamily={'Rubik, sans-serif'} 
+                    fontWeight={400}  
+                  >
+                  <Icon as={RiAccountCircleFill} boxSize="25px" mr="10px" />
+                    My Account
+                  </MenuItem>
+                  <MenuItem 
+                  onClick={logout}
+                  tabIndex={0} // Enables keyboard focusability
+                  role="link"  // Explicitly sets the role as a link
+                  aria-label="Sign Out"  // Adds a label for screen readers
+                  fontSize={'14px'} 
+                  fontFamily={'Rubik, sans-serif'} 
+                  fontWeight={400} 
+                  >
+                  <Icon as={GrPowerShutdown} boxSize="25px" mr="10px" />
+                  Sign Out
+                </MenuItem>
+            </MenuList>
+          </Menu>
+        </Flex>
+      </HStack>
+    </Flex>
+  )
+}
 
-            <div style={{ padding: '0 24px', marginBottom: '8px', marginTop: '32px' }}>
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                style={{ opacity: collapsed ? 0 : 0.7, letterSpacing: '0.5px' }}
-              >
-                Extra
-              </Typography>
-            </div>
+const Sidenav: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
-            <Menu menuItemStyles={menuItemStyles}>
-              <MenuItem  suffix={<Badge variant="success">New</Badge>}>
-                Calendar
-              </MenuItem>
-              <MenuItem>Documentation</MenuItem>
-              <MenuItem disabled>
-                Examples
-              </MenuItem>
-            </Menu>
-          </div>
-          <SidebarFooter collapsed={collapsed} />
-        </div>
-      </Sidebar>
+  return (
+    <Box minH="100vh" bg={'gray.100'}>
+      <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full">
+        <DrawerContent>
+          <SidebarContent onClose={onClose} />
+        </DrawerContent>
+      </Drawer>
+      {/* mobilenav */}
+      <MobileNav onOpen={onOpen} />
+      <Box ml={{ base: 0, md: 60 }} p="4">
+        {children} 
+      </Box>
+    </Box>
+  )
+}
 
-      <main>
-        <div style={{ padding: '16px 24px', color: "var(--footer-color)" }}>
-          <div style={{ marginBottom: '48px' }}>
-            <Typography variant="h4" fontWeight={600}>
-              React Pro Sidebar
-            </Typography>
-            <Typography variant="body2">
-              React Pro Sidebar provides a set of components for creating high level and
-              customizable side navigation
-            </Typography>
-          </div>
-
-          <div style={{ padding: '0 8px' }}>
-            <div style={{ marginBottom: 16 }}>
-              <Switch
-                id="collapse"
-                checked={collapsed}
-                onChange={() => setCollapsed(!collapsed)}
-                label="Collapse"
-              />
-          </div>
-        </div>
-        </div>
-      </main>
-    </div>
-  );
-};
-
-export default Sidenav;
+export default Sidenav

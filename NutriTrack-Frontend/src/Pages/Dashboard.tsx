@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, VStack, Heading, Text, Box, Stat, StatLabel, StatNumber, StatGroup, Button, Spinner} from "@chakra-ui/react";
-import {Sidebar, Sidenav} from "../Components/Sections";
+import {Sidenav} from "../Components/Sections";
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from "../utils/axiosInstance";
 //import '../style.css';
@@ -75,9 +75,7 @@ const Dashboard: React.FC = () => {
   
 
   return (
-    <div style={{ display: "flex" }}>
-      {/* <Sidenav /> */}
-      <Sidebar />
+    <Sidenav> 
     <Container maxW="container.lg" py={6}>
       <VStack gap={4} align="center">
         <Heading color="var(--dark-green)">Dashboard</Heading>
@@ -126,7 +124,7 @@ const Dashboard: React.FC = () => {
         </Box>
       </VStack>
     </Container>
-    </div>
+    </Sidenav>
   );
 };
 
