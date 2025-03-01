@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import {Sidenav} from "../Components/Sections";
 import {
   Box,
   Button,
@@ -162,6 +163,7 @@ const CreateCustomFoodPage: React.FC = () => {
   };
 
   return (
+    <Sidenav>
     <Box textAlign="center" p={6}>
       <Text fontSize="2xl" fontWeight="bold">Create Your Own Meal</Text>
       <Button colorScheme="blue" onClick={onOpen} mt={4}>
@@ -226,6 +228,7 @@ const CreateCustomFoodPage: React.FC = () => {
         )}
       </List>
     </Box>
+    </Sidenav>
   );
 };
 
