@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import { UserContext } from "../contexts/UserContext";
 import { useNavigate,useLocation } from 'react-router-dom';
 
 import { Grid, Box, Button, Input, Select, Text, HStack, Heading } from "@chakra-ui/react";
@@ -7,7 +6,7 @@ import '../App.css';
 
 
 interface FoodProps {
-    food: {
+    food?: {
         foodName: string;
         details: {
             calories: number;
@@ -37,12 +36,12 @@ const FoodItem: React.FC<FoodProps> = () => {
         serving_unit: '',
         serving_weight_grams: 0,
       };
-      const { food = defaultFood } = location.state || {};
+    const food = (location.state && location.state.food) || defaultFood;
     const [eatenQuantity, setEatenQuantity] = useState<number>(food.serving_weight_grams);
-    const [foodData, setFoodData] = useState<FoodProps["food"]>(food);
-    const [foodInitial, setFoodInitial] = useState<FoodProps["food"]>(food);
+    const [foodInitial, setFoodInitial] = useState<Required<FoodProps>["food"]>(food);
+    const [foodData, setFoodData] = useState<Required<FoodProps>["food"]>(food);
     const [selectedWhen, setSelectedWhen] = useState<string>("breakfast");
-    // const loggedData = useContext(UserContext);
+
   
     useEffect(() => {
         setFoodData(food);
@@ -70,10 +69,13 @@ const FoodItem: React.FC<FoodProps> = () => {
                     fiber: Math.round(foodInitial.details.fiber * quantity) ,
                     calories: Math.round(foodInitial.details.calories * quantity)     
             }
-            const updatedFood = {
+
+                 
+            const updatedFood: FoodProps["food"] = {
                 ...foodInitial,
-                details: updatedDetails 
-            };
+                details: updatedDetails,
+              };
+              
             console.log("Converted Quantity:", convertedQuantity);
             console.log("Food Initial:", foodInitial);
             console.log("updatedFood", updatedFood);
@@ -93,7 +95,6 @@ const FoodItem: React.FC<FoodProps> = () => {
      
         
         let trackedItem = {
-            // userId: loggedData.loggedUser.userid,
             userId: localStorage.user,
             foodName: foodData.foodName,
             eatenWhen: selectedWhen,

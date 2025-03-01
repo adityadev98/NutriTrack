@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {  Button, Box, Container, Heading, Text, Spinner, VStack,SimpleGrid, HStack} from '@chakra-ui/react';
 import { Stat,StatLabel, StatNumber,StatHelpText} from "@chakra-ui/stat"
 import {Sidenav} from "../Components/Sections";
+
 interface FoodDetails {
   foodName: string;
   eatenWhen: string; // Added to categorize meals
@@ -20,52 +21,10 @@ const MealsConsumedPage = () => {
   const [meals, setMeals] = useState<FoodDetails[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [authError, setAuthError] = useState(false);  // Track authentication status
-useEffect(() => {
-    // Function to check if the token is valid
-    const verifyToken = async () => {
-      const token = localStorage.getItem("token");
 
-      if (!token) {
-        setAuthError(true);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await fetch("/api/auth/protected", {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          setAuthError(true);
-          localStorage.removeItem("token"); // Remove invalid token
-        } else {
-          setAuthError(false);  // Token is valid
-        }
-      } catch (error) {
-        setAuthError(true);
-        localStorage.removeItem("token");  // Remove invalid token
-      }
-
-      setLoading(false);
-    };
-
-    verifyToken();
-  }, []);
-
-  useEffect(() => {
-    if (authError) {
-      alert("Authentication failed. Invalid token. Please log in to continue.");
-      navigate("/home");  // Redirect to login page
-    }
-  }, [authError, navigate]);
 
   // Fetch today's food tracking data using fetch
   useEffect(() => {
-    if (authError || loading) return; 
 
     const fetchMeals = async () => {
       try {
@@ -90,12 +49,7 @@ useEffect(() => {
    
     fetchMeals();
     
-  }, [[authError, loading]]);
-
-   // Conditionally return null in the component's render
-   if (authError || loading) {
-    return null;
-  }
+  });
 
 
   // Function to categorize meals based on 'eatenWhen'

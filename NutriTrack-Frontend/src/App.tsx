@@ -47,7 +47,7 @@ function App() {
             <Route path="/track" element={<TrackPage />} />
             <Route path="/mealsConsumed" element={<MealsConsumedPage />} />
             <Route path="/customFood" element={<CreateCustomFoodPage />} />
-            {/* <Route path="/trackCustomFood" element={<TrackCustomFoodPage />} /> */}
+            <Route path="/trackCustomFood" element={<TrackCustomFoodPage />} />
             <Route path="/dailydashboard" element={<DailyDashboardPage />} />
             <Route path='/historical' element={<HistoricalViewPage />} />
           </Route>

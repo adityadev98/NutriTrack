@@ -157,7 +157,7 @@ describe('FoodItem', () => {
   it('renders default values when location.state does not contain food', () => {
     render(
       <MemoryRouter initialEntries={[{ state: {} }]}>
-        <FoodItem food={mockFood} />
+        <FoodItem />
       </MemoryRouter>
     );
 
@@ -167,4 +167,5 @@ describe('FoodItem', () => {
     expect(screen.getByText(/Fat: 0g/i)).toBeInTheDocument();
     expect(screen.getByText(/Fiber: 0g/i)).toBeInTheDocument();
   });
+
 });

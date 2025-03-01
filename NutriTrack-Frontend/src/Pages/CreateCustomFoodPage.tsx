@@ -36,55 +36,7 @@ const CreateCustomFoodPage: React.FC = () => {
     serving_unit:"",
     serving_weight_grams:""
   });
-
-  const [authError, setAuthError] = useState(false);  // Track authentication status
-  const [loading, setLoading] = useState(true);  // Loading state
-
   useEffect(() => {
-    // Function to check if the token is valid
-    const verifyToken = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        setAuthError(true);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await fetch("/api/auth/protected", {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          setAuthError(true);
-          localStorage.removeItem("token"); // Remove invalid token
-        } else {
-          setAuthError(false);  // Token is valid
-        }
-      } catch (error) {
-        setAuthError(true);
-        localStorage.removeItem("token");  // Remove invalid token
-      }
-
-      setLoading(false);
-    };
-
-    verifyToken();
-  }, []);
-
-  useEffect(() => {
-    if (authError) {
-      alert("Authentication failed. Invalid token. Please log in to continue.");
-      navigate("/home");  // Redirect to login page
-    }
-  }, [authError, navigate]);
-
-  useEffect(() => {
-    if (authError || loading) return;  // Prevent fetching data if there's an auth error or still loading
-
    
     // Fetch custom food items if token is valid
     fetch("api/getCustomFood", {
@@ -102,12 +54,7 @@ const CreateCustomFoodPage: React.FC = () => {
       })
       .then((data) => setStoredFoodItems(data.data))
       .catch((error) => console.error("Error fetching custom foods:", error));
-  }, [authError, loading]);
-
-    // Conditionally return null in the component's render
-    if (authError || loading) {
-      return null;
-    }
+  });
 
   const allFoodItems = [...storedFoodItems, ...foodItems];
 
