@@ -2,9 +2,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import dotenv from "dotenv";
-import User from "../models/user.js";
-import UserProfile from "../models/UserProfile.js";
 import nodemailer from "nodemailer";
+import mongoose from "mongoose";
+
+import {user as User, userProfile as UserProfile} from "../models/index.js";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "nutritrackapp";
@@ -12,10 +13,14 @@ const JWT_SECRET = process.env.JWT_SECRET || "nutritrackapp";
 // Temporary storage for reset tokens (for production, use a DB collection)
 const resetTokens = {};
 
-// ✅ REGISTER USER
+// REGISTER USER
 export const register = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validate userType input (default to "customer")
+    // const validUserTypes = ["customer", "admin"];
+    // const userTypeFinal = validUserTypes.includes(userType) ? userType : "customer";
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -28,7 +33,8 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Save new user
-    const newUser = new User({ email, password: hashedPassword });
+    // const newUser = new User({ email, password: hashedPassword, userType: userTypeFinal }); 
+    const newUser = new User({ email, password: hashedPassword, userType: "customer" }); 
     await newUser.save();
 
     res.status(201).json({ success: true, message: "User registered successfully!" });
@@ -38,7 +44,7 @@ export const register = async (req, res) => {
   }
 };
 
-// ✅ LOGIN USER
+// LOGIN USER
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -56,11 +62,11 @@ export const login = async (req, res) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, email: user.email, userType: user.userType }, JWT_SECRET, {
       expiresIn: "1h",
-    });
+    });    
 
-    // ✅ Check if UserProfile exists, else create one
+    // Check if UserProfile exists, else create one
     let userProfile = await UserProfile.findOne({ user: user._id });
     if (!userProfile) {
       userProfile = new UserProfile({ user: user._id, name: "New User" });
@@ -72,6 +78,9 @@ export const login = async (req, res) => {
       message: "Login successful!",
       token,
       userProfile, // Send user profile data
+      userType: user.userType,  // Return userType
+      profileCompleted: userProfile.profileCompleted, // Return profile completion status
+      expiresIn: 3600,  // Include token expiry duration (in seconds),
     });
   } catch (error) {
     console.error(error);
@@ -79,7 +88,7 @@ export const login = async (req, res) => {
   }
 };
 
-// ✅ FORGOT PASSWORD (Send Reset Link)
+// FORGOT PASSWORD (Send Reset Link)
 export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -148,4 +157,62 @@ const sendEmail = async (to, link) => {
   };
 
   await transporter.sendMail(mailOptions);
+};
+export const promoteToAdmin = async (req, res) => {
+  try {
+    const { userId } = req.body; // The user to be promoted
+
+    // Ensure the requesting user is an admin
+    if (req.user.userType !== "admin") {
+      return res.status(403).json({ success: false, message: "Access denied. Only admins can promote users." });
+    }
+
+    // Validate if userId is a proper MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ success: false, message: "Invalid user ID format." });
+    }
+    // Find the user to promote
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    // Check if the user is already an admin
+    if (user.userType === "admin") {
+      return res.status(400).json({ success: false, message: "User is already an admin." });
+    }
+
+    // Promote the user to admin
+    user.userType = "admin";
+    await user.save();
+
+    res.status(200).json({ success: true, message: "User promoted to admin successfully." });
+  } catch (error) {
+    console.error("Error promoting user:", error);
+    res.status(500).json({ success: false, message: "Server error, try again later." });
+  }
+};
+
+// Refresh Token Route
+export const refreshToken = async (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid or expired token" });
+    }
+
+    // Generate a new token with the same user data
+    const newToken = jwt.sign(
+      { id: decoded.id, email: decoded.email, userType: decoded.userType },
+      JWT_SECRET,
+      { expiresIn: "1h" } // Reset to another 1 hour
+    );
+
+    res.json({ token: newToken, expiresIn: 3600 }); // Return new token & expiry
+  });
 };

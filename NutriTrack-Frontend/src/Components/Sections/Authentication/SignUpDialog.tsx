@@ -16,6 +16,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Progress,
+  useToast,
 } from "@chakra-ui/react";
 import axios, { AxiosError } from "axios";
 import zxcvbn from "zxcvbn";
@@ -32,7 +33,6 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
-
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState(false);
@@ -40,8 +40,9 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const toast = useToast();
 
-  // ✅ Validate Inputs
+  // Validate Inputs
   const validateInputs = () => {
     const email = emailRef.current?.value || "";
     const password = passwordRef.current?.value || "";
@@ -58,7 +59,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
       setEmailErrorMessage("");
     }
 
-    // Password Strength Validation (NEW ADDITION ✅)
+    // Password Strength Validation
     if (passwordStrength < 3) { // Only allow "Good" (3) and "Strong" (4) passwords
       setPasswordError(true);
       setPasswordErrorMessage("Password is too weak. Try adding more unique characters.");
@@ -89,7 +90,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
     return isValid;
   };
 
-  // ✅ Handle Form Submission
+  // Handle Form Submission
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateInputs()) return;
@@ -102,20 +103,39 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
   
       console.log("User registered successfully!", response.data);
   
-      // ✅ Show success message
-      alert("User registered successfully!");
+      // Show success message
+      // alert("User registered successfully!");
+
+      // Show success toast instead of alert
+      toast({
+        title: "Registration Successful!",
+        description: "Your account has been created successfully.",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
   
-      // ✅ Close the modal
+      // Close the modal
       onClose();
     } catch (err) {
-      // ✅ Type the error properly
+      // Type the error properly
       const error = err as AxiosError<{ message: string }>;
   
       console.error("Registration Error:", error.response?.data?.message);
-      alert(error.response?.data?.message || "Registration failed.");
+      // alert(error.response?.data?.message || "Registration failed.");
+      // Show error toast instead of alert
+      toast({
+        title: "Registration Failed",
+        description: error.response?.data?.message || "Something went wrong. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
-  // ✅ Handle Password Strength
+  // Handle Password Strength
   const checkPasswordStrength = (password: string) => {
     const result = zxcvbn(password);
     setPasswordStrength(result.score); // Score is from 0 (weak) to 4 (strong)
@@ -123,7 +143,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
     if (result.score < 3) { // Only allow "Good" (3) and "Strong" (4) passwords
       setPasswordError(true);
       setPasswordErrorMessage("Password is too weak. Try adding more unique characters.");
-      return false;  // ❌ REMOVE THIS RETURN
+      //return false;  
     } else {
       setPasswordError(false);
       setPasswordErrorMessage("");

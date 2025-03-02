@@ -1,6 +1,4 @@
-import trackingModel from '../models/trackingModel.js';
-import customFoodModel from '../models/customFoodModel.js';
-
+import {trackingModel, customFoodModel} from '../models/index.js';
 
 export const trackfoodItem = async (req,res)=>{
     

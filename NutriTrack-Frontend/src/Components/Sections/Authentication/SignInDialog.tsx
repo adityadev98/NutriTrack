@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
@@ -15,8 +16,11 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  useToast,
 } from "@chakra-ui/react";
-import axios, {AxiosError} from "axios";
+import {AxiosError} from "axios";
+import axiosInstance from "../../../utils/axiosInstance.ts"; 
+import { UserContext } from "../../../contexts/UserContext"; 
 import {ForgotPassword} from "../index.ts";
 import { logo, google } from "../../../Assets/index.ts";
 
@@ -34,8 +38,10 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
-
-  // ✅ Input Validation Logic
+  const toast = useToast();
+  const { setLoggedUser } = useContext(UserContext) ?? {};
+  const navigate = useNavigate();
+  // Input Validation Logic
   const validateInputs = () => {
     const email = emailRef.current?.value || "";
     const password = passwordRef.current?.value || "";
@@ -62,33 +68,73 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
     return isValid;
   };
 
-  // ✅ Form Submission Logic
+  // Form Submission Logic
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateInputs()) return;
   
     try {
-      const response = await axios.post("/api/auth/login", {
+      const response = await axiosInstance.post("/api/auth/login", {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
       });
   
-      const { token, userProfile } = response.data;
-      console.log("Login successful!", userProfile);
-      
-      // ✅ Store token in localStorage
-      localStorage.setItem("token", token);
-      // ✅ Store userProfile.user in localStorage
-      localStorage.setItem("user", userProfile.user);
-  
-      // ✅ Close the modal
+      const { token, userType, profileCompleted, userProfile, expiresIn} = response.data;
+      console.log("Login successful!", userProfile.user);
+
+      const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
+
+      // Update the loggedUser state
+      // Ensure setLoggedUser exists before calling it
+      if (setLoggedUser) {
+        setLoggedUser({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          tokenExpiry,  // Store expiry timestamp
+        });    
+        localStorage.setItem("loggedUser", JSON.stringify({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          tokenExpiry, // Store in localStorage
+        }));
+
+        localStorage.setItem("token", token); // Store token separately for requests
+        localStorage.setItem("user", userProfile.user);  // Store userProfile.user in localStorage
+
+      } else {
+        console.error("UserContext is not available.");
+      }
+
+      // Redirect logic after login
+      if (userType === "admin") {
+        navigate("/admin-dashboard", { replace: true });
+      } else if (!profileCompleted) {
+        navigate("/profile-setup", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true }); // Redirect after successful login
+      }
+      // Close the modal
       onClose();
     } catch (err) {
-      // ✅ Ensure 'err' is treated as an AxiosError
+      // Ensure 'err' is treated as an AxiosError
       const error = err as AxiosError<{ message: string }>;
   
       console.error("Login Error:", error.response?.data?.message);
-      alert(error.response?.data?.message || "Login failed.");
+      // alert(error.response?.data?.message || "Login failed.");
+      toast({
+        title: "Login failed",
+        description: error.response?.data?.message || "Something went wrong. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
 
@@ -169,8 +215,8 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      e.preventDefault(); // ✅ Prevents accidental activation of Forgot Password
-                      document.getElementById("signInButton")?.click(); // ✅ Manually triggers sign-in
+                      e.preventDefault(); // Prevents accidental activation of Forgot Password
+                      document.getElementById("signInButton")?.click(); // Manually triggers sign-in
                     }
                   }}
                 />
@@ -196,8 +242,8 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      e.preventDefault(); // ✅ Prevents accidental activation of Forgot Password
-                      document.getElementById("signInButton")?.click(); // ✅ Manually triggers sign-in
+                      e.preventDefault(); // Prevents accidental activation of Forgot Password
+                      document.getElementById("signInButton")?.click(); // Manually triggers sign-in
                     }
                   }}
                 />

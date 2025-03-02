@@ -1,3 +1,9 @@
+import {
+  FiHome,
+} from 'react-icons/fi'
+import { MdNoMeals,MdDashboardCustomize } from "react-icons/md";
+import { GoGraph } from "react-icons/go";
+import { CgProfile } from "react-icons/cg";
 export const navLinks = [
   {
     id: "home",
@@ -120,3 +126,53 @@ export const socialMedia = [
   link: "https://www.linkedin.com/",
 },
 ];
+
+export const DashNavLinks = [
+  {
+    id: "dashboard",
+    title: "Dashboard",
+    icon: FiHome,
+  },
+  {
+    id: "track",
+    title: "Track",
+    icon: FiHome
+  },
+  {
+    id: "mealsConsumed",
+    title: "Meals Consumed",
+    icon: MdNoMeals ,
+  },
+  {
+    id: "customFood",
+    title: "Custom Food",
+    icon: FiHome,
+  },
+  {
+    id: "dailydashboard",
+    title: "Daily Dashboard",
+    icon: MdDashboardCustomize,
+  },
+  {
+    id: "historical",
+    title: "Historical",
+    icon: GoGraph,
+  },
+  {
+    id: "profile-setup",
+    title: "Profile",
+    icon: CgProfile ,
+  },
+];            
+export const AdminNavLinks = [
+  {
+    id: "dashboard",
+    title: "Dashboard",
+    icon: MdDashboardCustomize,
+  },
+  {
+    id: "profile-setup",
+    title: "Profile",
+    icon: CgProfile ,
+  },
+];        

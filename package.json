@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development nodemon NutriTrack-Backend/index.js",
     "build": "npm install && npm install --prefix NutriTrack-Frontend && npm run build --prefix NutriTrack-Frontend",
     "start": "cross-env NODE_ENV=production node NutriTrack-Backend/index.js",
-    "test": "jest",
+    "test": "jest --outputFile=NutriTrack-Backend/test-results.json --json && npx prettier --write NutriTrack-Backend/test-results.json",
     "test:coverage": "jest --coverage"
   },
   "keywords": [],
@@ -36,6 +36,7 @@
     "babel-jest": "^29.7.0",
     "cross-env": "^7.0.3",
     "mongodb-memory-server": "^10.1.4",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.2"
   }
 }

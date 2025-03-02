@@ -4,18 +4,22 @@ import Pricing from "./PricingPage";
 import FAQ from "./FAQPage";
 import Testimonials from "./TestimonialsPage";
 import HistoricalViewPage from './HistoricalViewPage';
-import SignIn from './SignIn';
+import Login from './Login';
 import SignUp from './SignUp';
 import CreateCustomFoodPage from './CreateCustomFoodPage';
 import MealsConsumedPage from './MealConsumedPage';
 import TrackPage from "./TrackPage";
 import TrackCustomFoodPage from "./TrackCustomFoodPage";
 import DailyDashboardPage from "./DailyDashboardPage";
+import Dashboard from "./Dashboard";
+import ProfileSetup from "./ProfileSetup";
+import AdminDashboard from "./AdminDashboard";
+import NotFound from "./NotFound";
 
 export {
     HomePage,
     HistoricalViewPage,
-    SignIn,
+    Login,
     SignUp,
     Features,
     Pricing,
@@ -25,5 +29,9 @@ export {
     MealsConsumedPage,
     TrackPage,
     TrackCustomFoodPage,
-    DailyDashboardPage
+    DailyDashboardPage,
+    Dashboard,
+    ProfileSetup,
+    AdminDashboard,
+    NotFound,
 };
