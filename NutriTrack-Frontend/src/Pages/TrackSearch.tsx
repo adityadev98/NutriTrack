@@ -6,10 +6,14 @@ import '../App.css';
 interface TrackSearchProps {
   setSelectedFood: (food: any) => void;
 }
+interface FoodItem {
+  food_name: string;
+  photo: { thumb: string };
+}
 
 const TrackSearch: React.FC<TrackSearchProps> = ({ setSelectedFood }) => {
   const [query, setQuery] = useState("");
-  const [foodItems, setFoodItems] = useState([]);
+  const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
 
   const searchFood = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;

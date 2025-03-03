@@ -22,8 +22,8 @@ const app = express();
 app.use(express.json());
 app.get('/api/history', authMiddleware, getNutrientHistory);
 
-describe('GET /history', () => {
-    let mongoServer;
+describe("GET /history", () => {
+  let mongoServer;
 
     beforeAll(async () => {
         mongoServer = await MongoMemoryServer.create();
