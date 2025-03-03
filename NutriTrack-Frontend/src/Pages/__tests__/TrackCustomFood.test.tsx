@@ -81,29 +81,12 @@ describe('FoodItem', () => {
       target: { value: '2' },
     });
 
-    fireEvent.click(screen.getByText(/Track/i));
+    fireEvent.click(screen.getByRole('button', { name: /Track/i }));
 
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledWith('api/track', expect.any(Object));
     });
   });
-
-//   it('updates selected unit and recalculates macros', () => {
-//     render(
-//         <MemoryRouter initialEntries={[{ state: { food: mockFood } }]}>
-//           <FoodItem food={mockFood} />
-//         </MemoryRouter>
-//       );
-//     fireEvent.change(screen.getByPlaceholderText('Quantity'), {
-//       target: { value: '1' },
-//     });
-
-//     fireEvent.change(screen.getAllByRole('combobox')[0], {
-//       target: { value: 'large' },
-//     });
-
-//     expect(screen.getAllByRole('combobox')[0]).toHaveValue('large');
-//   });
 
   it('updates selected meal time', () => {
     render(
@@ -144,7 +127,8 @@ describe('FoodItem', () => {
         </MemoryRouter>
       );
 
-    fireEvent.click(screen.getByText(/Track/i));
+      fireEvent.click(screen.getByRole('button', { name: /Track/i }));
+
 
     // Wait for the effect of the fetch failure
     await waitFor(() => {

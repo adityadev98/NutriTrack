@@ -119,8 +119,8 @@ const MealsConsumedPage = () => {
      <HStack justifyContent="space-between" mb={6}>
         <Heading as="h1" size="xl">Meals Consumed Today</Heading>
         <HStack>
-          <Button colorScheme="blue" onClick={() => navigate('/track')}>Search Food</Button>
-          <Button colorScheme="green" onClick={() => navigate('/customFood')}>Add Your Own Meal</Button>
+          <Button mt={4} data-testid="Search-Food" colorScheme="blue" onClick={() => navigate('/track')}>Search Food</Button>
+          <Button mt={4} data-testid="Add-Your-Own-Meal" colorScheme="green" onClick={() => navigate('/customFood')}>Add Your Own Meal</Button>
         </HStack>
       </HStack>
 

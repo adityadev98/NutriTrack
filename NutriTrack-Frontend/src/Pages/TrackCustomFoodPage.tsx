@@ -157,7 +157,7 @@ const FoodItem: React.FC<FoodProps> = () => {
                 </Select>
             </HStack>
             <Box display="flex" justifyContent="center" alignItems="center" height="10vh">
-                <Button mt={4} colorScheme="green" onClick={trackFoodItem}>Track</Button>
+                <Button mt={4} name="track" colorScheme="green" onClick={trackFoodItem}>Track</Button>
             </Box>        
         </Box>
         </Sidenav>

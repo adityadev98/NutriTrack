@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { FaLinkedin, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { sm_logo } from "../../Assets/index.ts";
+import { sm_logo } from "../../assets/index.ts";
 import {footerLinks } from "../../Constants";
 
 const Logo = () => {
