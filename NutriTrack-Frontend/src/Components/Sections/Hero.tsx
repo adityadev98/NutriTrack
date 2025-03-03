@@ -2,11 +2,11 @@
 import { useState, useContext} from "react";
 import { Flex, Heading, Stack, Text, Button, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { HeroPic } from "../../Assets/index.ts";
+import { HeroPic } from "../../assets/index.ts";
 import {SignInDialog, SignUpDialog} from "../../Components/Sections/";
-const MotionHeading = motion(Heading);
-const MotionText = motion(Text);
-const MotionButton = motion(Button);
+const MotionHeading = motion.create(Heading);
+const MotionText = motion.create(Text); 
+const MotionButton = motion.create(Button);
 import { UserContext } from "../../contexts/UserContext"; 
 
 export default function Hero() {

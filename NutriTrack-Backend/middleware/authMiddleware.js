@@ -6,14 +6,13 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "nutritrackapp";
 
 export const authMiddleware = (req, res, next) => {
-
-
-
   const authHeader = req.header("Authorization");
 
   if (!authHeader) {
     console.log("🚨 No Authorization Header Found");
-    return res.status(401).json({ success: false, message: "No token, authorization denied!" });
+    return res
+      .status(401)
+      .json({ success: false, message: "No token, authorization denied!" });
   }
 
   const token = authHeader.split(" ")[1]; // Extract token from "Bearer <token>"
@@ -32,6 +31,8 @@ export const authMiddleware = (req, res, next) => {
     next(); // Continue to next middleware/route
   } catch (error) {
     console.error("❌ JWT Verification Error:", error.message);
-    return res.status(403).json({ success: false, message: "Invalid or expired token!" });
+    return res
+      .status(403)
+      .json({ success: false, message: "Invalid or expired token!" });
   }
 };

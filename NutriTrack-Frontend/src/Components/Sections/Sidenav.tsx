@@ -1,5 +1,5 @@
 'use client'
-import { useState, useContext } from "react";
+import {useContext } from "react";
 import {
   IconButton,
   Avatar,
@@ -18,7 +18,6 @@ import {
   FlexProps,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
@@ -27,7 +26,7 @@ import {
   FiBell,
   FiChevronDown,
 } from 'react-icons/fi'
-import { logo } from "../../Assets/index.ts";
+import { logo } from "../../assets/index.ts";
 import { DashNavLinks } from "../../Constants/index.ts";
 import { UserContext } from "../../contexts/UserContext.tsx";
 import { GrPowerShutdown } from "react-icons/gr";

@@ -1,13 +1,12 @@
-import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { useEffect, useState } from "react";
 import { useNavigate,useLocation } from 'react-router-dom';
-
+import {Sidenav} from "../Components/Sections";
 import { Grid, Box, Button, Input, Select, Text, HStack, Heading } from "@chakra-ui/react";
 import '../App.css';
 
 
 interface FoodProps {
-    food: {
+    food?: {
         foodName: string;
         details: {
             calories: number;
@@ -25,12 +24,24 @@ interface FoodProps {
 const FoodItem: React.FC<FoodProps> = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { food } = location.state||{};
+    const defaultFood = {
+        foodName: '',
+        details: {
+          calories: 0,
+          protein: 0,
+          carbohydrates: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        serving_unit: '',
+        serving_weight_grams: 0,
+      };
+    const food = (location.state && location.state.food) || defaultFood;
     const [eatenQuantity, setEatenQuantity] = useState<number>(food.serving_weight_grams);
-    const [foodData, setFoodData] = useState<FoodProps["food"]>(food);
-    const [foodInitial, setFoodInitial] = useState<FoodProps["food"]>(food);
+    const [foodInitial, setFoodInitial] = useState<Required<FoodProps>["food"]>(food);
+    const [foodData, setFoodData] = useState<Required<FoodProps>["food"]>(food);
     const [selectedWhen, setSelectedWhen] = useState<string>("breakfast");
-    const loggedData = useContext(UserContext);
+
   
     useEffect(() => {
         setFoodData(food);
@@ -58,10 +69,13 @@ const FoodItem: React.FC<FoodProps> = () => {
                     fiber: Math.round(foodInitial.details.fiber * quantity) ,
                     calories: Math.round(foodInitial.details.calories * quantity)     
             }
-            const updatedFood = {
+
+                 
+            const updatedFood: FoodProps["food"] = {
                 ...foodInitial,
-                details: updatedDetails 
-            };
+                details: updatedDetails,
+              };
+              
             console.log("Converted Quantity:", convertedQuantity);
             console.log("Food Initial:", foodInitial);
             console.log("updatedFood", updatedFood);
@@ -81,7 +95,6 @@ const FoodItem: React.FC<FoodProps> = () => {
      
         
         let trackedItem = {
-            // userId: loggedData.loggedUser.userid,
             userId: localStorage.user,
             foodName: foodData.foodName,
             eatenWhen: selectedWhen,
@@ -115,6 +128,7 @@ const FoodItem: React.FC<FoodProps> = () => {
     }
 
     return (
+        <Sidenav>
         <Box p={5} bg="gray.800" color="white" borderRadius="md" boxShadow="lg">
             <Heading size="md" color="white" textAlign="center">{foodData.foodName.charAt(0).toUpperCase() + foodData.foodName.slice(1)} ({Math.round(foodData.details.calories)} Kcal)</Heading>
              {/* Protein, Carbs in one row and Fat, Fiber in another using Grid */}
@@ -143,9 +157,10 @@ const FoodItem: React.FC<FoodProps> = () => {
                 </Select>
             </HStack>
             <Box display="flex" justifyContent="center" alignItems="center" height="10vh">
-                <Button mt={4} colorScheme="green" onClick={trackFoodItem}>Track</Button>
+                <Button mt={4} name="track" colorScheme="green" onClick={trackFoodItem}>Track</Button>
             </Box>        
         </Box>
+        </Sidenav>
     );
 };
 

@@ -21,7 +21,7 @@ import {
 import axios, { AxiosError } from "axios";
 import zxcvbn from "zxcvbn";
 
-import { logo, google } from "../../../Assets/index.ts";
+import { logo, google } from "../../../assets/index.ts";
 
 interface SignUpDialogProps {
   open: boolean;
