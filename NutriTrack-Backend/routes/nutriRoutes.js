@@ -26,6 +26,6 @@ router.get("/mealsConsumed", authMiddleware, getMealsConsumed);
 // Param: timeAgg (week/month) (Default: month)
 // Param: startDate (YYYY-MM-DD) (Optional)
 // Param: endDate (YYYY-MM-DD) (Optional)
-router.get("/api/history", getNutrientHistory);
+router.get("/history",authMiddleware, getNutrientHistory);
 
 export default router;

@@ -11,9 +11,11 @@ export const getNutrientHistory = async (req, res) => {
       : null;
     const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
 
-    const matchStage = {
-      userId: new mongoose.Types.ObjectId("6792c2bbe61a8b6ed753af2c"),
-    };
+        console.log('Authenticated! Hi user: ' + req.user.id);
+
+        const matchStage = {
+            userId: new mongoose.Types.ObjectId(req.user.id)
+        };
 
     if (startDate) {
       matchStage.eatenDateObj = { $gte: startDate };

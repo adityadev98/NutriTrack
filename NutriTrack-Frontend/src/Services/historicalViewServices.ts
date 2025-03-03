@@ -12,12 +12,18 @@ interface Tracking {
 
 export const getHistoricalData = async (timeAggParam: string = 'month', startDate: string | null = null, endDate: string | null = null) => {
     try {
+        const token = localStorage.getItem("token");
+        console.log("Token being sent:", token); // Debug log
+
         const response = await axios.get(`/api/history`, {
             params: {
                 timeAgg: timeAggParam,
                 startDate: startDate,
                 endDate: endDate
-            }
+            },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         });
         let filledTrackings = fillMissingDates(response.data.data.trackings);
         let dateFixedTrackings = convertTrackingDatesToEpoch(filledTrackings);
