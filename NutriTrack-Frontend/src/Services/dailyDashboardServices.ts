@@ -8,8 +8,8 @@ export const getDailyData = async () => {
             // TO DO: change to current date
             params: {
                 timeAgg: 'day',
-                startDate: '2025-01-18',
-                endDate: '2025-01-18'
+                startDate: new Date().toISOString().split('T')[0],
+                endDate: new Date().toISOString().split('T')[0]
             }
             ,headers: {
                 Authorization: `Bearer ${token}`,
