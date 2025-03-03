@@ -1,5 +1,12 @@
 import express from "express";
-import { register, login, forgotPassword, resetPassword, promoteToAdmin, refreshToken} from "../controllers/authController.js";
+import {
+  register,
+  login,
+  forgotPassword,
+  resetPassword,
+  promoteToAdmin,
+  refreshToken,
+} from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -12,11 +19,11 @@ router.post("/promote-to-admin", authMiddleware, promoteToAdmin);
 router.post("/refresh-token", refreshToken);
 
 router.get("/protected", authMiddleware, (req, res) => {
-    res.json({
-      success: true,
-      message: "You accessed a protected route!",
-      user: req.user, // This contains user details from JWT token
-    });
+  res.json({
+    success: true,
+    message: "You accessed a protected route!",
+    user: req.user, // This contains user details from JWT token
   });
+});
 
 export default router;

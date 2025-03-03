@@ -10,6 +10,6 @@ const UserProfileSchema = new mongoose.Schema({
   weight: { type: Number },
   profileCompleted: { type: Boolean, default: false }, // Track profile completion status
 });
- 
+
 const UserProfile = mongoose.model("UserProfile", UserProfileSchema);
 export default UserProfile;

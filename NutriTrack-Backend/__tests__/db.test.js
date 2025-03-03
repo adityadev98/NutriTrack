@@ -27,8 +27,12 @@ describe("Database Connection", () => {
     const errorMessage = "Connection failed";
     mongoose.connect.mockRejectedValue(new Error(errorMessage));
 
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = jest.spyOn(process, "exit").mockImplementation(() => {}); // Mock process.exit to prevent test exit
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    const processExitSpy = jest
+      .spyOn(process, "exit")
+      .mockImplementation(() => {}); // Mock process.exit to prevent test exit
 
     await connectDB();
 
