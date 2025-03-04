@@ -22,7 +22,7 @@ import {
   CloseIcon,
 } from '@chakra-ui/icons'
 import { useLocation } from "react-router-dom";
-import { logo } from "../../assets/index.ts";
+import { logo } from "../../Assets";
 import { navLinks } from "../../Constants";
 
 import {SignInDialog, SignUpDialog} from "../../Components/Sections/";
@@ -80,26 +80,26 @@ export default function Navbar() {
                 py={'12px'} 
                 tabIndex={0} // Enables keyboard focusability
                 role="link"  // Explicitly sets the role as a link
-                aria-label="Log in to your account"  // Adds a label for screen readers
+                aria-label="Sign in to your account"  // Adds a label for screen readers
                 border={'1px solid rgba(243, 237, 228, 0.5)'} 
                 borderRadius={'6px'}
                 _hover={{
-                  bg: 'rgba(18, 35, 21, 0.8)', // Dark green with slight transparency
+                  bg: 'rgba(18, 35, 21, 0.8)', 
                 }} 
                 _focus={{
-                  outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
+                  outline: "2px solid var(--bright-green)", // Provides clear focus visibility
                   outlineOffset: "2px",
                 }}
                 onClick={() => setOpenSignIn(true)}>
-                LOG IN
+                SIGN IN
               </Button>
               <Button 
                 as={'a'} 
                 fontSize={'15px'} 
                 fontFamily={'Rubik, sans-serif'} 
                 fontWeight={600} 
-                color={'var(--dark-green)'}  // Uses --dark-green for text
-                bg={'var(--bright-green)'}  // Uses --bright-green for background
+                color={'var(--dark-green)'}  
+                bg={'var(--bright-green)'}  
                 px={'16px'} 
                 py={'9px'} 
                 tabIndex={0} // Enables keyboard focusability
@@ -107,10 +107,10 @@ export default function Navbar() {
                 aria-label="Sign up"  // Adds a label for screen readers
                 borderRadius={'6px'}
                 _hover={{
-                  bg: 'rgba(84, 221, 72, 0.8)',  // Adjusted slightly darker version of --bright-green
+                  bg: 'rgba(84, 221, 72, 0.8)',  
                 }} 
                 _focus={{
-                  outline: "2px solid var(--bright-green)", // ✅ Provides clear focus visibility
+                  outline: "2px solid var(--bright-green)", 
                   outlineOffset: "2px",
                 }}
                 onClick={() => setOpenSignUp(true)}>
@@ -189,22 +189,22 @@ export default function Navbar() {
           <Flex
             flex="1"
             justify="flex-end"
-            px={2}  // Adds spacing from the right edge
+            px={2} 
             alignItems="center"
           >
             <IconButton
               onClick={onToggle}
               icon={isOpen ? <CloseIcon w={4} h={4} color="var(--dark-green)" /> : <HamburgerIcon w={6} h={6} color="var(--dark-green)" />}
-              variant="unstyled"  // Removes default button styles
+              variant="unstyled"  // Removes default button styles, do not remove
               aria-label="Toggle Navigation"
-              bg="var(--bright-green)"  // Light green background for the circle
-              borderRadius="full"  // Makes it a perfect circle
-              width="50px"  // Controls the size of the button
+              bg="var(--bright-green)"  
+              borderRadius="full"  
+              width="50px"  
               height="50px"
               display="flex"
               alignItems="center"
               justifyContent="center"
-              _hover={{ bg: "rgba(84, 221, 72, 0.8)" }}  // Slightly darker green on hover
+              _hover={{ bg: "rgba(84, 221, 72, 0.8)" }}  
             />
 
           </Flex> 
@@ -217,13 +217,13 @@ export default function Navbar() {
       <SignUpDialog 
         open={openSignUp} 
         onClose={() => setOpenSignUp(false)} 
-        openSignIn={() => setOpenSignIn(true)} // ✅ Pass function to open SignIn Dialog
+        openSignIn={() => setOpenSignIn(true)} 
       />
 
       <SignInDialog 
         open={openSignIn} 
         onClose={() => setOpenSignIn(false)} 
-        openSignUp={() => setOpenSignUp(true)} // ✅ Pass function to open SignUp Dialog
+        openSignUp={() => setOpenSignUp(true)} 
       />
 
     </Box>
@@ -231,7 +231,7 @@ export default function Navbar() {
 }
 
 const DesktopNav = () => {
-  const location = useLocation(); // Get the current route
+  const location = useLocation(); 
   const linkColor = "var(--soft-white)";
   const linkHoverColor = 'white';
 
@@ -255,18 +255,18 @@ const DesktopNav = () => {
               justifyContent="center"  
               alignItems="center"
               textAlign="center"  
-              position="relative" // Required for the underline effect
+              position="relative" // Required for the underline effect, do not remove
               _after={{
                 content: '""', 
                 position: "absolute", 
                 width: "100%", 
                 height: "2px", 
-                bottom: "1px", // Adjusts the underline position
+                bottom: "1px", 
                 left: "0", 
                 backgroundColor: isActive ? 'var(--bright-green)' : 'transparent', 
                 transition: "background-color 0.2s ease-in-out",
               }}
-              width="100%" // Ensures the whole button is clickable
+              width="100%" 
             >
               {nav.title}
             </Button>
@@ -277,7 +277,7 @@ const DesktopNav = () => {
   );
 };
 interface MobileNavProps {
-  loggedUser: any | null; // Replace `any` with a proper user type if available
+  loggedUser: any | null; 
   logout: () => void;
 }
 const MobileNav: FC<MobileNavProps> = ({ loggedUser, logout }) => {
@@ -307,7 +307,7 @@ const MobileNav: FC<MobileNavProps> = ({ loggedUser, logout }) => {
       {!loggedUser ? (
       <>
         <Text fontWeight={600} color="var(--soft-white)" onClick={() => setOpenSignIn(true)} fontFamily={'Rubik, sans-serif'} fontSize={'15px'} textTransform={'uppercase'}  textAlign="center"  py={2}>
-          LOG IN
+          SIGN IN
         </Text>     
         <Text fontWeight={600} color="var(--soft-white)" onClick={() => setOpenSignUp(true)} fontFamily={'Rubik, sans-serif'} fontSize={'15px'} textTransform={'uppercase'}  textAlign="center"  py={2}>
           SIGN UP
@@ -329,13 +329,13 @@ const MobileNav: FC<MobileNavProps> = ({ loggedUser, logout }) => {
       <SignUpDialog 
         open={openSignUp} 
         onClose={() => setOpenSignUp(false)} 
-        openSignIn={() => setOpenSignIn(true)} // ✅ Pass function to open SignIn Dialog
+        openSignIn={() => setOpenSignIn(true)} 
       />
 
       <SignInDialog 
         open={openSignIn} 
         onClose={() => setOpenSignIn(false)} 
-        openSignUp={() => setOpenSignUp(true)} // ✅ Pass function to open SignUp Dialog
+        openSignUp={() => setOpenSignUp(true)} 
       />
     </Stack>
 

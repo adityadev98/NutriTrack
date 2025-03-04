@@ -1,4 +1,4 @@
-import { user as User, userProfile as UserProfile } from "../models/index.js";
+import {User, userProfile as UserProfile } from "../models/index.js";
 import dotenv from "dotenv";
 
 dotenv.config();

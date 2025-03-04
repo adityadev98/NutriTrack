@@ -4,7 +4,6 @@ import {
   login,
   forgotPassword,
   resetPassword,
-  promoteToAdmin,
   refreshToken,
 } from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
@@ -15,7 +14,7 @@ router.post("/register", register);
 router.post("/login", login);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
-router.post("/promote-to-admin", authMiddleware, promoteToAdmin);
+//router.post("/promote-to-admin", authMiddleware, promoteToAdmin);
 router.post("/refresh-token", refreshToken);
 
 router.get("/protected", authMiddleware, (req, res) => {
