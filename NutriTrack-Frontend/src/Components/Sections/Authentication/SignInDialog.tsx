@@ -22,7 +22,7 @@ import {AxiosError} from "axios";
 import axiosInstance from "../../../utils/axiosInstance.ts"; 
 import { UserContext } from "../../../contexts/UserContext"; 
 import {ForgotPassword} from "../index.ts";
-import { logo, google } from "../../../assets/index.ts";
+import { logo, google } from "../../../Assets/index.ts";
 
 interface SignInDialogProps {
   open: boolean;
