@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Image, Button, Link} from "@chakra-ui/react";
 import {Navbar, Footer} from "../Components/Sections";
-import { error } from "../Assets/index";
+import { error } from "../assets/index";
 
 export default function NotFoundPage() {
   return (

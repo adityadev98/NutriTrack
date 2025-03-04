@@ -22,7 +22,7 @@ import {
   CloseIcon,
 } from '@chakra-ui/icons'
 import { useLocation } from "react-router-dom";
-import { logo } from "../../Assets";
+import { logo } from "../../assets";
 import { navLinks } from "../../Constants";
 
 import {SignInDialog, SignUpDialog} from "../../Components/Sections/";
