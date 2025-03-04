@@ -55,7 +55,7 @@ describe('MealsConsumedPage', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/Error fetching meals data/i)).toBeInTheDocument();
+      expect(screen.getByText(/No meals tracked today/i)).toBeInTheDocument();
     });
   });
 

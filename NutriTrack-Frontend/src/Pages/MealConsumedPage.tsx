@@ -42,14 +42,14 @@ const MealsConsumedPage = () => {
         setMeals(data.data);
         setLoading(false);
       } catch (err) {
-        setError('Error fetching meals data');
+        setError('No meals tracked today');
         setLoading(false);
       }
     };
    
     fetchMeals();
     
-  });
+  }, []);
 
 
   // Function to categorize meals based on 'eatenWhen'
