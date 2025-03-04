@@ -115,7 +115,7 @@ describe("NutriControllers", () => {
       });
     });
     it("should return meals consumed for today", async () => {
-      const today = new Date().toLocaleDateString(); // Ensure consistent date format
+      const today =  new Date().toLocaleDateString('en-CA'); // Ensure consistent date format
       // Create a meal record for today
       const meal = await trackingModel.create({
         userId: userId,
