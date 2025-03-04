@@ -8,14 +8,15 @@ export const getDailyData = async () => {
             // TO DO: change to current date
             params: {
                 timeAgg: 'day',
-                startDate: new Date().toISOString().split('T')[0],
-                endDate: new Date().toISOString().split('T')[0]
+                startDate: new Date().toLocaleDateString('en-CA'),
+                endDate: new Date().toLocaleDateString('en-CA')
             }
             ,headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
         let result = {};
+        console.log(response);
         if (response.data.data.trackings.length > 0) {
             const tracking = response.data.data.trackings[0];
             const nutrientData = [
