@@ -72,8 +72,11 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateInputs()) return;
-  
+    
+    // console.log("setLoggedUser exists:", !!setLoggedUser);
+
     try {
+      // console.log("Making API call to /api/auth/login");
       const response = await axiosInstance.post("/api/auth/login", {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
@@ -197,7 +200,7 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
 
         {/* Sign In Form */}
         <ModalBody pb={6} pt={6} fontFamily="Rubik, sans-serif">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} id="signInForm" data-testid="signInForm">
             <Stack spacing={4}>
               {/* Email Input */}
               <Box>

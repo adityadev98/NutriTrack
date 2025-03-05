@@ -213,7 +213,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
 
         {/* Sign Up Form */}
         <ModalBody pb={6} pt={6} fontFamily="Rubik, sans-serif">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} id="signUpForm" data-testid="signUpForm">
             <Stack spacing={4}>
               {/* Email Input */}
               <Box>
@@ -272,7 +272,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               <Box>
                 <Text fontSize="15px" fontWeight={600} mb={1}>Confirm Password</Text>
                 <Input ref={confirmPasswordRef} type="password" placeholder="••••••••" isInvalid={confirmPasswordError} errorBorderColor="red.300" 
-                aria-label="Password"
+                aria-label="Confirm Password"
                 aria-describedby={passwordError ? "password-error" : undefined}
                 _focus={{
                   outline: "2px solid var(--bright-green)",
@@ -289,7 +289,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
                 width="full"
                 fontSize="15px"
                 fontWeight={600}
-                aria-label="Sign in with email"
+                aria-label="Sign up with email"
                 _focus={{
                   outline: "2px solid var(--bright-green)",
                   outlineOffset: "2px",
@@ -300,14 +300,14 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               <Divider aria-hidden="true" />
               <Text textAlign="center" fontSize="15px" fontWeight={600} color="gray.600">or</Text>
 
-              {/* Sign In with Google */}
+              {/* Sign Up with Google */}
               <Button 
                 variant="outline" 
                 width="full"
                 fontSize="15px"
                 fontWeight={500}
                 leftIcon={<Box as="img" src={google} alt="Google logo" boxSize="16px" />}
-                aria-label="Sign in with Google"
+                aria-label="Sign up with Google"
                 _focus={{
                   outline: "2px solid var(--bright-green)",
                   outlineOffset: "2px",
@@ -331,7 +331,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
                   }}
                   fontSize="15px"
                   fontWeight={600}
-                  aria-label="Sign up for a new account"
+                  aria-label="Sign in with email"
                   _focus={{
                     outline: "2px solid var(--bright-green)",
                     outlineOffset: "2px",
