@@ -25,7 +25,7 @@ const trackingSchema = mongoose.Schema(
     },
     eatenDate: {
       type: String,
-      default: new Date().toLocaleDateString('en-CA'),
+      default: () => new Date().toLocaleDateString('en-CA'),
     },
     quantity: {
       type: Number,
@@ -44,6 +44,7 @@ const trackingSchema = mongoose.Schema(
   },
   { timestamps: true },
 );
+
 
 const trackingModel = mongoose.model("trackedFood", trackingSchema);
 export default trackingModel;
