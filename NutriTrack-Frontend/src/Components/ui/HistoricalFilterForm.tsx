@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
@@ -56,12 +57,9 @@ const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
                         onChange={(e) => setEndDate(e.target.value)}
                     />
                 </label>
-                <button
-                    type="submit"
-                    className="mt-4 bg-blue-500 text-white py-2 px-4 rounded ml-6 hover:bg-blue-600"
-                >
-                    Submit
-                </button>
+                <Button mt={4} colorScheme="green" type="submit">
+                Submit
+                </Button>
             </div>
         </form>
     );
