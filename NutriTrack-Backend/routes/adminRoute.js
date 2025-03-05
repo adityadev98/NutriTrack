@@ -1,16 +1,15 @@
 import express from 'express';
-import { loginAdmin, appointmentsAdmin, appointmentCancel, addDoctor, allDoctors, adminDashboard } from '../controllers/adminController.js';
-import { changeAvailablity } from '../controllers/doctorController.js';
-import authAdmin from '../middleware/authAdmin.js';
-import upload from '../middleware/multer.js';
+import { appointmentsAdmin, appointmentCancel, allCoaches, adminDashboard, promoteToAdmin, promoteToCoach} from '../controllers/adminController.js';
+import { changeAvailablity } from '../controllers/coachController.js';
+import { authMiddleware } from "../middleware/authMiddleware.js";
 const adminRouter = express.Router();
 
-adminRouter.post("/login", loginAdmin)
-adminRouter.post("/add-doctor", authAdmin, upload.single('image'), addDoctor)
-adminRouter.get("/appointments", authAdmin, appointmentsAdmin)
-adminRouter.post("/cancel-appointment", authAdmin, appointmentCancel)
-adminRouter.get("/all-doctors", authAdmin, allDoctors)
-adminRouter.post("/change-availability", authAdmin, changeAvailablity)
-adminRouter.get("/dashboard", authAdmin, adminDashboard)
-
+// adminRouter.post("/add-doctor", authMiddleware, upload.single('image'), addDoctor)
+adminRouter.get("/appointments", authMiddleware, appointmentsAdmin)
+adminRouter.post("/cancel-appointment", authMiddleware, appointmentCancel)
+adminRouter.get("/all-coaches", authMiddleware, allCoaches)
+adminRouter.post("/change-availability", authMiddleware, changeAvailablity)
+adminRouter.get("/dashboard", authMiddleware, adminDashboard)
+adminRouter.post("/promote-to-admin", authMiddleware, promoteToAdmin);
+adminRouter.post("/promote-to-coach", authMiddleware, promoteToCoach);
 export default adminRouter;

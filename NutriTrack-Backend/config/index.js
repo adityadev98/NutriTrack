@@ -1,2 +1,3 @@
 import { connectDB } from "./db.js";
-export { connectDB };
+import connectCloudinary from "./cloudinary.js"
+export { connectDB, connectCloudinary};

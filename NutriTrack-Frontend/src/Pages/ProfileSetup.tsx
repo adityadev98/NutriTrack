@@ -1,9 +1,10 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useContext, FormEvent } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, VStack, Input, Button, Heading, Select, FormControl, FormLabel } from "@chakra-ui/react";
 //import '../style.css';
 import {Sidenav} from "../Components/Sections";
+import { UserContext } from "../contexts/UserContext"; 
 
 const ProfileSetup: React.FC = () => {
   const location = useLocation();
@@ -15,22 +16,47 @@ const ProfileSetup: React.FC = () => {
   const [height, setHeight] = useState<number | string>(profile.height || '');
   const [weight, setWeight] = useState<number | string>(profile.weight || '');
   const navigate = useNavigate();
-
+  const userContext = useContext(UserContext);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token") || ""; // Ensure it's always a string
       const data = { name, age, gender, activityLevel, height, weight };
+
       console.log('Sending data:', data);
       const response = await axios.post('/api/user/profile/setup', data, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       console.log('Profile setup response:', response.data);
-      navigate('/dashboard');
+
+      // Extract updated user profile from response
+      const { userProfile } = response.data;
+
+      // Retrieve old user data from localStorage
+      const storedUser = JSON.parse(localStorage.getItem("loggedUser") || "{}");
+
+      const updatedUser = {
+        userid: storedUser.userid || userProfile.user, // Keep existing user ID
+        token,
+        name: userProfile.name, // Update name
+        profileCompleted: userProfile.profileCompleted, // Ensure profileCompleted is updated
+        userType: storedUser.userType || "user", // Keep existing userType (fallback to "user")
+        tokenExpiry: storedUser.tokenExpiry, // Maintain the same token expiry
+      };
+
+      // Update localStorage
+      localStorage.setItem("loggedUser", JSON.stringify(updatedUser));
+
+      // Update React Context only if userContext exists
+      if (userContext && userContext.setLoggedUser) {
+        userContext.setLoggedUser(updatedUser);
+      }
+
+      navigate("/dashboard");
     } catch (error) {
       console.error('Error updating profile', error);
       navigate('/dashboard');
-
     }
   };
 

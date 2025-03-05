@@ -3,7 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import cors from "cors";
-import { nutriRoutes, authRoutes, profileRoutes } from "./routes/index.js";
+import { nutriRoutes, authRoutes, profileRoutes, userRoutes, adminRoutes, coachRoutes} from "./routes/index.js";
 
 dotenv.config();
 
@@ -20,6 +20,11 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api", nutriRoutes);
 app.use("/api/user", profileRoutes);
+
+// Nutri Coach Booking Routes
+app.use("/api/booking", userRoutes)
+app.use("/api/admin", adminRoutes)
+app.use("/api/coach", coachRoutes)
 
 app.listen(PORT, () => {
   connectDB();

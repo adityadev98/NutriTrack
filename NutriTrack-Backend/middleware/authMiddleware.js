@@ -28,6 +28,7 @@ export const authMiddleware = (req, res, next) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     console.log("✅ Token Decoded Successfully:", decoded);
     req.user = decoded; // Attach user data from token
+    console.log("✅ Middleware Passed. Moving to next function...");
     next(); // Continue to next middleware/route
   } catch (error) {
     console.error("❌ JWT Verification Error:", error.message);

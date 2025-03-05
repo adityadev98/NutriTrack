@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import mongoose from "mongoose";
 
-import { user as User, userProfile as UserProfile } from "../models/index.js";
+import { User, userProfile as UserProfile } from "../models/index.js";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "nutritrackapp";
@@ -186,55 +186,55 @@ const sendEmail = async (to, link) => {
 
   await transporter.sendMail(mailOptions);
 };
-export const promoteToAdmin = async (req, res) => {
-  try {
-    const { userId } = req.body; // The user to be promoted
+// export const promoteToAdmin = async (req, res) => {
+//   try {
+//     const { userId } = req.body; // The user to be promoted
 
-    // Ensure the requesting user is an admin
-    if (req.user.userType !== "admin") {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: "Access denied. Only admins can promote users.",
-        });
-    }
+//     // Ensure the requesting user is an admin
+//     if (req.user.userType !== "admin") {
+//       return res
+//         .status(403)
+//         .json({
+//           success: false,
+//           message: "Access denied. Only admins can promote users.",
+//         });
+//     }
 
-    // Validate if userId is a proper MongoDB ObjectId
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid user ID format." });
-    }
-    // Find the user to promote
-    const user = await User.findById(userId);
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found." });
-    }
+//     // Validate if userId is a proper MongoDB ObjectId
+//     if (!mongoose.Types.ObjectId.isValid(userId)) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Invalid user ID format." });
+//     }
+//     // Find the user to promote
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "User not found." });
+//     }
 
-    // Check if the user is already an admin
-    if (user.userType === "admin") {
-      return res
-        .status(400)
-        .json({ success: false, message: "User is already an admin." });
-    }
+//     // Check if the user is already an admin
+//     if (user.userType === "admin") {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "User is already an admin." });
+//     }
 
-    // Promote the user to admin
-    user.userType = "admin";
-    await user.save();
+//     // Promote the user to admin
+//     user.userType = "admin";
+//     await user.save();
 
-    res
-      .status(200)
-      .json({ success: true, message: "User promoted to admin successfully." });
-  } catch (error) {
-    console.error("Error promoting user:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error, try again later." });
-  }
-};
+//     res
+//       .status(200)
+//       .json({ success: true, message: "User promoted to admin successfully." });
+//   } catch (error) {
+//     console.error("Error promoting user:", error);
+//     res
+//       .status(500)
+//       .json({ success: false, message: "Server error, try again later." });
+//   }
+// };
 
 // Refresh Token Route
 export const refreshToken = async (req, res) => {
