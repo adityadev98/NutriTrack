@@ -14,7 +14,7 @@ export const trackfoodItem = async (req, res) => {
 };
 
 export const getMealsConsumed = async (req, res) => {
-  const getTodayDate = new Date().toLocaleDateString();
+  const getTodayDate = new Date().toLocaleDateString('en-CA');
   try {
     const mealsConsumed = await trackingModel
       .find({ eatenDate: getTodayDate, userId: req.user.id })

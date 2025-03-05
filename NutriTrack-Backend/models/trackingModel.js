@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import autoIncrement from "mongoose-sequence";
 
 const trackingSchema = mongoose.Schema(
   {
@@ -26,7 +25,7 @@ const trackingSchema = mongoose.Schema(
     },
     eatenDate: {
       type: String,
-      default: new Date().toLocaleDateString(),
+      default: new Date().toLocaleDateString('en-CA'),
     },
     quantity: {
       type: Number,
