@@ -3,7 +3,7 @@ import { useState, useContext} from "react";
 import { Flex, Heading, Stack, Text, Button, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { HeroPic } from "../../assets/index.ts";
-import {SignInDialog, SignUpDialog} from "../../Components/Sections/";
+import {AuthModal} from "../../Components/Sections/";
 const MotionHeading = motion.create(Heading);
 const MotionText = motion.create(Text); 
 const MotionButton = motion.create(Button);
@@ -156,16 +156,12 @@ molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
         h="100%"
       />
      </Flex>
-     <SignUpDialog 
-        open={openSignUp} 
-        onClose={() => setOpenSignUp(false)} 
-        openSignIn={() => setOpenSignIn(true)} // ✅ Pass function to open SignIn Dialog
-      />
-
-      <SignInDialog 
-        open={openSignIn} 
-        onClose={() => setOpenSignIn(false)} 
-        openSignUp={() => setOpenSignUp(true)} // ✅ Pass function to open SignUp Dialog
+      {/* ✅ Centralized Authentication Modals */}
+      <AuthModal
+        openSignIn={openSignIn}
+        setOpenSignIn={setOpenSignIn}
+        openSignUp={openSignUp}
+        setOpenSignUp={setOpenSignUp}
       />
     </Flex>
     

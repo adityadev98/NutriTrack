@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String },
   userType: { type: String, enum: ["customer", "admin","coach"], default: "customer" }, // Default to "customer"
+  googleId: { type: String, unique: true, sparse: true }, // Only for Google Sign-In
 });
 
 const User = mongoose.model("User", UserSchema);

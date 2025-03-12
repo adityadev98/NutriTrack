@@ -21,23 +21,25 @@ import {
 import {AxiosError} from "axios";
 import axiosInstance from "../../../utils/axiosInstance.ts"; 
 import { UserContext } from "../../../contexts/UserContext"; 
-import {ForgotPassword} from "../index.ts";
+import { useGoogleLogin } from "@react-oauth/google";
+// import {ForgotPassword} from "../index.ts";
 import { logo, google } from "../../../assets/index.ts";
 
 interface SignInDialogProps {
   open: boolean;
   onClose: () => void;
   openSignUp: () => void; // Function to switch to Sign Up Dialog
+  openForgotPassword: () => void;
 }
 
-const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
+const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDialogProps) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  // const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const toast = useToast();
   const { setLoggedUser } = useContext(UserContext) ?? {};
   const navigate = useNavigate();
@@ -140,7 +142,96 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
       });
     }
   };
+  const handleGoogleLoginSuccess = async (credentialResponse: any) => {
+    //console.log("Google Login Credential Response:", credentialResponse); // ✅ Debugging
 
+    const accessToken = credentialResponse.access_token;
+
+    if (!accessToken) {
+      console.error("Google Login Failed: No access token received");
+      toast({
+        title: "Google Login Failed",
+        description: "No access token received from Google. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+      return; // ✅ Stops further execution
+    }
+  
+    try {
+      const response = await axiosInstance.post("/api/auth/google/signin", {
+        access_token: accessToken,
+      });
+  
+      const { token, userType, profileCompleted, userProfile, expiresIn} = response.data;
+      console.log("Login with Google successful!", userProfile.user);
+
+      const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
+
+      // Update the loggedUser state
+      // Ensure setLoggedUser exists before calling it
+      if (setLoggedUser) {
+        setLoggedUser({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          tokenExpiry,  // Store expiry timestamp
+        });    
+        localStorage.setItem("loggedUser", JSON.stringify({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          tokenExpiry, // Store in localStorage
+        }));
+
+        localStorage.setItem("token", token); // Store token separately for requests
+        localStorage.setItem("user", userProfile.user);  // Store userProfile.user in localStorage
+
+      } else {
+        console.error("UserContext is not available.");
+      }
+  
+      toast({
+        title: "Login Successful!",
+        description: "You have signed in using Google.",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+  
+      // Redirect logic after login
+      if (userType === "admin") {
+        navigate("/admin-dashboard", { replace: true });
+      } else if (!profileCompleted) {
+        navigate("/profile-setup", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true }); // Redirect after successful login
+      }
+      onClose(); // ✅ Close modal after login
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      console.error("Google Login Error:", error.response?.data?.message);
+      toast({
+        title: "Google Login Failed",
+        description: error.response?.data?.message || "Unable to log in using Google. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+  const googleSignin = useGoogleLogin({
+    onSuccess: handleGoogleLoginSuccess, // ✅ Callback function for successful Google sign-up
+    onError: () => console.log("Google Sign-Up Failed"), // ✅ Handle errors
+  });
   useEffect(() => {
     if (open) {
       // Reset errors when the modal opens
@@ -261,7 +352,10 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
                 fontSize="15px"
                 fontWeight={600}
                 color="blue.500" 
-                onClick={() => setForgotPasswordOpen(true)}
+                onClick={() => {
+                  onClose();
+                  openForgotPassword();
+                }}
                 tabIndex={0}
                 aria-label="Forgot your password"
                 _focus={{
@@ -300,6 +394,7 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
 
               {/* Sign In with Google */}
               <Button 
+                onClick={() => googleSignin()}
                 variant="outline" 
                 width="full"
                 fontSize="15px"
@@ -316,7 +411,6 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
               >
                 Sign in with Google
               </Button>
-
               {/* Sign Up Link */}
               <Text textAlign="center" fontSize="15px" fontWeight={400}>
                 Don't have an account?{" "}
@@ -345,7 +439,7 @@ const SignInDialog = ({ open, onClose, openSignUp}: SignInDialogProps) => {
               </Text>
             </Stack>
           </form>
-          <ForgotPassword open={forgotPasswordOpen} handleClose={() => setForgotPasswordOpen(false)} />
+          {/* <ForgotPassword open={forgotPasswordOpen} handleClose={() => setForgotPasswordOpen(false)} /> */}
         </ModalBody>
       </ModalContent>
     </Modal>

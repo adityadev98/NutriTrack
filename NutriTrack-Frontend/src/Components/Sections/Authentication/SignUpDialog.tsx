@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-
+import { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
@@ -18,8 +18,11 @@ import {
   Progress,
   useToast,
 } from "@chakra-ui/react";
+import axiosInstance from "../../../utils/axiosInstance.ts"; 
 import axios, { AxiosError } from "axios";
+import { useGoogleLogin} from "@react-oauth/google";
 import zxcvbn from "zxcvbn";
+import { UserContext } from "../../../contexts/UserContext"; 
 
 import { logo, google } from "../../../assets/index.ts";
 
@@ -40,7 +43,11 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
+  
+  const navigate = useNavigate();
   const toast = useToast();
+
+  const { setLoggedUser } = useContext(UserContext) ?? {};
 
   // Validate Inputs
   const validateInputs = () => {
@@ -150,6 +157,95 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
     }
   }; 
 
+  const handleGoogleSignupSuccess = async (credentialResponse: any) => {
+    //console.log("Google Sign-Up Credential Response:", credentialResponse); 
+    const accessToken = credentialResponse.access_token;
+
+    if (!accessToken) {
+      console.error("Google Sign Up Failed: No access token received");
+      toast({
+        title: "Google Sign Up Failed",
+        description: "No access token received from Google. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+      return; // ✅ Stops further execution
+    }
+
+    try {
+      const response = await axiosInstance.post("/api/auth/google/signup", {
+        access_token: accessToken,
+      });
+
+      const { token, userType, profileCompleted, userProfile, expiresIn } = response.data;
+      console.log("Signup with Google successful!", userProfile.user);
+  
+      const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
+  
+      if (setLoggedUser) {
+        setLoggedUser({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          tokenExpiry,  // Store expiry timestamp
+        });    
+        localStorage.setItem("loggedUser", JSON.stringify({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          tokenExpiry, // Store in localStorage
+        }));
+
+        localStorage.setItem("token", token); // Store token separately for requests
+        localStorage.setItem("user", userProfile.user);  // Store userProfile.user in localStorage
+
+      } else {
+        console.error("UserContext is not available.");
+      }
+  
+      toast({
+        title: "Sign-Up Successful!",
+        description: "Your account has been created using Google.",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+  
+      // Redirect logic after signup
+      if (userType === "admin") {
+        navigate("/admin-dashboard", { replace: true });
+      } else if (!profileCompleted) {
+        navigate("/profile-setup", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true }); // Redirect after successful sign-up
+      }
+      onClose(); // ✅ Close modal after sign-up
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      console.error("Google Sign Up Error:", error.response?.data?.message);
+      toast({
+        title: "Google Sign-Up Failed",
+        description: error.response?.data?.message || "Unable to sign up using Google. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+  
+  const googleSignup = useGoogleLogin({
+    onSuccess: handleGoogleSignupSuccess, // ✅ Callback function for successful Google sign-up
+    onError: () => console.log("Google Sign-Up Failed"), // ✅ Handle errors
+  });
+  
   useEffect(() => {
     if (open) {
       // Reset validation errors
@@ -301,7 +397,9 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               <Text textAlign="center" fontSize="15px" fontWeight={600} color="gray.600">or</Text>
 
               {/* Sign Up with Google */}
+              
               <Button 
+                onClick={() => googleSignup()}
                 variant="outline" 
                 width="full"
                 fontSize="15px"
@@ -318,6 +416,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               >
                 Sign up with Google
               </Button>
+
 
               {/* Already Have an Account? */}
               <Text textAlign="center" fontSize="15px">

@@ -18,6 +18,7 @@ dist-ssr
 # Testing
 coverage/
 NutriTrack-Backend/test-results.txt
+NutriTrack-Frontend/test-results.txt
 NutriTrack-Backend/test-results.json
 # Node Modules to be ignored
 node_modules/
