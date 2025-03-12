@@ -2,14 +2,14 @@
 import { useState, useContext} from "react";
 import { Flex, Heading, Stack, Text, Button, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { HeroPic } from "../../assets/index.ts";
-import {AuthModal} from "../../Components/Sections/";
+import { HeroPic } from "../../../assets/index.ts";
+import {AuthModal} from "../index.ts";
 const MotionHeading = motion.create(Heading);
 const MotionText = motion.create(Text); 
 const MotionButton = motion.create(Button);
-import { UserContext } from "../../contexts/UserContext"; 
+import { UserContext } from "../../../contexts/UserContext.tsx"; 
 
-export default function Hero() {
+export default function HomepageHero() {
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
   const userContext = useContext(UserContext);

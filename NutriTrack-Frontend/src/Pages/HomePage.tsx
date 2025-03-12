@@ -1,4 +1,4 @@
-import {Navbar, Footer, Hero, HomepageMidSection1} from "../Components/Sections";
+import {Navbar, Footer, HomepageHero, HomepageMidSection1} from "../Components/Sections";
 import { Box} from "@chakra-ui/react";
 //import styles from "../../style";
 
@@ -14,7 +14,7 @@ const HomePage = () => {
 	
 			{/* ✅ Ensures content starts below the navbar */}
 			<Box className="flex-grow pt-[80px] bg-primary">  
-				<Hero />
+				<HomepageHero />
 			</Box>
 			<Box className="flex-grow pt-[80px] bg-primary">  
 				<HomepageMidSection1 />

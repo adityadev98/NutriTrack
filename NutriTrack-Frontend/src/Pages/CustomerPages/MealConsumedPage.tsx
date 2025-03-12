@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {  Button, Box, Container, Heading, Text, Spinner, VStack,SimpleGrid, HStack} from '@chakra-ui/react';
 import { Stat,StatLabel, StatNumber} from "@chakra-ui/stat"
-import {Sidenav} from "../Components/Sections";
+import {Sidenav} from "../../Components/Sections";
 
 interface FoodDetails {
   foodName: string;

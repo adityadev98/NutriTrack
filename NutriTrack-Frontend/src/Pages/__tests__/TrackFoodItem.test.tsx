@@ -1,5 +1,5 @@
 import { screen, render,fireEvent, waitFor } from '@testing-library/react';
-import FoodItem from '../TrackFoodItem';
+import FoodItem from '../CustomerPages/TrackFoodItem';
 import { MemoryRouter } from 'react-router-dom';
 import fetchMock from 'jest-fetch-mock';
 

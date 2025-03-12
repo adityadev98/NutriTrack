@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import MealsConsumedPage from '../MealConsumedPage';
+import MealsConsumedPage from '../CustomerPages/MealConsumedPage';
 import fetchMock from 'jest-fetch-mock';
 
 fetchMock.enableMocks();

@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, VStack, Input, Button, Heading, Select, FormControl, FormLabel } from "@chakra-ui/react";
 //import '../style.css';
-import {Sidenav} from "../Components/Sections";
-import { UserContext } from "../contexts/UserContext"; 
+import {Sidenav} from "../../Components/Sections";
+import { UserContext } from "../../contexts/UserContext"; 
 
 const ProfileSetup: React.FC = () => {
   const location = useLocation();

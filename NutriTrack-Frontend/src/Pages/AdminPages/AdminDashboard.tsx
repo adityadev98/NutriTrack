@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import { Button, Box, Heading } from "@chakra-ui/react";
-import {Sidebar} from "../Components/Sections";
+import {Sidebar} from "../../Components/Sections";
 const AdminDashboard = () => {
   const { logout } = useContext(UserContext) ?? {};
 

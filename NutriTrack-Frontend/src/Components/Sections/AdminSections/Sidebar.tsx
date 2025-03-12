@@ -18,6 +18,7 @@ import {
   FlexProps,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
@@ -26,9 +27,9 @@ import {
   FiBell,
   FiChevronDown,
 } from 'react-icons/fi'
-import { logo } from "../../assets/index.ts";
-import { DashNavLinks } from "../../Constants/index.ts";
-import { UserContext } from "../../contexts/UserContext.tsx";
+import { logo } from "../../../assets/index.ts";
+import { AdminNavLinks } from "../../../Constants/index.ts";
+import { UserContext } from "../../../contexts/UserContext.tsx";
 import { GrPowerShutdown } from "react-icons/gr";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
@@ -60,7 +61,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       </Flex>
           {/* Navigation Links */}
           <VStack align="start" spacing={4}>
-            {DashNavLinks.map((nav) => {
+            {AdminNavLinks.map((nav) => {
               const isActive = location.pathname === `/${nav.id}` || (location.pathname === "/" && nav.id === "home");
 
               return (
@@ -158,6 +159,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2">
                   <Text fontSize="sm"> {loggedUser?.name || "User"}</Text>
+                  <Text fontSize="xs" color="gray.600">
+                    Admin
+                  </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
                   <FiChevronDown />
@@ -167,9 +171,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             <MenuList
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                  <MenuItem 
+            <MenuItem 
                   as={'a'}
-                  href="/dashboard" 
+                  href="/admin-dashboard" 
                   tabIndex={0} // Enables keyboard focusability
                   role="link"  // Explicitly sets the role as a link
                   aria-label="Go to User Dashboard"  // Adds a label for screen readers
@@ -181,17 +185,18 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                     Dashboard</MenuItem>
                   <MenuItem
                     as={'a'}
-                    href="/dashboard" 
+                    href="/profile-setup" 
                     tabIndex={0} // Enables keyboard focusability
                     role="link"  // Explicitly sets the role as a link
                     aria-label="Go to User Account Details"  // Adds a label for screen readers
-                    fontSize={'15px'} 
+                    fontSize={'14px'} 
                     fontFamily={'Rubik, sans-serif'} 
                     fontWeight={400}  
                   >
-                  <Icon as={RiAccountCircleFill} boxSize="25px" mr="10px" />
+                    <Icon as={RiAccountCircleFill} boxSize="25px" mr="10px" />
                     My Account
                   </MenuItem>
+              <MenuDivider />
                   <MenuItem 
                   onClick={logout}
                   tabIndex={0} // Enables keyboard focusability
@@ -212,7 +217,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   )
 }
 
-const Sidenav: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Sidebar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -238,4 +243,4 @@ const Sidenav: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   )
 }
 
-export default Sidenav
+export default Sidebar

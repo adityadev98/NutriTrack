@@ -1,6 +1,6 @@
 import { render, screen,act,waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import CreateCustomFoodPage from '../CreateCustomFoodPage';
+import CreateCustomFoodPage from '../CustomerPages/CreateCustomFoodPage';
 import fetchMock from 'jest-fetch-mock';
 
 fetchMock.enableMocks();

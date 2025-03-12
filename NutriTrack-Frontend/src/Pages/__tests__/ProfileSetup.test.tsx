@@ -1,7 +1,7 @@
 //import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import ProfileSetup from '../ProfileSetup';
+import ProfileSetup from '../CustomerPages/ProfileSetup';
 
 describe('ProfileSetup', () => {
   test('renders ProfileSetup form', () => {

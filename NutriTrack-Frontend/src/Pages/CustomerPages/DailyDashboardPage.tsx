@@ -1,7 +1,7 @@
 import HistoricalLineGraph from '@/Components/ui/HistoricalLineGraph';
 import React, { useEffect, useState } from 'react';
-import {Sidenav} from "../Components/Sections";
-import { getDailyData }  from '../Services/dailyDashboardServices';
+import {Sidenav} from "../../Components/Sections";
+import { getDailyData }  from '../../Services/dailyDashboardServices';
 import DailyPieChart from '@/Components/ui/DailyPieChart';
 
 const DailyDashboardPage: React.FC = () => {

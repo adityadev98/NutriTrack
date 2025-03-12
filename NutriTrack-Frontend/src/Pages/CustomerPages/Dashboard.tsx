@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container, VStack, Heading, Text, Box, Stat, StatLabel, StatNumber, StatGroup, Button, Spinner} from "@chakra-ui/react";
-import {Sidenav} from "../Components/Sections";
+import {Sidenav} from "../../Components/Sections";
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from "../utils/axiosInstance";
+import axiosInstance from "../../utils/axiosInstance";
 //import '../style.css';
 
      

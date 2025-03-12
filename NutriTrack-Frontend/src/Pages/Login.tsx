@@ -1,9 +1,10 @@
 import { useState} from "react";
 import {Navbar, Footer} from "../Components/Sections";
-import { Flex, Stack, Text, Button,Box, Heading } from "@chakra-ui/react";
+import { Flex, Stack, Button,Box, Heading } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 //import styles from "../../style";
-import {SignInDialog, SignUpDialog} from "../Components/Sections/";
+//import {SignInDialog, SignUpDialog} from "../Components/Sections/";
+import {AuthModal} from "../Components/Sections/";
 const MotionButton = motion(Button);
 const MotionHeading = motion(Heading);
 
@@ -95,16 +96,12 @@ const Login = () => {
             
       </Stack>
 
-     <SignUpDialog 
-        open={openSignUp} 
-        onClose={() => setOpenSignUp(false)} 
-        openSignIn={() => setOpenSignIn(true)} // ✅ Pass function to open SignIn Dialog
-      />
-
-      <SignInDialog 
-        open={openSignIn} 
-        onClose={() => setOpenSignIn(false)} 
-        openSignUp={() => setOpenSignUp(true)} // ✅ Pass function to open SignUp Dialog
+      {/* ✅ Centralized Authentication Modals */}
+      <AuthModal
+        openSignIn={openSignIn}
+        setOpenSignIn={setOpenSignIn}
+        openSignUp={openSignUp}
+        setOpenSignUp={setOpenSignUp}
       />
     </Flex>
 	
