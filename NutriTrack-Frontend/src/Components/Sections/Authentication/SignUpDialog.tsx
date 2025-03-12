@@ -181,7 +181,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
         access_token: accessToken,
       });
 
-      const { token, userType, profileCompleted, userProfile, expiresIn } = response.data;
+      const { token, userType, profileCompleted, userProfile, expiresIn, verified} = response.data;
       console.log("Signup with Google successful!", userProfile.user);
   
       const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
@@ -193,6 +193,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
           name: userProfile.name,
           profileCompleted,
           userType,
+          verified,
           tokenExpiry,  // Store expiry timestamp
         });    
         localStorage.setItem("loggedUser", JSON.stringify({
@@ -201,6 +202,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
           name: userProfile.name,
           profileCompleted,
           userType,
+          verified,
           tokenExpiry, // Store in localStorage
         }));
 

@@ -7,6 +7,8 @@ import {
   refreshToken,
   googleSignup,
   googleSignin,
+  generateAndSendOtp,
+  verifyOtp,
 } from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import passport from "../middleware/googleAuth.js";
@@ -75,5 +77,8 @@ router.post(
   passport.authenticate("google-token", { session: false }),
   googleSignin
 );
+
+router.post("/generate-otp", authMiddleware, generateAndSendOtp); // ✅ Resend OTP API
+router.post("/verify-otp", authMiddleware, verifyOtp); // ✅ Verify OTP API
 
 export default router;

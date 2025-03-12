@@ -88,7 +88,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
         password: passwordRef.current?.value,
       });
   
-      const { token, userType, profileCompleted, userProfile, expiresIn} = response.data;
+      const { token, userType, profileCompleted, userProfile, expiresIn, verified} = response.data;
       console.log("Login successful!", userProfile.user);
 
       const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
@@ -102,6 +102,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
           name: userProfile.name,
           profileCompleted,
           userType,
+          verified,
           tokenExpiry,  // Store expiry timestamp
         });    
         localStorage.setItem("loggedUser", JSON.stringify({
@@ -110,6 +111,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
           name: userProfile.name,
           profileCompleted,
           userType,
+          verified,
           tokenExpiry, // Store in localStorage
         }));
 
@@ -120,14 +122,34 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
         console.error("UserContext is not available.");
       }
 
-      // Redirect logic after login
-      if (userType === "admin") {
-        navigate("/admin-dashboard", { replace: true });
-      } else if (!profileCompleted) {
-        navigate("/profile-setup", { replace: true });
-      } else {
-        navigate("/dashboard", { replace: true }); // Redirect after successful login
+    // ✅ If user is not verified, call the OTP API before redirecting
+    if (!verified) {
+      try {
+        console.log("User not verified, sending OTP...");
+        await axiosInstance.post(
+          "/api/auth/generate-otp",
+          {},
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        console.log("OTP sent successfully!");
+      } catch (otpError) {
+        console.error("Error sending OTP:", otpError);
       }
+
+      navigate("/otp-verification", { replace: true });
+      return;
+    }
+
+    // ✅ Redirect logic after login
+    if (userType === "admin") {
+      navigate("/admin-dashboard", { replace: true });
+    } else if (userType === "coach") {
+      navigate("/coach-dashboard", { replace: true });
+    } else if (!profileCompleted) {
+      navigate("/profile-setup", { replace: true });
+    } else {
+      navigate("/dashboard", { replace: true });
+    }
       // Close the modal
       onClose();
     } catch (err) {
@@ -169,7 +191,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
         access_token: accessToken,
       });
   
-      const { token, userType, profileCompleted, userProfile, expiresIn} = response.data;
+      const { token, userType, profileCompleted, userProfile, expiresIn,verified} = response.data;
       console.log("Login with Google successful!", userProfile.user);
 
       const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
@@ -183,6 +205,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
           name: userProfile.name,
           profileCompleted,
           userType,
+          verified,
           tokenExpiry,  // Store expiry timestamp
         });    
         localStorage.setItem("loggedUser", JSON.stringify({

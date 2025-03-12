@@ -11,6 +11,7 @@ import {
   TermsAndConditions,
   Login,
   ResetPassword,
+  OtpVerification,
   ProfileSetup, 
   Dashboard, 
   TrackPage, 
@@ -21,9 +22,10 @@ import {
   HistoricalViewPage,
   AdminDashboard,
   NotFound,
+  CoachDashboard,
 } from "./Pages"
 
-import { ProtectedRoute, AdminRoute, PublicRoute } from "./Routes"
+import { ProtectedRoute, AdminRoute, PublicRoute, CoachRoute } from "./Routes"
 
 function App() {
 
@@ -50,6 +52,8 @@ function App() {
 
          {/* Protected Routes for Logged-in Users */}
          <Route element={<ProtectedRoute />}>
+            {/* ✅ OTP Verification Page (Accessible to unverified users) */}
+            <Route path="/otp-verification" element={<OtpVerification />} />
             <Route path="/profile-setup" element={<ProfileSetup />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/track" element={<TrackPage />} />
@@ -63,7 +67,12 @@ function App() {
         {/* Admin-only Routes */}
         <Route element={<AdminRoute />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          </Route>
+        </Route>
+
+        {/* ✅ Coach-only Routes */}
+        <Route element={<CoachRoute />}>
+            <Route path="/coach-dashboard" element={<CoachDashboard />} />
+        </Route>
 
           {/* 404 Page Route */}
           <Route path="*" element={<NotFound />} />

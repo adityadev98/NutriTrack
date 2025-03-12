@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import dotenv from "dotenv";
 import { sendEmail } from "../utils/sendEmail.js";
-
-import { User, userProfile as UserProfile, PasswordResetToken } from "../models/index.js";
+import { generateOtp } from "../utils/generateOtp.js";
+import { User, userProfile as UserProfile, PasswordResetToken, VerificationOtp } from "../models/index.js";
 // import FormData from "form-data"; 
 // import nodemailer from "nodemailer";
 
@@ -114,6 +114,7 @@ export const login = async (req, res) => {
       userProfile, // Send user profile data
       userType: user.userType, // Return userType
       profileCompleted: userProfile.profileCompleted, // Return profile completion status
+      verified: user.verified,
       expiresIn: 3600, // Include token expiry duration (in seconds),
     });
   } catch (error) {
@@ -285,6 +286,7 @@ export const googleSignup = async (req, res) => {
       googleId,
       email,
       userType: "customer",
+      verified: true, // ✅ Google users are automatically verified
     });
     await newUser.save();
 
@@ -310,6 +312,7 @@ export const googleSignup = async (req, res) => {
       userProfile: newUserProfile, // ✅ Return profile data
       userType: newUser.userType,
       profileCompleted: newUserProfile.profileCompleted, // ✅ Return profile status
+      verified: user.verified,
       expiresIn: 3600, // ✅ Include token expiry duration (in seconds)
     });
   } catch (error) {
@@ -381,10 +384,112 @@ export const googleSignin = async (req, res) => {
       userProfile, // Send user profile data
       userType: user.userType, // Return userType
       profileCompleted: userProfile.profileCompleted, // Return profile completion status
+      verified: user.verified,
       expiresIn: 3600, // Include token expiry duration (in seconds),
     });
   } catch (error) {
     console.error("Google Sign-In Error:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
+export const generateAndSendOtp = async (req, res) => {
+  try {
+    console.log("Fetching Profile for User ID:", req.user.id);    
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found!" });
+    }
+
+    // ✅ Check if the user is already verified
+    if (user.verified) {
+      return res.status(400).json({ success: false, message: "User is already verified." });
+    }
+
+    // ✅ Generate OTP
+    const otp = generateOtp();
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes validity
+
+    // ✅ Store OTP using `userID`
+    await VerificationOtp.findOneAndUpdate(
+      { userID: req.user.id },
+      { otp, expiresAt },
+      { upsert: true, new: true }
+    );
+
+    // ✅ Send OTP via email
+    await sendEmail(user.email, "Verify Your Account - NutriTrack", "verificationOtp.html", { OTP: otp });
+
+    res.json({ success: true, message: "OTP sent successfully!" });
+
+  } catch (error) {
+    console.error("Error generating OTP:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
+
+export const verifyOtp = async (req, res) => {
+  try {
+
+    const { otp } = req.body;
+
+    console.log("Verifying OTP for User ID:", req.user.id); // ✅ Debugging
+    
+    // ✅ Find the OTP record in DB
+    const otpRecord = await VerificationOtp.findOne({ userID: req.user.id });
+
+    if (!otpRecord) {
+      return res.status(400).json({ success: false, message: "No OTP found for this email." });
+    }
+
+    // ✅ Check if OTP matches and is still valid
+    if (otpRecord.otp !== otp || Date.now() > otpRecord.expiresAt) {
+      return res.status(400).json({ success: false, message: "Invalid or expired OTP." });
+    }
+
+    // ✅ Mark the user as verified
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { verified: true },
+      { new: true } // ✅ Return the updated user document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: "User not found!" });
+    }
+
+    // ✅ Remove OTP from DB after successful verification
+    await VerificationOtp.deleteOne({ userID: req.user.id });
+
+    // ✅ Generate JWT Token
+    const token = jwt.sign(
+      { id: updatedUser._id, email: updatedUser.email, userType: updatedUser.userType },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    // ✅ Check if UserProfile exists, else create one
+    let userProfile = await UserProfile.findOne({ user: updatedUser._id });
+    if (!userProfile) {
+      userProfile = new UserProfile({ user: updatedUser._id, name: "New User" });
+      await userProfile.save();
+    }
+
+    res.json({
+      success: true,
+      message: "OTP verified successfully!",
+      token,
+      userProfile, 
+      userType: updatedUser.userType, 
+      profileCompleted: userProfile.profileCompleted, 
+      verified: updatedUser.verified, 
+      expiresIn: 3600, 
+    });
+
+  } catch (error) {
+    console.error("OTP Verification Error:", error);
     res.status(500).json({ success: false, message: "Server error." });
   }
 };

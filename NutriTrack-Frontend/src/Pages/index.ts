@@ -18,6 +18,8 @@ import TermsAndConditions from "./TermsAndConditions";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 import ResetPassword from "./ResetPassword";
+import CoachDashboard from "./CoachPages/CoachDashboard";
+import OtpVerification from "./CustomerPages/OtpVerification";
 
 export {
     HomePage,
@@ -40,4 +42,6 @@ export {
     AboutUs,
     ContactUs,
     ResetPassword,
+    CoachDashboard,
+    OtpVerification,
 };
