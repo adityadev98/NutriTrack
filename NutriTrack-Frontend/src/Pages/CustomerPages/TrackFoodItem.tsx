@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Grid, Box, Button, Input, Select, Text, HStack, Heading } from "@chakra-ui/react";
-import '../App.css';
+// import '../App.css';
 
 interface Measure {
     serving_weight: number;

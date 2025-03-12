@@ -1,8 +1,8 @@
 import React, { useState} from "react";
-import TrackSearch from "@/Pages/TrackSearch";
-import FoodItem from "@/Pages/TrackFoodItem";
-import {Sidenav} from "../Components/Sections";
-import '../App.css';
+import TrackSearch from "@/Pages/CustomerPages/TrackSearch";
+import FoodItem from "@/Pages/CustomerPages/TrackFoodItem";
+import {Sidenav} from "../../Components/Sections";
+// import '../App.css';
 
 const TrackPage: React.FC = () => {
   const [selectedFood, setSelectedFood] = useState(null);

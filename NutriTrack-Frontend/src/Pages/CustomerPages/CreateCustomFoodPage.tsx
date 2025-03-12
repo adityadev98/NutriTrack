@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import {Sidenav} from "../Components/Sections";
+import {Sidenav} from "../../Components/Sections";
 import {
   Box,
   Button,

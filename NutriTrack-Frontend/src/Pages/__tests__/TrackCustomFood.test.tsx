@@ -1,6 +1,6 @@
 import { render, screen,fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import FoodItem from '../TrackCustomFoodPage';
+import FoodItem from '../CustomerPages/TrackCustomFoodPage';
 import fetchMock from 'jest-fetch-mock';
 
 interface Food {

@@ -15,6 +15,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
+import {AxiosError} from "axios";
+import axiosInstance from "../../../utils/axiosInstance.ts"; 
+
 interface ForgotPasswordProps {
   open: boolean;
   handleClose: () => void;
@@ -25,7 +28,7 @@ const ForgotPassword = ({ open, handleClose }: ForgotPasswordProps) => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = emailRef.current?.value.trim();
 
@@ -41,17 +44,43 @@ const ForgotPassword = ({ open, handleClose }: ForgotPasswordProps) => {
     }
 
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+
+    try {
+      // ✅ Call Forgot Password API
+      const response = await axiosInstance.post("/api/auth/forgot-password", { email });
+
       toast({
         title: "Success",
-        description: "A password reset link has been sent to your email.",
+        description: response.data.message || "A password reset link has been sent to your email.",
         status: "success",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
       });
-      handleClose();
-    }, 1500);
+
+      // ✅ Automatically close modal after toast appears
+      setTimeout(handleClose, 300);
+    } 
+    catch (err) {
+      // Ensure 'err' is treated as an AxiosError
+      const error = err as AxiosError<{ message: string }>;
+  
+      console.error("Login Error:", error.response?.data?.message);
+      // alert(error.response?.data?.message || "Login failed.");
+      toast({
+        title: "Error",
+        description: error.response?.data?.message || "Something went wrong. Please try again.",
+        status: "error",
+        duration: 8000,
+        isClosable: true,
+        position: "top",
+      });
+      
+      // ✅ Automatically close modal even on error
+      setTimeout(handleClose, 300);
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
   if (!open) return null; // Prevents rendering when `open` is false
@@ -60,13 +89,14 @@ const ForgotPassword = ({ open, handleClose }: ForgotPasswordProps) => {
     <Modal isOpen={open} onClose={handleClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Reset Password</ModalHeader>
+        <ModalHeader lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>Forgot your password?</ModalHeader>
         <ModalCloseButton 
           color="black" 
           right={4}
           aria-label="Close modal"
           tabIndex={0}
           borderRadius="6px"
+          onClick={handleClose}
           _hover={{
             color : "darkred",
             bg: "transparent",
@@ -86,7 +116,7 @@ const ForgotPassword = ({ open, handleClose }: ForgotPasswordProps) => {
 
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
-              <Input ref={emailRef} type="email" placeholder="Email address" required autoFocus />
+              <Input ref={emailRef} type="email" placeholder="your-email@example.com" _placeholder={{ color: 'gray.500' }} required autoFocus />
               <Button type="submit" colorScheme="blue" isLoading={loading}>
                 Continue
               </Button>

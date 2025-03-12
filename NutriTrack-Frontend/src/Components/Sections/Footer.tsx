@@ -25,6 +25,9 @@ const Logo = () => {
 
 
 export default function Footer() {
+  const linkColor = "var(--soft-white)";
+  const linkHoverColor = 'white';
+
   return (
     <Box
       bg={'--dark-green'}
@@ -45,7 +48,7 @@ export default function Footer() {
               Get in touch
             </Text>
             <Link 
-              href="mailto:hello@nutritrack.com" 
+              href="mailto:hello@mailgun.onixpace.com" 
               fontSize="24px" 
               fontWeight="400" 
               color="#F3EDE4" 
@@ -53,7 +56,7 @@ export default function Footer() {
               textDecoration="underline" 
               _hover={{ textDecoration: "none" }} 
             >
-              hello@nutritrack.com
+              hello@mailgun.onixpace.com
             </Link>
            </Box>
           </Stack>
@@ -64,25 +67,32 @@ export default function Footer() {
             </Text>
             <Text fontSize="sm">ECE 651 - Project </Text>
             <Text fontSize="sm">
-              Street No. 1, XYZ Building, 101 University Avenue, Waterloo, XXX XXX
+              Street No. 1, XYZ Building, 101 University Avenue, Waterloo, N2J XXX
             </Text>
           </Stack>
           <Stack align={'flex-start'} justify={'flex-end'}>
-            {footerLinks.map((category) =>
-              category.links.map((link) => (
-                <Box 
-                  as="a" 
-                  key={link.name} 
-                  href={link.link ?? '#'} 
-                  _hover={{ textDecoration: 'none' }}
-                  fontSize={'14px'}
-                  fontFamily={'Rubik, sans-serif'} 
-                  fontWeight={500} 
-                >
-                  {link.name}
+            {footerLinks.map((nav) =>{
+            return (
+              <a key={nav.id} href={`/${nav.id}`} style={{ textDecoration: 'none' }}> 
+                  <Box 
+                    fontFamily={'Rubik, sans-serif'} 
+                    color={linkColor}
+                    _hover={{
+                      textDecoration: 'none',
+                      color: linkHoverColor,
+                    }}
+                    fontSize="md"
+                    justifyContent="center"  
+                    alignItems="center"
+                    textAlign="center"  
+                    width="100%" 
+                  >
+                    {nav.title}
                 </Box>
-              ))
-            )}
+              </a>
+            );
+          })}
+             
             <Stack
               flex="1"
               justify={'flex-end'}

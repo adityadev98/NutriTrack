@@ -8,12 +8,13 @@ const ProtectedRoute = () => {
 
   if (!loggedUser) return <Navigate to="/login" replace />;
   
-  if (loggedUser.userType === "admin") {
-    return <Navigate to="/admin-dashboard" replace />;
+  // ✅ Redirect unverified users to OTP Verification
+  if (!loggedUser.verified && location.pathname !== "/otp-verification") {
+    return <Navigate to="/otp-verification" replace />;
   }
 
   // If profile is NOT completed, allow access only to "/profile-setup"
-  if (!loggedUser.profileCompleted && location.pathname !== "/profile-setup") {
+  if (loggedUser.verified && !loggedUser.profileCompleted && location.pathname !== "/profile-setup") {
     return <Navigate to="/profile-setup" replace />;
   }
 

@@ -7,9 +7,16 @@ const PublicRoute = () => {
 
   if (!loggedUser) return <Outlet />; // Allow public access
 
-  return loggedUser.userType === "admin"
-    ? <Navigate to="/admin-dashboard" replace />
-    : <Navigate to="/dashboard" replace />;
+  // ✅ Redirect users based on their type
+  if (loggedUser.userType === "admin") {
+    return <Navigate to="/admin-dashboard" replace />;
+  }
+
+  if (loggedUser.userType === "coach") {
+    return <Navigate to="/coach-dashboard" replace />;
+  }
+
+  return <Navigate to="/dashboard" replace />;
 };
 
 export default PublicRoute;

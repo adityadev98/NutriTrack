@@ -8,7 +8,8 @@ interface User {
   token: string;
   name: string;
   profileCompleted: boolean;
-  userType: "customer" | "admin"; // Added userType
+  userType: "customer" | "admin" | "coach"; 
+  verified: boolean;
   tokenExpiry: number;
 }
 

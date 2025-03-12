@@ -25,7 +25,7 @@ import { useLocation } from "react-router-dom";
 import { logo } from "../../assets";
 import { navLinks } from "../../Constants";
 
-import {SignInDialog, SignUpDialog} from "../../Components/Sections/";
+import {AuthModal} from "../../Components/Sections/";
 import { UserContext } from "../../contexts/UserContext"; 
 
 import { GrPowerShutdown } from "react-icons/gr";
@@ -213,17 +213,12 @@ export default function Navbar() {
       <Collapse in={isOpen} animateOpacity>
         <MobileNav loggedUser={loggedUser} logout={logout} />
       </Collapse>
-      {/* Sign In & Sign Up Dialogs */}
-      <SignUpDialog 
-        open={openSignUp} 
-        onClose={() => setOpenSignUp(false)} 
-        openSignIn={() => setOpenSignIn(true)} 
-      />
-
-      <SignInDialog 
-        open={openSignIn} 
-        onClose={() => setOpenSignIn(false)} 
-        openSignUp={() => setOpenSignUp(true)} 
+      {/* ✅ Centralized Authentication Modals */}
+      <AuthModal
+        openSignIn={openSignIn}
+        setOpenSignIn={setOpenSignIn}
+        openSignUp={openSignUp}
+        setOpenSignUp={setOpenSignUp}
       />
 
     </Box>
@@ -326,16 +321,12 @@ const MobileNav: FC<MobileNavProps> = ({ loggedUser, logout }) => {
       </>
       )}
 
-      <SignUpDialog 
-        open={openSignUp} 
-        onClose={() => setOpenSignUp(false)} 
-        openSignIn={() => setOpenSignIn(true)} 
-      />
-
-      <SignInDialog 
-        open={openSignIn} 
-        onClose={() => setOpenSignIn(false)} 
-        openSignUp={() => setOpenSignUp(true)} 
+      {/* ✅ Centralized Authentication Modals */}
+      <AuthModal
+        openSignIn={openSignIn}
+        setOpenSignIn={setOpenSignIn}
+        openSignUp={openSignUp}
+        setOpenSignUp={setOpenSignUp}
       />
     </Stack>
 

@@ -1,11 +1,13 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { User } from "../models/index.js";
+import passport from "passport";
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "nutritrackapp";
 
-export const authMiddleware = (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
   const authHeader = req.header("Authorization");
 
   if (!authHeader) {
@@ -25,11 +27,25 @@ export const authMiddleware = (req, res, next) => {
   console.log("🔹 Received Token:", token);
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    console.log("✅ Token Decoded Successfully:", decoded);
-    req.user = decoded; // Attach user data from token
-    console.log("✅ Middleware Passed. Moving to next function...");
-    next(); // Continue to next middleware/route
+    if (token.startsWith("ey")) {
+      // 🔹 Traditional JWT Authentication
+      const decoded = jwt.verify(token, JWT_SECRET);
+	  console.log("✅ Token Decoded Successfully:", decoded);
+													  
+      req.user = decoded;
+	  console.log("✅ Middleware Passed. Moving to next function...");
+      return next();
+    } else {
+      // 🔹 Google OAuth Token Authentication
+      passport.authenticate("google-token", { session: false }, async (err, user) => {
+        if (err || !user) {
+          return res.status(401).json({ success: false, message: "Google authentication failed" });
+        }
+        req.user = user;
+		console.log("✅ Google Auth - Middleware Passed. Moving to next function...");
+        next();
+      })(req, res, next);
+    }
   } catch (error) {
     console.error("❌ JWT Verification Error:", error.message);
     return res

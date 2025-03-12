@@ -1,20 +1,22 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Hero from "./Hero";
-import HomepageMidSection1 from "./Homepage-mid-section1.tsx";
+import HomepageHero from "./HomepageSections/Homepage-Hero.tsx";
+import HomepageMidSection1 from "./HomepageSections/Homepage-mid-section1.tsx";
 import ForgotPassword from "./Authentication/ForgotPassword.tsx";
 import SignInDialog from "./Authentication/SignInDialog.tsx";
 import SignUpDialog from "./Authentication/SignUpDialog.tsx";
-import Sidebar from "./Sidebar.tsx";
-import Sidenav from "./Sidenav.tsx";
+import AuthModal from "./Authentication/AuthModal.tsx";
+import Sidebar from "./AdminSections/Sidebar.tsx";
+import Sidenav from "./CustomerSections/Sidenav.tsx";
 export {
     Navbar,
     Footer,
-    Hero,
+    HomepageHero,
     HomepageMidSection1,
     ForgotPassword,
     SignInDialog,
     SignUpDialog,
     Sidebar,
     Sidenav,
+    AuthModal,
 };

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-
+import { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
@@ -17,11 +17,16 @@ import {
   ModalCloseButton,
   Progress,
   useToast,
+  InputGroup, 
+  InputRightElement,
 } from "@chakra-ui/react";
+import axiosInstance from "../../../utils/axiosInstance.ts"; 
 import axios, { AxiosError } from "axios";
+import { useGoogleLogin} from "@react-oauth/google";
 import zxcvbn from "zxcvbn";
-
+import { UserContext } from "../../../contexts/UserContext";
 import { logo, google } from "../../../assets/index.ts";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface SignUpDialogProps {
   open: boolean;
@@ -40,7 +45,11 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [visibleField, setVisibleField] = useState<string | null>(null);
+  const navigate = useNavigate();
   const toast = useToast();
+
+  const { setLoggedUser } = useContext(UserContext) ?? {};
 
   // Validate Inputs
   const validateInputs = () => {
@@ -150,6 +159,96 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
     }
   }; 
 
+  const handleGoogleSignupSuccess = async (credentialResponse: any) => {
+    //console.log("Google Sign-Up Credential Response:", credentialResponse); 
+    const accessToken = credentialResponse.access_token;
+
+    if (!accessToken) {
+      console.error("Google Sign Up Failed: No access token received");
+      toast({
+        title: "Google Sign Up Failed",
+        description: "No access token received from Google. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+      return; // ✅ Stops further execution
+    }
+
+    try {
+      const response = await axiosInstance.post("/api/auth/google/signup", {
+        access_token: accessToken,
+      });
+
+      const { token, userType, profileCompleted, userProfile, expiresIn, verified} = response.data;
+      console.log("Signup with Google successful!", userProfile.user);
+  
+      const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
+  
+      if (setLoggedUser) {
+        setLoggedUser({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          verified,
+          tokenExpiry,  // Store expiry timestamp
+        });    
+        localStorage.setItem("loggedUser", JSON.stringify({
+          userid: userProfile.user,
+          token,
+          name: userProfile.name,
+          profileCompleted,
+          userType,
+          verified,
+          tokenExpiry, // Store in localStorage
+        }));
+
+        localStorage.setItem("token", token); // Store token separately for requests
+        localStorage.setItem("user", userProfile.user);  // Store userProfile.user in localStorage
+
+      } else {
+        console.error("UserContext is not available.");
+      }
+  
+      toast({
+        title: "Sign-Up Successful!",
+        description: "Your account has been created using Google.",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+      });
+  
+      // Redirect logic after signup
+      if (userType === "admin") {
+        navigate("/admin-dashboard", { replace: true });
+      } else if (!profileCompleted) {
+        navigate("/profile-setup", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true }); // Redirect after successful sign-up
+      }
+      onClose(); // ✅ Close modal after sign-up
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      console.error("Google Sign Up Error:", error.response?.data?.message);
+      toast({
+        title: "Google Sign-Up Failed",
+        description: error.response?.data?.message || "Unable to sign up using Google. Please try again.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+  
+  const googleSignup = useGoogleLogin({
+    onSuccess: handleGoogleSignupSuccess, // ✅ Callback function for successful Google sign-up
+    onError: () => console.log("Google Sign-Up Failed"), // ✅ Handle errors
+  });
+  
   useEffect(() => {
     if (open) {
       // Reset validation errors
@@ -233,20 +332,35 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               {/* Password Input */}
               <Box>
                 <Text fontSize="15px" fontWeight={600} mb={1}>Password</Text>
-                <Input 
-                  ref={passwordRef} 
-                  type="password" 
-                  placeholder="••••••••" 
-                  isInvalid={passwordError} 
-                  errorBorderColor="red.300"
-                  onChange={(e) => checkPasswordStrength(e.target.value)}
-                  aria-label="Password"
-                  aria-describedby={passwordError ? "password-error" : undefined}
-                  _focus={{
-                    outline: "2px solid var(--bright-green)",
-                    outlineOffset: "2px",
-                  }}
-                />
+                <InputGroup>
+                  <Input 
+                    ref={passwordRef} 
+                    type={visibleField === "password" ? "text" : "password"} 
+                    placeholder="Enter new password"
+                    isInvalid={passwordError} 
+                    errorBorderColor="red.300"
+                    onChange={(e) => checkPasswordStrength(e.target.value)}
+                    aria-label="Password"
+                    aria-describedby={passwordError ? "password-error" : undefined}
+                    _focus={{
+                      outline: "2px solid var(--bright-green)",
+                      outlineOffset: "2px",
+                    }}
+                  />
+                   <InputRightElement width="3rem">
+                      <Button
+                          h="1.5rem"
+                          size="sm"
+                          bg="white" // ✅ Default white background
+                          _hover={{ bg: "green.300" }} // ✅ Changes to green on hover
+                          _focus={{ boxShadow: "none" }}
+                          onClick={() => setVisibleField(visibleField === "password" ? null : "password")}
+                          variant="ghost"
+                      >
+                          {visibleField === "password" ? <FaEyeSlash /> : <FaEye />}  {/* ✅ Toggle eye icon */}
+                      </Button>
+                  </InputRightElement>
+                </InputGroup>
 
                {/* Password Stregth Checker */}
 
@@ -271,14 +385,34 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               {/* Confirm Password Input */}
               <Box>
                 <Text fontSize="15px" fontWeight={600} mb={1}>Confirm Password</Text>
-                <Input ref={confirmPasswordRef} type="password" placeholder="••••••••" isInvalid={confirmPasswordError} errorBorderColor="red.300" 
-                aria-label="Confirm Password"
-                aria-describedby={passwordError ? "password-error" : undefined}
-                _focus={{
-                  outline: "2px solid var(--bright-green)",
-                  outlineOffset: "2px",
-                }}
-                />
+                <InputGroup>
+                  <Input 
+                  ref={confirmPasswordRef} 
+                  type={visibleField === "confirmPassword" ? "text" : "password"} 
+                  placeholder="Confirm new password"
+                  isInvalid={confirmPasswordError} 
+                  errorBorderColor="red.300" 
+                  aria-label="Confirm Password"
+                  aria-describedby={passwordError ? "password-error" : undefined}
+                  _focus={{
+                    outline: "2px solid var(--bright-green)",
+                    outlineOffset: "2px",
+                  }}
+                  />
+                  <InputRightElement width="3rem">
+                    <Button
+                        h="1.5rem"
+                        size="sm"
+                        bg="white" // ✅ Default white background
+                        _hover={{ bg: "green.300" }} // ✅ Changes to green on hover
+                        _focus={{ boxShadow: "none" }}
+                        onClick={() => setVisibleField(visibleField === "confirmPassword" ? null : "confirmPassword")}
+                        variant="ghost"
+                    >
+                        {visibleField === "confirmPassword" ? <FaEyeSlash /> : <FaEye />}  {/* ✅ Toggle eye icon */}
+                    </Button>
+                </InputRightElement>
+                </InputGroup>
                 {confirmPasswordError && <Text fontSize="xs" color="red.500">{confirmPasswordErrorMessage}</Text>}
               </Box>
 
@@ -301,7 +435,9 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               <Text textAlign="center" fontSize="15px" fontWeight={600} color="gray.600">or</Text>
 
               {/* Sign Up with Google */}
+              
               <Button 
+                onClick={() => googleSignup()}
                 variant="outline" 
                 width="full"
                 fontSize="15px"
@@ -318,6 +454,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               >
                 Sign up with Google
               </Button>
+
 
               {/* Already Have an Account? */}
               <Text textAlign="center" fontSize="15px">

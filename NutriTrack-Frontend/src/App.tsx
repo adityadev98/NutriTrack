@@ -6,7 +6,12 @@ import {
   Pricing, 
   FAQ, 
   Testimonials, 
+  AboutUs,
+  ContactUs,
+  TermsAndConditions,
   Login,
+  ResetPassword,
+  OtpVerification,
   ProfileSetup, 
   Dashboard, 
   TrackPage, 
@@ -17,9 +22,10 @@ import {
   HistoricalViewPage,
   AdminDashboard,
   NotFound,
+  CoachDashboard,
 } from "./Pages"
 
-import { ProtectedRoute, AdminRoute, PublicRoute } from "./Routes"
+import { ProtectedRoute, AdminRoute, PublicRoute, CoachRoute } from "./Routes"
 
 function App() {
 
@@ -34,14 +40,20 @@ function App() {
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/faq' element={<FAQ />} />
         <Route path='/testimonials' element={<Testimonials />} />
+        <Route path='/about' element={<AboutUs />} />
+        <Route path='/contact' element={<ContactUs />} />
+        <Route path='/terms' element={<TermsAndConditions />} />
 
         {/* Public Routes (Blocked for Logged-In Users) */}
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} /> 
         </Route>
 
          {/* Protected Routes for Logged-in Users */}
          <Route element={<ProtectedRoute />}>
+            {/* ✅ OTP Verification Page (Accessible to unverified users) */}
+            <Route path="/otp-verification" element={<OtpVerification />} />
             <Route path="/profile-setup" element={<ProfileSetup />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/track" element={<TrackPage />} />
@@ -55,7 +67,12 @@ function App() {
         {/* Admin-only Routes */}
         <Route element={<AdminRoute />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          </Route>
+        </Route>
+
+        {/* ✅ Coach-only Routes */}
+        <Route element={<CoachRoute />}>
+            <Route path="/coach-dashboard" element={<CoachDashboard />} />
+        </Route>
 
           {/* 404 Page Route */}
           <Route path="*" element={<NotFound />} />

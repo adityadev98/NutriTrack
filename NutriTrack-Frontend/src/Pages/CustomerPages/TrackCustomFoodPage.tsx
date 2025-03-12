@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate,useLocation } from 'react-router-dom';
-import {Sidenav} from "../Components/Sections";
+import {Sidenav} from "../../Components/Sections";
 import { Grid, Box, Button, Input, Select, Text, HStack, Heading } from "@chakra-ui/react";
-import '../App.css';
+// import '../App.css';
 
 
 interface FoodProps {

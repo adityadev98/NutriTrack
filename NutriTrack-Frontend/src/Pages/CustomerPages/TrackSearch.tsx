@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { searchFoodAPI, fetchFoodDetailsAPI } from "../Services/nutritionixAPI";
+import { searchFoodAPI, fetchFoodDetailsAPI } from "../../Services/nutritionixAPI";
 import { Input, Box, Text, Image, VStack } from "@chakra-ui/react";
-import '../App.css';
+// import '../App.css';
 
 interface TrackSearchProps {
   setSelectedFood: (food: any) => void;

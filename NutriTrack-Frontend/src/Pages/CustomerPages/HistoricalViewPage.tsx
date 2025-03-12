@@ -1,8 +1,8 @@
 import HistoricalLineGraph from '@/Components/ui/HistoricalLineGraph';
 import React, { useEffect, useState } from 'react';
-import {Sidenav} from "../Components/Sections";
+import {Sidenav} from "../../Components/Sections/index.js";
 
-import { getHistoricalData }  from '../Services/historicalViewServices.js';
+import { getHistoricalData }  from '../../Services/historicalViewServices.js';
 import HistoricalFilterForm from '@/Components/ui/HistoricalFilterForm.js';
 
 const HistoricalViewPage: React.FC = () => {

@@ -30,3 +30,10 @@ app.listen(PORT, () => {
   connectDB();
   console.log("✅ Server is up and running @ http://localhost:", PORT);
 });
+
+// Setting proper security headers.
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  res.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
+  next();
+});
