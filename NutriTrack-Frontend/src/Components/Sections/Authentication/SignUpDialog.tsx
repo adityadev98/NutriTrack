@@ -17,14 +17,16 @@ import {
   ModalCloseButton,
   Progress,
   useToast,
+  InputGroup, 
+  InputRightElement,
 } from "@chakra-ui/react";
 import axiosInstance from "../../../utils/axiosInstance.ts"; 
 import axios, { AxiosError } from "axios";
 import { useGoogleLogin} from "@react-oauth/google";
 import zxcvbn from "zxcvbn";
-import { UserContext } from "../../../contexts/UserContext"; 
-
+import { UserContext } from "../../../contexts/UserContext";
 import { logo, google } from "../../../assets/index.ts";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface SignUpDialogProps {
   open: boolean;
@@ -43,7 +45,7 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
-  
+  const [visibleField, setVisibleField] = useState<string | null>(null);
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -215,7 +217,6 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
         status: "success",
         duration: 4000,
         isClosable: true,
-        position: "top",
       });
   
       // Redirect logic after signup
@@ -329,20 +330,35 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               {/* Password Input */}
               <Box>
                 <Text fontSize="15px" fontWeight={600} mb={1}>Password</Text>
-                <Input 
-                  ref={passwordRef} 
-                  type="password" 
-                  placeholder="••••••••" 
-                  isInvalid={passwordError} 
-                  errorBorderColor="red.300"
-                  onChange={(e) => checkPasswordStrength(e.target.value)}
-                  aria-label="Password"
-                  aria-describedby={passwordError ? "password-error" : undefined}
-                  _focus={{
-                    outline: "2px solid var(--bright-green)",
-                    outlineOffset: "2px",
-                  }}
-                />
+                <InputGroup>
+                  <Input 
+                    ref={passwordRef} 
+                    type={visibleField === "password" ? "text" : "password"} 
+                    placeholder="Enter new password"
+                    isInvalid={passwordError} 
+                    errorBorderColor="red.300"
+                    onChange={(e) => checkPasswordStrength(e.target.value)}
+                    aria-label="Password"
+                    aria-describedby={passwordError ? "password-error" : undefined}
+                    _focus={{
+                      outline: "2px solid var(--bright-green)",
+                      outlineOffset: "2px",
+                    }}
+                  />
+                   <InputRightElement width="3rem">
+                      <Button
+                          h="1.5rem"
+                          size="sm"
+                          bg="white" // ✅ Default white background
+                          _hover={{ bg: "green.300" }} // ✅ Changes to green on hover
+                          _focus={{ boxShadow: "none" }}
+                          onClick={() => setVisibleField(visibleField === "password" ? null : "password")}
+                          variant="ghost"
+                      >
+                          {visibleField === "password" ? <FaEyeSlash /> : <FaEye />}  {/* ✅ Toggle eye icon */}
+                      </Button>
+                  </InputRightElement>
+                </InputGroup>
 
                {/* Password Stregth Checker */}
 
@@ -367,14 +383,34 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
               {/* Confirm Password Input */}
               <Box>
                 <Text fontSize="15px" fontWeight={600} mb={1}>Confirm Password</Text>
-                <Input ref={confirmPasswordRef} type="password" placeholder="••••••••" isInvalid={confirmPasswordError} errorBorderColor="red.300" 
-                aria-label="Confirm Password"
-                aria-describedby={passwordError ? "password-error" : undefined}
-                _focus={{
-                  outline: "2px solid var(--bright-green)",
-                  outlineOffset: "2px",
-                }}
-                />
+                <InputGroup>
+                  <Input 
+                  ref={confirmPasswordRef} 
+                  type={visibleField === "confirmPassword" ? "text" : "password"} 
+                  placeholder="Confirm new password"
+                  isInvalid={confirmPasswordError} 
+                  errorBorderColor="red.300" 
+                  aria-label="Confirm Password"
+                  aria-describedby={passwordError ? "password-error" : undefined}
+                  _focus={{
+                    outline: "2px solid var(--bright-green)",
+                    outlineOffset: "2px",
+                  }}
+                  />
+                  <InputRightElement width="3rem">
+                    <Button
+                        h="1.5rem"
+                        size="sm"
+                        bg="white" // ✅ Default white background
+                        _hover={{ bg: "green.300" }} // ✅ Changes to green on hover
+                        _focus={{ boxShadow: "none" }}
+                        onClick={() => setVisibleField(visibleField === "confirmPassword" ? null : "confirmPassword")}
+                        variant="ghost"
+                    >
+                        {visibleField === "confirmPassword" ? <FaEyeSlash /> : <FaEye />}  {/* ✅ Toggle eye icon */}
+                    </Button>
+                </InputRightElement>
+                </InputGroup>
                 {confirmPasswordError && <Text fontSize="xs" color="red.500">{confirmPasswordErrorMessage}</Text>}
               </Box>
 

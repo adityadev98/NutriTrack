@@ -11,7 +11,7 @@ import { User, userProfile as UserProfile, PasswordResetToken } from "../models/
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "nutritrackapp";
 
-const BASE_URL = process.env.BASE_URL 
+const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL ; 
 
 // Temporary storage for reset tokens (for production, use a DB collection)
 const resetTokens = {};
@@ -153,7 +153,7 @@ export const forgotPassword = async (req, res) => {
     await newToken.save();
 
     // ✅ Create the reset link dynamically from .env
-    const resetLink = `${BASE_URL}/api/auth/reset-password/${resetToken}`;
+    const resetLink = `${FRONTEND_BASE_URL}/reset-password/${resetToken}`;
 
     // ✅ Send the email using the HTML template
     await sendEmail(email, "Password Reset Request", "forgotPassword.html", {

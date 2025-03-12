@@ -78,30 +78,25 @@ export const feedback = [
 ];
 export const footerLinks = [
   {
-    title: "Useful Links",
-    links: [
-      {
-        name: "Content",
-        link: "#",
-      },
-      {
-        name: "How it Works",
-        link: "#",
-      },
-      {
-        name: "Create",
-        link: "#",
-      },
-      {
-        name: "Explore",
-        link: "#",
-      },
-      {
-        name: "Terms & Services",
-        link: "#",
-      },
-    ],
-  }
+    id: "about",
+    title: "About Us",
+  },
+  {
+    id: "contact",
+    title: "Contact Us",
+  },
+  {
+    id: "pricing",
+    title: "Pricing",
+  },
+  {
+    id: "faq",
+    title: "FAQs",
+  },
+  {
+    id: "terms",
+    title: "Terms & Conditions",
+  }, 
 ];
 
 export const socialMedia = [

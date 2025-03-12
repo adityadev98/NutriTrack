@@ -17,6 +17,8 @@ import {
   ModalBody,
   ModalCloseButton,
   useToast,
+  InputGroup, 
+  InputRightElement,
 } from "@chakra-ui/react";
 import {AxiosError} from "axios";
 import axiosInstance from "../../../utils/axiosInstance.ts"; 
@@ -24,6 +26,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import { useGoogleLogin } from "@react-oauth/google";
 // import {ForgotPassword} from "../index.ts";
 import { logo, google } from "../../../assets/index.ts";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface SignInDialogProps {
   open: boolean;
@@ -39,6 +42,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [visibleField, setVisibleField] = useState<string | null>(null);
   // const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const toast = useToast();
   const { setLoggedUser } = useContext(UserContext) ?? {};
@@ -203,7 +207,6 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
         status: "success",
         duration: 4000,
         isClosable: true,
-        position: "top",
       });
   
       // Redirect logic after login
@@ -322,25 +325,40 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
               {/* Password Input */}
               <Box>
                 <Text fontSize="15px" fontWeight={600} mb={1}>Password</Text>
-                <Input 
-                  ref={passwordRef} 
-                  type="password" 
-                  placeholder="••••••••" 
-                  isInvalid={passwordError} 
-                  errorBorderColor="red.300"
-                  aria-label="Password"
-                  aria-describedby={passwordError ? "password-error" : undefined}
-                  _focus={{
-                    outline: "2px solid var(--bright-green)",
-                    outlineOffset: "2px",
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault(); // Prevents accidental activation of Forgot Password
-                      document.getElementById("signInButton")?.click(); // Manually triggers sign-in
-                    }
-                  }}
-                />
+                <InputGroup>
+                  <Input 
+                    ref={passwordRef} 
+                    type={visibleField === "password" ? "text" : "password"} 
+                    placeholder="Enter your password"
+                    isInvalid={passwordError} 
+                    errorBorderColor="red.300"
+                    aria-label="Password"
+                    aria-describedby={passwordError ? "password-error" : undefined}
+                    _focus={{
+                      outline: "2px solid var(--bright-green)",
+                      outlineOffset: "2px",
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault(); // Prevents accidental activation of Forgot Password
+                        document.getElementById("signInButton")?.click(); // Manually triggers sign-in
+                      }
+                    }}
+                  />
+                    <InputRightElement width="3rem">
+                      <Button
+                          h="1.5rem"
+                          size="sm"
+                          bg="white" // ✅ Default white background
+                          _hover={{ bg: "green.300" }} // ✅ Changes to green on hover
+                          _focus={{ boxShadow: "none" }}
+                          onClick={() => setVisibleField(visibleField === "password" ? null : "password")}
+                          variant="ghost"
+                      >
+                          {visibleField === "password" ? <FaEyeSlash /> : <FaEye />}  {/* ✅ Toggle eye icon */}
+                      </Button>
+                  </InputRightElement>
+                </InputGroup>
                 {passwordError && (
                   <Text id="password-error" fontSize="xs" color="red.500" role="alert">{passwordErrorMessage}</Text>
                 )}

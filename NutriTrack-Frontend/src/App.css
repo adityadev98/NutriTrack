@@ -240,6 +240,10 @@ a:hover {
   background-color: var(--dark-green); /* or any defined color */
 }
 
+.bg-alternate {
+  background-color: var(--light-beige); /* or any defined color */
+}
+
 .bg-navbar{
   background-color: var(--dark-green); /* or any defined color */
 }

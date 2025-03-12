@@ -89,7 +89,7 @@ const ForgotPassword = ({ open, handleClose }: ForgotPasswordProps) => {
     <Modal isOpen={open} onClose={handleClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Reset Password</ModalHeader>
+        <ModalHeader lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>Forgot your password?</ModalHeader>
         <ModalCloseButton 
           color="black" 
           right={4}
@@ -116,7 +116,7 @@ const ForgotPassword = ({ open, handleClose }: ForgotPasswordProps) => {
 
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
-              <Input ref={emailRef} type="email" placeholder="Email address" required autoFocus />
+              <Input ref={emailRef} type="email" placeholder="your-email@example.com" _placeholder={{ color: 'gray.500' }} required autoFocus />
               <Button type="submit" colorScheme="blue" isLoading={loading}>
                 Continue
               </Button>

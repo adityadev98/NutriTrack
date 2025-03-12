@@ -17,6 +17,7 @@ import NotFound from "./NotFound";
 import TermsAndConditions from "./TermsAndConditions";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
+import ResetPassword from "./ResetPassword";
 
 export {
     HomePage,
@@ -38,4 +39,5 @@ export {
     TermsAndConditions,
     AboutUs,
     ContactUs,
+    ResetPassword,
 };

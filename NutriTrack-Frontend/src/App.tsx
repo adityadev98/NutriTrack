@@ -6,7 +6,11 @@ import {
   Pricing, 
   FAQ, 
   Testimonials, 
+  AboutUs,
+  ContactUs,
+  TermsAndConditions,
   Login,
+  ResetPassword,
   ProfileSetup, 
   Dashboard, 
   TrackPage, 
@@ -34,10 +38,14 @@ function App() {
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/faq' element={<FAQ />} />
         <Route path='/testimonials' element={<Testimonials />} />
+        <Route path='/about' element={<AboutUs />} />
+        <Route path='/contact' element={<ContactUs />} />
+        <Route path='/terms' element={<TermsAndConditions />} />
 
         {/* Public Routes (Blocked for Logged-In Users) */}
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} /> 
         </Route>
 
          {/* Protected Routes for Logged-in Users */}
