@@ -1,14 +1,18 @@
 //entry point for api
 import express from "express";
 import dotenv from "dotenv";
-import { connectDB } from "./config/db.js";
 import cors from "cors";
+import path from "path";
+
+import { connectDB } from "./config/db.js";
 import { nutriRoutes, authRoutes, profileRoutes, userRoutes, adminRoutes, coachRoutes} from "./routes/index.js";
 
 dotenv.config();
 
 console.log(process.env.MONGO_URI);
 const PORT = process.env.VITE_PORT || 5000;
+
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -30,6 +34,15 @@ app.listen(PORT, () => {
   connectDB();
   console.log("✅ Server is up and running @ http://localhost:", PORT);
 });
+
+// For deployment
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/NutriTrack-Frontend/dist")));
+
+  app.get("*", (req, res) =>{
+    res.sendFile(path.resolve(__dirname, "NutriTrack-Frontend", "dist", "index.html"));
+  });
+}  
 
 // Setting proper security headers.
 app.use((req, res, next) => {
