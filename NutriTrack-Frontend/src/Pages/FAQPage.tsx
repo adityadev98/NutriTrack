@@ -5,7 +5,6 @@ import {
 	AccordionButton,
 	AccordionPanel,
 	Flex,
-	useColorModeValue,
 	Text,
 	Container,
 	Box,

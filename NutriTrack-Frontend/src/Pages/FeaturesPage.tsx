@@ -12,14 +12,10 @@ import {
   } from '@chakra-ui/react'
   import { CheckIcon } from '@chakra-ui/icons'
 //import styles from "../../style";
-const features = Array.apply(null, Array(8)).map(function (x, i) {
-	return {
-	  id: i,
-	  title: 'Lorem ipsum dolor sit amet',
-	  text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam.',
-	}
-  })
-  
+import {FeaturesList} from "../Constants";
+
+const features = FeaturesList;
+
 const Features = () => {
 	
 	return (
@@ -34,7 +30,7 @@ const Features = () => {
 			<Box className="flex-grow pt-[80px]">  
 			<Box p={4} pt={50} pb={50}>
 				<Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
-					<Heading fontSize={'3xl'}>This is the headline</Heading>
+					<Heading fontSize={'3xl'}>NutriTrack Features</Heading>
 					<Text color={'gray.600'} fontSize={'xl'}>
 					Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
 					tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.

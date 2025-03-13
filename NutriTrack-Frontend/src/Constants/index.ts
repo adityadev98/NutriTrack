@@ -4,6 +4,13 @@ import {
 import { MdNoMeals,MdDashboardCustomize } from "react-icons/md";
 import { GoGraph } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
+import FeaturesList from './Features';
+
+export {
+  FeaturesList,
+
+}
+
 export const navLinks = [
   {
     id: "home",
