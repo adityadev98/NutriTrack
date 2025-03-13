@@ -41,7 +41,8 @@ const ProfileSetup: React.FC = () => {
         token,
         name: userProfile.name, // Update name
         profileCompleted: userProfile.profileCompleted, // Ensure profileCompleted is updated
-        userType: storedUser.userType || "user", // Keep existing userType (fallback to "user")
+        userType: storedUser.userType, // Keep existing userType (fallback to "user")
+        verified: storedUser.verified, // Keep existing verified status
         tokenExpiry: storedUser.tokenExpiry, // Maintain the same token expiry
       };
 

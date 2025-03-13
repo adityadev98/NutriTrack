@@ -140,7 +140,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
       return;
     }
 
-    // ✅ Redirect logic after login
+    // Redirect logic after login
     if (userType === "admin") {
       navigate("/admin-dashboard", { replace: true });
     } else if (userType === "coach") {
@@ -235,10 +235,12 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
       // Redirect logic after login
       if (userType === "admin") {
         navigate("/admin-dashboard", { replace: true });
+      } else if (userType === "coach") {
+        navigate("/coach-dashboard", { replace: true });
       } else if (!profileCompleted) {
         navigate("/profile-setup", { replace: true });
       } else {
-        navigate("/dashboard", { replace: true }); // Redirect after successful login
+        navigate("/dashboard", { replace: true });
       }
       onClose(); // ✅ Close modal after login
     } catch (err) {
@@ -442,6 +444,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
                 fontWeight={500}
                 leftIcon={<Box as="img" src={google} alt="Google logo" boxSize="16px" />}
                 aria-label="Sign in with Google"
+                outline="1px solid rgba(156, 156, 156, 0.53)"
                 _focus={{
                   outline: "2px solid var(--bright-green)",
                   outlineOffset: "2px",

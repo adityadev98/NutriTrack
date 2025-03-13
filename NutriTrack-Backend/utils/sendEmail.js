@@ -1,4 +1,5 @@
-import mailgun from "mailgun-js";
+import Mailgun from "mailgun.js"; 
+import formData from "form-data"; 
 import dotenv from "dotenv";
 import fs from "fs";
 import { fileURLToPath } from "url";
@@ -6,9 +7,10 @@ import path from "path";
 
 dotenv.config();
 
-const mg = mailgun({
-  apiKey: process.env.MAILGUN_API_KEY,
-  domain: process.env.MAILGUN_DOMAIN,
+const mailgun = new Mailgun(formData);
+const mg = mailgun.client({
+  username: "api",
+  key: process.env.MAILGUN_API_KEY,
 });
 
 const __filename = fileURLToPath(import.meta.url);
@@ -34,20 +36,17 @@ const getHtmlTemplate = (fileName, replacements) => {
 
 // ✅ Function to Send Emails with HTML Template
 export const sendEmail = async (to, subject, templateName, replacements) => {
-  const emailData = {
-    from: `NutriTrack <${process.env.MAILGUN_FROM_EMAIL}>`,
-    to,
-    subject,
-    html: getHtmlTemplate(templateName, replacements), // ✅ Use HTML template instead of plain text
-  };
-
-  return new Promise((resolve, reject) => {
-    mg.messages().send(emailData, (error, body) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(body);
-      }
-    });
-  });
+  try {
+    const emailData = {
+      from: `NutriTrack <${process.env.MAILGUN_FROM_EMAIL}>`,
+      to,
+      subject,
+      html: getHtmlTemplate(templateName, replacements), // ✅ Use HTML template instead of plain text
+    };
+    const response = await mg.messages.create(process.env.MAILGUN_DOMAIN, emailData);
+    return response;
+  } catch (error) {
+    console.error("Mailgun Error:", error);
+    throw error;
+  }
 };

@@ -159,6 +159,7 @@ export const forgotPassword = async (req, res) => {
     // ✅ Send the email using the HTML template
     await sendEmail(email, "Password Reset Request", "forgotPassword.html", {
       RESET_LINK: resetLink,
+      Email: email,
     });
 
     res.json({ success: true, message: "Password reset link sent to email!" });
