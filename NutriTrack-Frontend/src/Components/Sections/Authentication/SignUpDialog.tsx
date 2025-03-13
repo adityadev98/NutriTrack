@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect} from "react";
+// import { useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
@@ -24,7 +24,7 @@ import axiosInstance from "../../../utils/axiosInstance.ts";
 import axios, { AxiosError } from "axios";
 import { useGoogleLogin} from "@react-oauth/google";
 import zxcvbn from "zxcvbn";
-import { UserContext } from "../../../contexts/UserContext";
+// import { UserContext } from "../../../contexts/UserContext";
 import { logo, google } from "../../../assets/index.ts";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -46,10 +46,10 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [visibleField, setVisibleField] = useState<string | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const toast = useToast();
 
-  const { setLoggedUser } = useContext(UserContext) ?? {};
+  // const { setLoggedUser } = useContext(UserContext) ?? {};
 
   // Validate Inputs
   const validateInputs = () => {
@@ -181,37 +181,37 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
         access_token: accessToken,
       });
 
-      const { token, userType, profileCompleted, userProfile, expiresIn, verified} = response.data;
-      console.log("Signup with Google successful!", userProfile.user);
+      // const { token, userType, profileCompleted, userProfile, expiresIn, verified} = response.data;
+      console.log("Signup with Google successful!", response.data);
   
-      const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
+      // const tokenExpiry = Date.now() + expiresIn * 1000; // Convert seconds to milliseconds
   
-      if (setLoggedUser) {
-        setLoggedUser({
-          userid: userProfile.user,
-          token,
-          name: userProfile.name,
-          profileCompleted,
-          userType,
-          verified,
-          tokenExpiry,  // Store expiry timestamp
-        });    
-        localStorage.setItem("loggedUser", JSON.stringify({
-          userid: userProfile.user,
-          token,
-          name: userProfile.name,
-          profileCompleted,
-          userType,
-          verified,
-          tokenExpiry, // Store in localStorage
-        }));
+      // if (setLoggedUser) {
+      //   setLoggedUser({
+      //     userid: userProfile.user,
+      //     token,
+      //     name: userProfile.name,
+      //     profileCompleted,
+      //     userType,
+      //     verified,
+      //     tokenExpiry,  // Store expiry timestamp
+      //   });    
+      //   localStorage.setItem("loggedUser", JSON.stringify({
+      //     userid: userProfile.user,
+      //     token,
+      //     name: userProfile.name,
+      //     profileCompleted,
+      //     userType,
+      //     verified,
+      //     tokenExpiry, // Store in localStorage
+      //   }));
 
-        localStorage.setItem("token", token); // Store token separately for requests
-        localStorage.setItem("user", userProfile.user);  // Store userProfile.user in localStorage
+      //   localStorage.setItem("token", token); // Store token separately for requests
+      //   localStorage.setItem("user", userProfile.user);  // Store userProfile.user in localStorage
 
-      } else {
-        console.error("UserContext is not available.");
-      }
+      // } else {
+      //   console.error("UserContext is not available.");
+      // }
   
       toast({
         title: "Sign-Up Successful!",
@@ -221,16 +221,16 @@ const SignUpDialog = ({ open, onClose, openSignIn }: SignUpDialogProps) => {
         isClosable: true,
       });
   
-      // Redirect logic after login
-      if (userType === "admin") {
-        navigate("/admin-dashboard", { replace: true });
-      } else if (userType === "coach") {
-        navigate("/coach-dashboard", { replace: true });
-      } else if (!profileCompleted) {
-        navigate("/profile-setup", { replace: true });
-      } else {
-        navigate("/dashboard", { replace: true });
-      }
+      // // Redirect logic after login
+      // if (userType === "admin") {
+      //   navigate("/admin-dashboard", { replace: true });
+      // } else if (userType === "coach") {
+      //   navigate("/coach-dashboard", { replace: true });
+      // } else if (!profileCompleted) {
+      //   navigate("/profile-setup", { replace: true });
+      // } else {
+      //   navigate("/dashboard", { replace: true });
+      // }
 
       onClose(); // ✅ Close modal after sign-up
     } catch (err) {
