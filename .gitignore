@@ -12,6 +12,11 @@ NutriTrack-Frontend/dist
 dist-ssr
 *.local
 
+# Build Log Files
+# Run Build with the following command to generate the logs - npm run build > build_log.txt 2>&1
+build_log.txt
+NutriTrack-Frontend/build_log.txt
+
 # Environment Files to be ignored
 .env
 
@@ -20,14 +25,10 @@ coverage/
 NutriTrack-Backend/test-results.txt
 NutriTrack-Frontend/test-results.txt
 NutriTrack-Backend/test-results.json
+
 # Node Modules to be ignored
 node_modules/
 NutriTrack-Frontend/node_modules
-
-# Build Log Files
-# Run Build with the following command to generate the logs - npm run build > build_log.txt 2>&1
-build_log.txt
-NutriTrack-Frontend/build_log.txt
 
 # Editor directories and files
 .vscode/*
