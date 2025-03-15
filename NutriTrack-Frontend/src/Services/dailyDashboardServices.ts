@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DailyPieChartProps } from '@/Components/ui/DailyPieChart';
+import { DailyPieChartProps } from '@/Components/Sections/CustomerSections/DailyPieChart';
 
 export const getDailyData = async (): Promise<DailyPieChartProps['dailyData'] | undefined> => {
     try {

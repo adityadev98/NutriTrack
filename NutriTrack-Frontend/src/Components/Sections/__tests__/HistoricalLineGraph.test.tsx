@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import HistoricalLineGraph from '../HistoricalLineGraph';
+import HistoricalLineGraph from '../../../Components/Sections/CustomerSections/HistoricalLineGraph';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 

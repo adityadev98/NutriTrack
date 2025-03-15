@@ -12,10 +12,13 @@ NutriTrack-Frontend/dist
 dist-ssr
 *.local
 
-# Build Log Files
+# Build Files
 # Run Build with the following command to generate the logs - npm run build > build_log.txt 2>&1
 build_log.txt
 NutriTrack-Frontend/build_log.txt
+
+# Build Files
+NutriTrack-Frontend/dist
 
 # Environment Files to be ignored
 .env
