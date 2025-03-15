@@ -1,11 +1,11 @@
-import HistoricalLineGraph from '@/Components/ui/HistoricalLineGraph';
 import React, { useEffect, useState } from 'react';
 import {Sidenav} from "../../Components/Sections";
 import { getDailyData }  from '../../Services/dailyDashboardServices';
 import DailyPieChart from '@/Components/ui/DailyPieChart';
+import { DailyPieChartProps } from '@/Components/ui/DailyPieChart';
 
 const DailyDashboardPage: React.FC = () => {
-    const [dailyData, setDailyData] = useState([]);
+    const [dailyData, setDailyData] = useState<DailyPieChartProps['dailyData']|undefined>(undefined);
 
     useEffect(() => {
         getDailyData()
@@ -17,7 +17,11 @@ const DailyDashboardPage: React.FC = () => {
         <div className="main-heading">
             <h1>Today's Nutrient Intake</h1>
         </div>
-        <DailyPieChart dailyData={dailyData}/>
+        {dailyData ? (
+                <DailyPieChart dailyData={dailyData} />
+            ) : (
+                <p>No meals today</p>
+        )}
         </Sidenav>
     );
 };

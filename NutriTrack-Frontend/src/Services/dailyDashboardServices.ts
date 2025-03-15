@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { DailyPieChartProps } from '@/Components/ui/DailyPieChart';
 
-export const getDailyData = async () => {
+export const getDailyData = async (): Promise<DailyPieChartProps['dailyData'] | undefined> => {
     try {
         const token = localStorage.getItem("token");
         console.log("Token being sent:", token); // Debug log
@@ -15,7 +16,7 @@ export const getDailyData = async () => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        let result = {};
+        let result = undefined;
         console.log(response);
         if (response.data.data.trackings.length > 0) {
             const tracking = response.data.data.trackings[0];
