@@ -4,16 +4,18 @@ import {Sidenav} from "../../Components/Sections/index.js";
 
 import { getHistoricalData }  from '../../Services/historicalViewServices.js';
 import HistoricalFilterForm from '@/Components/ui/HistoricalFilterForm.js';
+import { HistoricalLineGraphProps } from '@/Components/ui/HistoricalLineGraph';
 
 const HistoricalViewPage: React.FC = () => {
-    const [historicalData, setHistoricalData] = useState([]);
+    
+    const [historicalData, setHistoricalData] = useState<HistoricalLineGraphProps['historicalData']>([]);
 
     useEffect(() => {
         getHistoricalData('month')
           .then(setHistoricalData);
       }, []);
 
-    const handleFormSubmit = (selectedValue = 'month', startDate = null, endDate = null) => {
+    const handleFormSubmit = (selectedValue:string = 'month', startDate?:string|null, endDate?:string|null) => {
         getHistoricalData(selectedValue, startDate, endDate)
           .then(setHistoricalData);
     };

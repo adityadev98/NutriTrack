@@ -1,7 +1,11 @@
 import { Button } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-const HistoricalFilterForm: React.FC = ( {onSubmit}) => {
+interface HistoricalFilterFormProps {
+    onSubmit: (selectedOption: string, startDate?: string, endDate?: string) => void;
+}
+
+const HistoricalFilterForm: React.FC<HistoricalFilterFormProps> = ({ onSubmit }) => {
     const [selectedOption, setSelectedOption] = useState('month');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');

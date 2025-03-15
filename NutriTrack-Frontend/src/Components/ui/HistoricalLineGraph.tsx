@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { convertEpochToFormattedDate }  from '../../Services/historicalViewServices';
 
 
-interface HistoricalLineGraphProps {
+export interface HistoricalLineGraphProps {
   historicalData: Array<{
     aggTime: number;
-    totalCalories: number;
-    totalProtein: number;
-    totalFat: number;
-    totalFiber: number;
-    totalCarbohydrate: number;
+    totalCalories?: number;
+    totalProtein?: number;
+    totalFat?: number;
+    totalFiber?: number;
+    totalCarbohydrate?: number;
   }>;
 }
 

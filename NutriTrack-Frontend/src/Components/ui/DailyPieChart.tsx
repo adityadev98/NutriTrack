@@ -1,10 +1,10 @@
 import { XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import React from 'react';
 
-interface DailyPieChartProps {
+export interface DailyPieChartProps {
   dailyData: {
-    calorieData: { name: string; totalCalories: number }[];
-    nutrientData: { name: string; value: number }[];
+    calorieData?: { name?: string; totalCalories?: number }[];
+    nutrientData?: { name?: string; value?: number }[];
   };
 }
 
