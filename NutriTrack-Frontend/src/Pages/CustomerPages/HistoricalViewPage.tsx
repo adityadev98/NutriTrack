@@ -1,10 +1,10 @@
-import HistoricalLineGraph from '@/Components/ui/HistoricalLineGraph';
+import HistoricalLineGraph from '@/Components/Sections/CustomerSections/HistoricalLineGraph.js';
 import React, { useEffect, useState } from 'react';
 import {Sidenav} from "../../Components/Sections/index.js";
 
 import { getHistoricalData }  from '../../Services/historicalViewServices.js';
-import HistoricalFilterForm from '@/Components/ui/HistoricalFilterForm.js';
-import { HistoricalLineGraphProps } from '@/Components/ui/HistoricalLineGraph';
+import HistoricalFilterForm from '@/Components/Sections/CustomerSections/HistoricalFilterForm.js';
+import { HistoricalLineGraphProps } from '@/Components/Sections/CustomerSections/HistoricalLineGraph.js';
 
 const HistoricalViewPage: React.FC = () => {
     

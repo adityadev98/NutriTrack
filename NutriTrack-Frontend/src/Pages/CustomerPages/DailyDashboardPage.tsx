@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {Sidenav} from "../../Components/Sections";
 import { getDailyData }  from '../../Services/dailyDashboardServices';
-import DailyPieChart from '@/Components/ui/DailyPieChart';
-import { DailyPieChartProps } from '@/Components/ui/DailyPieChart';
+import DailyPieChart from '@/Components/Sections/CustomerSections/DailyPieChart';
+import { DailyPieChartProps } from '@/Components/Sections/CustomerSections/DailyPieChart';
 
 const DailyDashboardPage: React.FC = () => {
     const [dailyData, setDailyData] = useState<DailyPieChartProps['dailyData']|undefined>(undefined);

@@ -1,6 +1,6 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import React, { useState } from 'react';
-import { convertEpochToFormattedDate }  from '../../Services/historicalViewServices';
+import { convertEpochToFormattedDate }  from '../../../Services/historicalViewServices';
 
 
 export interface HistoricalLineGraphProps {

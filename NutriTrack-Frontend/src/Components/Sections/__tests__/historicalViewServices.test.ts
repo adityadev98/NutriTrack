@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getHistoricalData, fillMissingDates, convertTrackingDatesToEpoch, convertEpochToFormattedDate, formatTrackingDates } from '../../../Services/historicalViewServices';
+import { getHistoricalData, fillMissingDates, convertTrackingDatesToEpoch, convertEpochToFormattedDate, formatTrackingDates } from '../../..//Services/historicalViewServices';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

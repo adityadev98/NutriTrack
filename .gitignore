@@ -7,17 +7,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-NutriTrack-Frontend/node_modules
-NutriTrack-Frontend/dist
-dist-ssr
-*.local
 
-# Build Log Files
+
+# Build Files
 # Run Build with the following command to generate the logs - npm run build > build_log.txt 2>&1
 build_log.txt
 NutriTrack-Frontend/build_log.txt
 
-# Environment Files to be ignored
+# Build Files
+NutriTrack-Frontend/dist
+dist-ssr
+
+# Ignore local environment files
+*.local
 .env
 
 # Testing
@@ -29,6 +31,10 @@ NutriTrack-Backend/test-results.json
 # Node Modules to be ignored
 node_modules/
 NutriTrack-Frontend/node_modules
+
+# Docker Files
+Dockerfile
+.dockerignore
 
 # Editor directories and files
 .vscode/*

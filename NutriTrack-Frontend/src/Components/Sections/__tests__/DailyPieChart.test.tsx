@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import DailyPieChart from '../DailyPieChart';
+import DailyPieChart from '../../../Components/Sections/CustomerSections/DailyPieChart';
 import '@testing-library/jest-dom';
 
 describe('DailyPieChart', () => {
