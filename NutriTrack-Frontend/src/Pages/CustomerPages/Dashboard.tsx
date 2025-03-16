@@ -66,11 +66,19 @@ const Dashboard: React.FC = () => {
     return weight * 1.6; // 1.6 grams of protein per kilogram of body weight
   };
 
+  // Calculate BMI
+  const calculateBMI = (weight: number, height: number) => {
+    const heightInMeters = height / 100; // Convert height to meters
+    return weight / (heightInMeters * heightInMeters);
+  };
+
   const bmr = calculateBMR(profile.weight, profile.height, profile.age, profile.gender);
   const tdee = calculateTDEE(bmr, profile.activityLevel);
   const proteinNeeds = calculateProteinNeeds(profile.weight);
+  const bmi = calculateBMI(profile.weight, profile.height);
 
 
+  
 
   
 
@@ -113,6 +121,10 @@ const Dashboard: React.FC = () => {
               <StatLabel>Daily Protein Needs</StatLabel>
               <StatNumber>{Math.round(proteinNeeds)} g</StatNumber>
             </Stat>
+            <Stat>
+                <StatLabel>BMI</StatLabel>
+                <StatNumber>{bmi.toFixed(2)}</StatNumber>
+              </Stat>
           </StatGroup>
           <Button
             mt={4}
