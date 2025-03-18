@@ -1,13 +1,13 @@
 import FeaturesList from './Features';
 import navLinks from './navLinks';  
 import footerLinks from './footerLinks';
-import adminnavLinks from './adminnavLinks';
-import DashNavLinks from './dashnavLinks';
+import AdminNavLinks from './AdminNavLinks';
+import DashNavLinks from './DashNavLinks';
 export {
   FeaturesList,
   navLinks,
   footerLinks,
-  adminnavLinks,
+  AdminNavLinks,
   DashNavLinks,
 }
 

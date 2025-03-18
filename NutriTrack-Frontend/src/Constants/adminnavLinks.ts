@@ -1,7 +1,7 @@
 import { CgProfile } from "react-icons/cg";
 import { MdDashboardCustomize } from "react-icons/md";
 
-const adminnavLinks = [
+const AdminNavLinks = [
     {
       id: "dashboard",
       title: "Dashboard",
@@ -14,4 +14,4 @@ const adminnavLinks = [
     },
   ];   
 
-export default adminnavLinks;
+export default AdminNavLinks;
