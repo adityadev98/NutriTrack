@@ -125,16 +125,4 @@ export const DashNavLinks = [
     title: "Profile",
     icon: CgProfile ,
   },
-];            
-export const AdminNavLinks = [
-  {
-    id: "dashboard",
-    title: "Dashboard",
-    icon: MdDashboardCustomize,
-  },
-  {
-    id: "profile-setup",
-    title: "Profile",
-    icon: CgProfile ,
-  },
-];        
+];                 
