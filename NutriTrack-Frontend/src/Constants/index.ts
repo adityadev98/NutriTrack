@@ -1,19 +1,14 @@
-import {
-  FiHome,
-} from 'react-icons/fi'
-import { MdNoMeals,MdDashboardCustomize } from "react-icons/md";
-import { GoGraph } from "react-icons/go";
-
 import FeaturesList from './Features';
 import navLinks from './navLinks';  
 import footerLinks from './footerLinks';
 import adminnavLinks from './adminnavLinks';
-
+import DashNavLinks from './dashnavLinks';
 export {
   FeaturesList,
   navLinks,
   footerLinks,
   adminnavLinks,
+  DashNavLinks,
 }
 
 
