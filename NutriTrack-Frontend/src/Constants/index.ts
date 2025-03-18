@@ -1,8 +1,9 @@
 import FeaturesList from './Features';
 import navLinks from './navLinks';  
 import footerLinks from './footerLinks';
-import AdminNavLinks from './AdminNavLinks';
-import DashNavLinks from './DashNavLinks';
+import AdminNavLinks from './adminnavLinks';
+import DashNavLinks from './dashnavLinks';
+
 export {
   FeaturesList,
   navLinks,
