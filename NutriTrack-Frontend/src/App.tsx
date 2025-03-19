@@ -23,6 +23,7 @@ import {
   AdminDashboard,
   NotFound,
   CoachDashboard,
+  RecipePage,
 } from "./Pages"
 
 import { ProtectedRoute, AdminRoute, PublicRoute, CoachRoute } from "./Routes"
@@ -62,6 +63,7 @@ function App() {
             <Route path="/trackCustomFood" element={<TrackCustomFoodPage />} />
             <Route path="/dailydashboard" element={<DailyDashboardPage />} />
             <Route path='/historical' element={<HistoricalViewPage />} />
+            <Route path='/recipe' element={<RecipePage />} />
           </Route>
 
         {/* Admin-only Routes */}

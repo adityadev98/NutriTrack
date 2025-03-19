@@ -20,6 +20,7 @@ import ContactUs from "./ContactUs";
 import ResetPassword from "./ResetPassword";
 import CoachDashboard from "./CoachPages/CoachDashboard";
 import OtpVerification from "./CustomerPages/OtpVerification";
+import RecipePage from "./CustomerPages/RecipePage";
 
 export {
     HomePage,
@@ -36,6 +37,7 @@ export {
     DailyDashboardPage,
     Dashboard,
     ProfileSetup,
+    RecipePage,
     AdminDashboard,
     NotFound,
     TermsAndConditions,
