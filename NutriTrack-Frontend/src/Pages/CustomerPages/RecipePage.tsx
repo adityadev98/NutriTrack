@@ -35,6 +35,10 @@ const RecipePage: React.FC = () => {
         getArea();
     }, []);
 
+    useEffect(() => {
+        console.log("Updated searchResults:", searchResults);
+    }, [searchResults]);
+
     // const searchMeals = async () => {
     //     const meals = await fetchMealsByName(query);
     //     setMeals(meals);
@@ -45,30 +49,31 @@ const RecipePage: React.FC = () => {
         setSearchResults(meals); 
     };
 
-    const debouncedSearch = debounce((value: string) => searchMeals(value), 500);
-
-    // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const value = e.target.value;
-    //     setQuery(value);
-    //     if (value) {
-    //         debouncedSearch(value); 
-    //     } else {
-    //         setSearchResults([]); 
-    //     }
-    // };
+    const debouncedSearch = debounce((value: string) => searchMeals(value), 300);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setQuery(value);
-    
-        if (value.trim() === "") {
-            setSearchResults([]); // Immediately clear results when input is empty
-            return;
+        if (value) {
+            debouncedSearch(value); 
+        } else {
+            debouncedSearch.cancel();
+            setSearchResults([]); 
         }
-    
-        debouncedSearch(value); 
-        console.log(searchResults);
     };
+
+    // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const value = e.target.value;
+    //     setQuery(value);
+    
+    //     if (value.trim() === "") {
+    //         setSearchResults([]); // Immediately clear results when input is empty
+    //         return;
+    //     }
+    
+    //     debouncedSearch(value); 
+    //     console.log(searchResults);
+    // };
     
 
     const filterMeals = async () => {
@@ -95,13 +100,11 @@ const RecipePage: React.FC = () => {
     const getCategories = async () => {
         const categories = await fetchCategoriesByName();
         setCategories(categories);
-        console.log(categories);
     };
 
     const getArea = async() => {
         const areas = await fetchArea();
         setAreas(areas);
-        console.log(areas); 
     }
 
     return (
