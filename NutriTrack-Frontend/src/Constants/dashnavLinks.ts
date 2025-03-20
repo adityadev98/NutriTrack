@@ -1,8 +1,9 @@
 import {
     FiHome,
   } from 'react-icons/fi'
-import { MdNoMeals,MdDashboardCustomize } from "react-icons/md";
+import { MdNoMeals,MdDashboardCustomize,MdTrackChanges,MdSearch,MdFoodBank } from "react-icons/md";
 import { GoGraph } from "react-icons/go";
+import { GiHotMeal } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
 
 const DashNavLinks = [
@@ -14,7 +15,7 @@ const DashNavLinks = [
     {
       id: "track",
       title: "Track",
-      icon: FiHome
+      icon: MdTrackChanges,
     },
     {
       id: "mealsConsumed",
@@ -24,7 +25,7 @@ const DashNavLinks = [
     {
       id: "customFood",
       title: "Custom Food",
-      icon: FiHome,
+      icon: MdSearch,
     },
     {
       id: "dailydashboard",
@@ -37,10 +38,16 @@ const DashNavLinks = [
       icon: GoGraph,
     },
     {
+      id: "recipe",
+      title: "Recipe",
+      icon: GiHotMeal ,
+    },
+    {
       id: "profile-setup",
       title: "Profile",
       icon: CgProfile ,
-    },
+    }
+   
   ];   
 
 export default DashNavLinks;
