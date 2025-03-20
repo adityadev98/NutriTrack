@@ -38,19 +38,19 @@ export default function HomepageMidSection1() {
           gap={{ base: '8', sm: '12', md: '16' }}>
           <Feature
             heading={'First Feature'}
-            text={'Short text describing one of you features/service'}
+            text={'Customized meal plans and recipes, tailored to your needs and preferences'}
           />
           <Feature
             heading={'Second Feature'}
-            text={'Short text describing one of you features/service'}
+            text={'Track your daily nutrition intake and monitor your progress'}
           />
           <Feature
             heading={'Third Feature'}
-            text={'Short text describing one of you features/service'}
+            text={'Profile setup to help us understand your needs and preferences'}
           />
           <Feature
             heading={'Fourth Feature'}
-            text={'Short text describing one of you features/service'}
+            text={'Connect with a community of like-minded individuals and share your journey'}
           />
         </Grid>
       </Box>
