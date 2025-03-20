@@ -1,38 +1,17 @@
-import {
-  FiHome,
-} from 'react-icons/fi'
-import { MdNoMeals,MdDashboardCustomize } from "react-icons/md";
-import { GoGraph } from "react-icons/go";
-import { CgProfile } from "react-icons/cg";
 import FeaturesList from './Features';
+import navLinks from './navLinks';  
+import footerLinks from './footerLinks';
+import AdminNavLinks from './adminnavLinks';
+import DashNavLinks from './dashnavLinks';
 
 export {
   FeaturesList,
-
+  navLinks,
+  footerLinks,
+  AdminNavLinks,
+  DashNavLinks,
 }
 
-export const navLinks = [
-  {
-    id: "home",
-    title: "Home",
-  },
-  {
-    id: "features",
-    title: "Features",
-  },
-  {
-    id: "pricing",
-    title: "Pricing",
-  },
-  {
-    id: "faq",
-    title: "FAQs",
-  },
-  {
-    id: "testimonials",
-    title: "Testimonials",
-  },
-];
 
 export const features = [
   {
@@ -83,28 +62,7 @@ export const feedback = [
     //img: people03,
   },
 ];
-export const footerLinks = [
-  {
-    id: "about",
-    title: "About Us",
-  },
-  {
-    id: "contact",
-    title: "Contact Us",
-  },
-  {
-    id: "pricing",
-    title: "Pricing",
-  },
-  {
-    id: "faq",
-    title: "FAQs",
-  },
-  {
-    id: "terms",
-    title: "Terms & Conditions",
-  }, 
-];
+
 
 export const socialMedia = [
 {
