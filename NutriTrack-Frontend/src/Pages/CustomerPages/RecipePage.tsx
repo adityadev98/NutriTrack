@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {
     Input, Select, Button, Box, Image, Text, SimpleGrid,
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody,
-    ModalCloseButton, useDisclosure
+    ModalCloseButton, useDisclosure, List, ListItem, ListIcon
 } from '@chakra-ui/react';
 import { fetchMealsByName, fetchMealsByFilter, fetchRecipeDetails, fetchCategoriesByName,fetchArea } from '@/Services/recipeAPI';
 import { Sidenav } from '@/Components/Sections';
+import { debounce } from 'lodash'; 
 
 interface Meal {
     idMeal: string;
@@ -27,6 +28,7 @@ const RecipePage: React.FC = () => {
     const [categories, setCategories] = useState<string[]>([]);
     const [areas, setAreas] = useState<string[]>([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [searchResults, setSearchResults] = useState<Meal[]>([]);
 
     useEffect(() => {
         getCategories(); 
@@ -36,6 +38,18 @@ const RecipePage: React.FC = () => {
     const searchMeals = async () => {
         const meals = await fetchMealsByName(query);
         setMeals(meals);
+    };
+
+    const debouncedSearch = debounce((value: string) => searchMeals(value), 500); // Debounced search function
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setQuery(value);
+        if (value) {
+            debouncedSearch(value); // Trigger search on input change
+        } else {
+            setSearchResults([]); // Clear results when query is empty
+        }
     };
 
     const filterMeals = async () => {
@@ -75,9 +89,29 @@ const RecipePage: React.FC = () => {
         <Sidenav>
         <Box p={5}>
             <Box display="flex" gap={3} mb={5}>
-                <Input placeholder="Search meal by name" value={query} onChange={(e) => setQuery(e.target.value)} />
-                <Button onClick={searchMeals} colorScheme="green">Search</Button>
+            <Input
+                        placeholder="Search meal by name"
+                        value={query}
+                        onChange={handleSearchChange}
+                    />                <Button onClick={searchMeals} colorScheme="green">Search</Button>
             </Box>
+            {searchResults.length > 0 && (
+                    <List spacing={1} bg="white" boxShadow="md" borderRadius="md" maxHeight="300px" overflowY="auto">
+                        {searchResults.map((meal) => (
+                            <ListItem
+                                key={meal.idMeal}
+                                display="flex"
+                                alignItems="center"
+                                padding={2}
+                                cursor="pointer"
+                                onClick={() => getMealDetails(meal.idMeal)}
+                            >
+                                <ListIcon as={Image} src={meal.strMealThumb} boxSize="40px" mr={2} />
+                                <Text>{meal.strMeal}</Text>
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
             <Box display="flex" gap={3} mb={5}>
                 <Select onChange={(e) => setFilterType(e.target.value as 'category' | 'area')}>
                     <option value="category">Category</option>
