@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Select, Button, Box, Image, Text, SimpleGrid } from '@chakra-ui/react';
-import { fetchMealsByName, fetchMealsByFilter, fetchRecipeDetails, fetchCategoriesByName } from '@/Services/recipeAPI';
+import { fetchMealsByName, fetchMealsByFilter, fetchRecipeDetails, fetchCategoriesByName,fetchArea } from '@/Services/recipeAPI';
 import { Sidenav } from '@/Components/Sections';
 
 interface Meal {
@@ -18,6 +18,11 @@ const RecipePage: React.FC = () => {
     const [selectedMeal, setSelectedMeal] = useState<Meal | null>(null);
     const [categories, setCategories] = useState<string[]>([]);
     const [areas, setAreas] = useState<string[]>([]);
+
+    useEffect(() => {
+        getCategories(); 
+        getArea();
+    }, []);
 
     const searchMeals = async () => {
         const meals = await fetchMealsByName(query);
@@ -37,7 +42,14 @@ const RecipePage: React.FC = () => {
     const getCategories = async () => {
         const categories = await fetchCategoriesByName();
         setCategories(categories);
+        console.log(categories);
     };
+
+    const getArea = async() => {
+        const areas = await fetchArea();
+        setAreas(areas);
+        console.log(areas); 
+    }
 
     return (
         <Sidenav>
@@ -49,7 +61,7 @@ const RecipePage: React.FC = () => {
             <Box display="flex" gap={3} mb={5}>
                 <Select onChange={(e) => setFilterType(e.target.value as 'category' | 'area')}>
                     <option value="category">Category</option>
-                    <option value="area">Area</option>
+                    <option value="area">Cuisine</option>
                 </Select>
                 {filterType === 'category' && (
                     <Select onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
@@ -58,7 +70,13 @@ const RecipePage: React.FC = () => {
                         ))}
                     </Select>
                 )}
-                <Input placeholder="Enter filter value" value={filterValue} onChange={(e) => setFilterValue(e.target.value)} />
+                  {filterType === 'area' && (
+                    <Select onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
+                        {areas.map((area, index) => (
+                            <option key={index} value={area}>{area}</option>
+                        ))}
+                    </Select>
+                )}
                 <Button onClick={filterMeals} colorScheme="green">Filter</Button>
             </Box>
             <SimpleGrid columns={3} spacing={5}>

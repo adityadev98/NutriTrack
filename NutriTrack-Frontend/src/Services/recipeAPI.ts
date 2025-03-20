@@ -41,12 +41,38 @@ export async function fetchRecipeDetails(id: string) {
 
 export async function fetchCategoriesByName() {
     try {
-        const response = await fetch(`www.themealdb.com/api/json/v1/1/list.php?c=list`);
+        console.log("Fetching categories...");
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?c=list`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
-        console.log(data);
-        return data.categories.strCategory || [];
+        console.log("Fetched categories:", data);
+
+        return data.meals.map((meal: { strCategory: string }) => meal.strCategory) || [];
     } catch (error) {
-        console.error('Failed to fetch meals:', error);
+        console.error("Failed to fetch categories:", error);
+        return [];
+    }
+}
+
+export async function fetchArea() {
+    try {
+        console.log("Fetching area...");
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Fetched area:", data);
+
+        return data.meals.map((meal: { strArea: string }) => meal.strArea) || [];
+    } catch (error) {
+        console.error("Failed to fetch area:", error);
         return [];
     }
 }

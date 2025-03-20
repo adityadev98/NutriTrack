@@ -23,6 +23,9 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
       },
+      watch: {
+        usePolling: true
+    }
     },
     define: {
       'import.meta.env.VITE_NUTRITIONIX_APP_ID': JSON.stringify(env.VITE_NUTRITIONIX_APP_ID),
