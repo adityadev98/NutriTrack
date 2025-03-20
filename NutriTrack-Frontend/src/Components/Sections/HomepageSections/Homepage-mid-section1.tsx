@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 
 import {
   Box,
@@ -27,8 +27,8 @@ const Feature = ({ heading, text }: FeatureProps) => {
 
 export default function HomepageMidSection1() {
   return (
-    <Flex width={'100%'} maxW={'100%'}  bg={'var(--soft-white)'} minH={"50vh"} border="2px solid red" p={0}>
-      <Box as={Container} maxW="7xl" p={4} border="2px solid blue">
+    <Flex width={'100%'} maxW={'100%'} bg={'var(--soft-white)'} minH={"50vh"} p={0}>
+      <Box as={Container} maxW="7xl" p={4}>
         <Grid
           templateColumns={{
             base: 'repeat(1, 1fr)',
@@ -37,20 +37,36 @@ export default function HomepageMidSection1() {
           }}
           gap={{ base: '8', sm: '12', md: '16' }}>
           <Feature
-            heading={'First Feature'}
-            text={'Customized meal plans and recipes, tailored to your needs and preferences'}
+            heading={'Personalized Meal Plans'}
+            text={'Get customized meal plans and recipes tailored to your dietary needs, preferences, and goals.'}
           />
           <Feature
-            heading={'Second Feature'}
-            text={'Track your daily nutrition intake and monitor your progress'}
+            heading={'Nutrition Tracking'}
+            text={'Track your daily calorie, protein, and nutrient intake to stay on top of your health goals.'}
           />
           <Feature
-            heading={'Third Feature'}
-            text={'Profile setup to help us understand your needs and preferences'}
+            heading={'Profile Setup'}
+            text={'Set up your profile to calculate your daily calorie and protein needs based on your age, weight, height, and activity level.'}
           />
           <Feature
-            heading={'Fourth Feature'}
-            text={'Connect with a community of like-minded individuals and share your journey'}
+            heading={'Community Support'}
+            text={'Join a community of like-minded individuals to share your journey, tips, and progress.'}
+          />
+          <Feature
+            heading={'Custom Food Tracking'}
+            text={'Add and track custom foods that are not available in the standard database.'}
+          />
+          <Feature
+            heading={'Historical Data'}
+            text={'View your historical progress, including meals consumed, activity levels, and weight changes over time.'}
+          />
+          <Feature
+            heading={'Hydration Tracker'}
+            text={'Monitor your daily water intake to ensure you stay hydrated and healthy.'}
+          />
+          <Feature
+            heading={'Dashboard Insights'}
+            text={'Access a comprehensive dashboard with insights into your daily calorie needs, BMI, and protein requirements.'}
           />
         </Grid>
       </Box>
