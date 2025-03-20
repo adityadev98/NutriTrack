@@ -42,20 +42,34 @@ const RecipePage: React.FC = () => {
 
     const searchMeals = async (searchQuery: string) => {
         const meals = await fetchMealsByName(searchQuery);
-        setSearchResults(meals); // Update search results on each keystroke
+        setSearchResults(meals); 
     };
 
-    const debouncedSearch = debounce((value: string) => searchMeals(value), 500); // Debounced search function
+    const debouncedSearch = debounce((value: string) => searchMeals(value), 500);
+
+    // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const value = e.target.value;
+    //     setQuery(value);
+    //     if (value) {
+    //         debouncedSearch(value); 
+    //     } else {
+    //         setSearchResults([]); 
+    //     }
+    // };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setQuery(value);
-        if (value) {
-            debouncedSearch(value); // Trigger search on input change
-        } else {
-            setSearchResults([]); // Clear results when query is empty
+    
+        if (value.trim() === "") {
+            setSearchResults([]); // Immediately clear results when input is empty
+            return;
         }
+    
+        debouncedSearch(value); 
+        console.log(searchResults);
     };
+    
 
     const filterMeals = async () => {
         const meals = await fetchMealsByFilter(filterType, filterValue);
