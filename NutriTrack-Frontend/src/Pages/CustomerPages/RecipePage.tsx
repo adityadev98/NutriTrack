@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Select, Button, Box, Image, Text, SimpleGrid } from '@chakra-ui/react';
+import {
+    Input, Select, Button, Box, Image, Text, SimpleGrid,
+    Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody,
+    ModalCloseButton, useDisclosure
+} from '@chakra-ui/react';
 import { fetchMealsByName, fetchMealsByFilter, fetchRecipeDetails, fetchCategoriesByName,fetchArea } from '@/Services/recipeAPI';
 import { Sidenav } from '@/Components/Sections';
 
@@ -8,6 +12,10 @@ interface Meal {
     strMeal: string;
     strMealThumb: string;
     strInstructions?: string;
+    strCategory?: string;
+    strArea?: string;
+    ingredients?: string[];
+
 }
 
 const RecipePage: React.FC = () => {
@@ -18,6 +26,7 @@ const RecipePage: React.FC = () => {
     const [selectedMeal, setSelectedMeal] = useState<Meal | null>(null);
     const [categories, setCategories] = useState<string[]>([]);
     const [areas, setAreas] = useState<string[]>([]);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         getCategories(); 
@@ -36,7 +45,18 @@ const RecipePage: React.FC = () => {
 
     const getMealDetails = async (id: string) => {
         const meal = await fetchRecipeDetails(id);
-        setSelectedMeal(meal);
+        const ingredients = [];
+        for (let i = 1; i <= 20; i++) {
+            const ingredient = meal[`strIngredient${i}`];
+            const measure = meal[`strMeasure${i}`];
+
+            if (ingredient && ingredient.trim() !== "") {
+                ingredients.push(`${measure} ${ingredient}`);
+            }
+        }
+       
+        setSelectedMeal({ ...meal, ingredients });
+        onOpen(); 
     };
 
     const getCategories = async () => {
@@ -87,14 +107,54 @@ const RecipePage: React.FC = () => {
                     </Box>
                 ))}
             </SimpleGrid>
-            {selectedMeal && (
+            {/* {selectedMeal && (
                 <Box mt={5} p={5} borderWidth={1} borderRadius="lg">
                     <Text fontSize="2xl" fontWeight="bold">{selectedMeal.strMeal}</Text>
                     <Image src={selectedMeal.strMealThumb} alt={selectedMeal.strMeal} />
                     <Text mt={3}>{selectedMeal.strInstructions}</Text>
                 </Box>
-            )}
+            )} */}
         </Box>
+        {/* Modal for Meal Details */}
+            <Modal isOpen={isOpen} onClose={onClose} size="xl">
+                <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>{selectedMeal?.strMeal}</ModalHeader>
+                            <ModalCloseButton />
+                                <ModalBody>
+                                    {selectedMeal && (
+                                        <Box>
+                                            <Image src={selectedMeal.strMealThumb} alt={selectedMeal.strMeal} borderRadius="md" mb={4} />
+                                            <Text><strong>Category:</strong> {selectedMeal.strCategory}</Text>
+                                            <Text><strong>Cuisine:</strong> {selectedMeal.strArea}</Text>
+
+                                            {/* Ingredients List */}
+                                            <Text mt={3} fontWeight="bold">Ingredients:</Text>
+                                                <ol style={{ paddingLeft: "20px" }}>
+                                                    {selectedMeal.ingredients?.map((item, index) => (
+                                                        <li key={index} style={{ marginBottom: "5px" }}>
+                                                            {`${index + 1}. ${item}`}
+                                                        </li>
+                                                    ))}
+                                                </ol>
+
+
+                                            <Text mt={3} fontWeight="bold">Instructions:</Text>
+                                            <ol style={{ paddingLeft: "20px" }}>
+                                                {selectedMeal.strInstructions
+                                                    ?.split(/\. (?=[A-Z])/g) // ✅ Splits at periods followed by an uppercase letter
+                                                    .map((step, index) => step.trim() && (
+                                                        <li key={index} style={{ marginBottom: "8px" }}>
+                                                            {`${index + 1}. ${step}.`}
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ol>
+                                        </Box>
+                                    )}
+                                </ModalBody>
+                        </ModalContent>
+                </Modal>
         </Sidenav>
     );
 };
