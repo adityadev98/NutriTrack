@@ -161,6 +161,11 @@ export const DashNavLinks = [
     icon: GoGraph,
   },
   {
+    id: "recipe",
+    title: "Recipe",
+    icon: MdNoMeals,
+  },
+  {
     id: "profile-setup",
     title: "Profile",
     icon: CgProfile ,
