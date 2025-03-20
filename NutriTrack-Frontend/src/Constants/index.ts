@@ -86,7 +86,6 @@ export const socialMedia = [
   link: "https://www.linkedin.com/",
 },
 ];
-
 export const DashNavLinks = [
   {
     id: "dashboard",
