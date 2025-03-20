@@ -35,9 +35,14 @@ const RecipePage: React.FC = () => {
         getArea();
     }, []);
 
-    const searchMeals = async () => {
-        const meals = await fetchMealsByName(query);
-        setMeals(meals);
+    // const searchMeals = async () => {
+    //     const meals = await fetchMealsByName(query);
+    //     setMeals(meals);
+    // };
+
+    const searchMeals = async (searchQuery: string) => {
+        const meals = await fetchMealsByName(searchQuery);
+        setSearchResults(meals); // Update search results on each keystroke
     };
 
     const debouncedSearch = debounce((value: string) => searchMeals(value), 500); // Debounced search function
@@ -93,7 +98,7 @@ const RecipePage: React.FC = () => {
                         placeholder="Search meal by name"
                         value={query}
                         onChange={handleSearchChange}
-                    />                <Button onClick={searchMeals} colorScheme="green">Search</Button>
+                    />                
             </Box>
             {searchResults.length > 0 && (
                     <List spacing={1} bg="white" boxShadow="md" borderRadius="md" maxHeight="300px" overflowY="auto">
