@@ -63,4 +63,52 @@ describe("Selenium Tests", () => {
         // Assert that the form is displayed
         expect(await homePage.isDisplayed()).toBe(true);
     });
+
+    test("User can navigate to the Track page", async () => {
+        const trackButton = await driver.findElement(By.xpath("//a[@href='/track']"));
+        await trackButton.click();
+        const searchInput = await driver.wait(
+            until.elementLocated(By.xpath("//input[contains(@placeholder, 'Search Food Item')]")),
+            5000
+        );
+        expect(await searchInput.isDisplayed()).toBe(true);
+    });
+
+    test("User can navigate to the Meals Consumed page", async () => {
+        const mealsConsumedButton = await driver.findElement(By.xpath("//a[@href='/mealsConsumed']"));
+        await mealsConsumedButton.click();
+        await driver.wait(until.urlContains("mealsConsumed"), 5000);
+        const currentUrl = await driver.getCurrentUrl();
+        expect(currentUrl).toBe(process.env.FRONTEND_BASE_URL + "/mealsConsumed");
+    });
+
+    test("User can navigate to the Custom Food page", async () => {
+        const customButton = await driver.findElement(By.xpath("//a[@href='/customFood']"));
+        await customButton.click();
+        const customPage = await driver.wait(
+            until.elementLocated(By.xpath("//*[contains(text(), 'Create Your Own Meal')]")),
+            10000
+        );
+        expect(await customPage.isDisplayed()).toBe(true);
+    });
+
+    test("User can navigate to the Daily Dashboard page", async () => {
+        const dailyDashButton = await driver.findElement(By.xpath("//a[@href='/dailydashboard']"));
+        await dailyDashButton.click();
+        const dailyDashPage = await driver.wait(
+            until.elementLocated(By.xpath("//*[contains(text(), 'Nutrient Intake')]")),
+            10000
+        );
+        expect(await dailyDashPage.isDisplayed()).toBe(true);
+    });
+
+    test("User can navigate to the Historical page", async () => {
+        const historicalButton = await driver.findElement(By.xpath("//a[@href='/historical']"));
+        await historicalButton.click();
+        const historicalPage = await driver.wait(
+            until.elementLocated(By.xpath("//*[contains(text(), 'Historical Nutrient Intake')]")),
+            10000
+        );
+        expect(await historicalPage.isDisplayed()).toBe(true);
+    });
 });
