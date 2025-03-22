@@ -24,6 +24,7 @@ dist-ssr
 
 # Testing
 coverage/
+chromedriver-win64/
 NutriTrack-Backend/test-results.txt
 NutriTrack-Frontend/test-results.txt
 NutriTrack-Backend/test-results.json
