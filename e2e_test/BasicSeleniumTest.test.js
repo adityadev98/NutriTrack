@@ -58,10 +58,9 @@ describe("Selenium Tests", () => {
             until.elementLocated(By.xpath("//*[contains(text(), 'Dashboard')]")),
             10000 // Wait up to 10s
         );
-        await driver.sleep(500);
-
         // Assert that the form is displayed
         expect(await homePage.isDisplayed()).toBe(true);
+        await driver.sleep(500);
     });
 
     test("User can navigate to the Track page", async () => {
