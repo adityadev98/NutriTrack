@@ -78,6 +78,7 @@ const ProfileSetup: React.FC = () => {
           <FormControl id="gender" isRequired>
             <FormLabel>Gender</FormLabel>
             <Select value={gender} onChange={(e) => setGender(e.target.value)}>
+              <option value=""></option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -86,6 +87,7 @@ const ProfileSetup: React.FC = () => {
           <FormControl id="activityLevel" isRequired>
             <FormLabel>Activity Level</FormLabel>
             <Select value={activityLevel} onChange={(e) => setActivityLevel(e.target.value)}>
+              <option value=""></option>
               <option value="light">Light</option>
               <option value="moderate">Moderate</option>
               <option value="active">Active</option>
