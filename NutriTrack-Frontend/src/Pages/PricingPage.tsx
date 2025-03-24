@@ -52,7 +52,7 @@ const Pricing = () => {
 					Plans that fit your need
 					</Heading>
 					<Text fontSize="lg" color={'gray.500'}>
-					Start with 14-day free trial. No credit card needed. Cancel at anytime.
+					Start with a 14-day free trial. No credit card needed. Cancel at anytime.
 					</Text>
 				</VStack>
 				<Stack
