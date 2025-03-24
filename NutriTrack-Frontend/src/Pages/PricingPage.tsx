@@ -29,7 +29,9 @@ interface Props {
 		borderWidth="1px"
 		alignSelf={{ base: 'center', lg: 'flex-start' }}
 		borderColor={useColorModeValue('gray.200', 'gray.500')}
-		borderRadius={'xl'}>
+		borderRadius={'xl'}
+		bg="white"
+		>
 		{children}
 	  </Box>
 	)
@@ -37,7 +39,7 @@ interface Props {
 const Pricing = () => {
 	
 	return (
-		<Box className="w-full min-h-screen flex flex-col">
+		<Box className="w-full min-h-screen flex flex-col"bg="green.50">
       
 			{/* ✅ Fixed Navbar */}
 			<Box className="fixed top-0 left-0 w-full z-50 bg-navbar">
@@ -52,7 +54,7 @@ const Pricing = () => {
 					Plans that fit your need
 					</Heading>
 					<Text fontSize="lg" color={'gray.500'}>
-					Start with 14-day free trial. No credit card needed. Cancel at anytime.
+					Start with a 14-day free trial. No credit card needed. Cancel at anytime.
 					</Text>
 				</VStack>
 				<Stack

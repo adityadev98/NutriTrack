@@ -266,3 +266,26 @@ a:hover {
   margin: 0 auto;
 }
 
+.feature-box {
+  background-color: #fff8d5; /* Light yellow background */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px; /* Padding inside the box */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+}
+
+.feature-box:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.feature-title {
+  font-size: 1.25rem; /* Slightly larger font size for the title */
+  font-weight: bold; /* Bold font for the title */
+  color: #333; /* Darker text color for better readability */
+}
+
+.feature-text {
+  font-size: 1rem; /* Standard font size for the description */
+  color: #555; /* Slightly lighter text color for the description */
+}
