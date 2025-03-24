@@ -83,7 +83,7 @@ const features = FeaturesList;
 
 const Features = () => {
   return (
-    <Box className="w-full min-h-screen flex flex-col">
+    <Box className="w-full min-h-screen flex flex-col" bg="green.50">
       {/* ✅ Fixed Navbar */}
       <Box className="fixed top-0 left-0 w-full z-50 bg-navbar">
         <Navbar />
