@@ -7,8 +7,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-
-
 # Build Files
 # Run Build with the following command to generate the logs - npm run build > build_log.txt 2>&1
 build_log.txt
@@ -24,7 +22,6 @@ dist-ssr
 
 # Testing
 coverage/
-chromedriver-win64/
 NutriTrack-Backend/test-results.txt
 NutriTrack-Frontend/test-results.txt
 NutriTrack-Backend/test-results.json
@@ -34,8 +31,7 @@ node_modules/
 NutriTrack-Frontend/node_modules
 
 # Docker Files
-# Dockerfile
-# .dockerignore
+Dockerfile
 
 # Editor directories and files
 .vscode/*
@@ -47,3 +43,8 @@ NutriTrack-Frontend/node_modules
 *.njsproj
 *.sln
 *.sw?
+
+# Git files
+.git
+.github
+.gitignore

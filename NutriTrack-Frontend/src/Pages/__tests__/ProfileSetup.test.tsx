@@ -2,7 +2,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import ProfileSetup from '../CustomerPages/ProfileSetup';
 
-
+jest.mock('../../utils/env', () => ({
+  BACKEND_URL: 'http://localhost:5000',
+}));
 
 describe('ProfileSetup', () => {
   test('renders ProfileSetup form', () => {

@@ -9,6 +9,10 @@ fetchMock.enableMocks();
 //   ...jest.requireActual('react-router-dom'),
 //   useNavigate: jest.fn(),
 // }));
+jest.mock('../../utils/env', () => ({
+  BACKEND_URL: 'http://localhost:5000',
+}));
+
 
 describe('CreateCustomFoodPage', () => {
 //   const mockNavigate = useNavigate as jest.Mock;

@@ -116,7 +116,8 @@
 
 
 import React, { useState, useContext, FormEvent } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import axiosInstance from "../../utils/axiosInstance.ts"; 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, VStack, Input, Button, Heading, Select, FormControl, FormLabel, FormErrorMessage, Text } from "@chakra-ui/react";
 import { Sidenav } from "../../Components/Sections";
@@ -155,7 +156,7 @@ const ProfileSetup: React.FC = () => {
       const token = localStorage.getItem("token") || "";
       const data = { name, age, gender, activityLevel, height, weight };
 
-      const response = await axios.post('/api/user/profile/setup', data, {
+      const response = await axiosInstance.post('/api/user/profile/setup', data, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

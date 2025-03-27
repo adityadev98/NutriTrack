@@ -3,6 +3,10 @@ import { MemoryRouter } from 'react-router-dom';
 import FoodItem from '../CustomerPages/TrackCustomFoodPage';
 import fetchMock from 'jest-fetch-mock';
 
+jest.mock('../../utils/env', () => ({
+  BACKEND_URL: 'http://localhost:5000',
+}));
+
 interface Food {
   foodName: string;
   details: {

@@ -9,6 +9,8 @@ import { UserProvider } from "./contexts/UserContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+// console.log('🧪 Client ID from env:', import.meta.env.VITE_GOOGLE_CLIENT_ID);
+// console.log('URL:', import.meta.env.VITE_BACKEND_URL);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
