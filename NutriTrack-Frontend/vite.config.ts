@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         "/api": {
-          target: `http://localhost:${env.VITE_PORT || 5000}`,
+          target: `${env.VITE_BACKEND_URL}`,
           // target: `http://localhost:5000}`,
           changeOrigin: true,
         },
@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.VITE_NUTRITIONIX_API_KEY': JSON.stringify(env.VITE_NUTRITIONIX_API_KEY),
       'import.meta.env.VITE_PORT': JSON.stringify(env.VITE_PORT),
       'import.meta.env.VITE_GOOGLE_CLIENT_ID': JSON.stringify(env.VITE_GOOGLE_CLIENT_ID),
+      'import.meta.env.VITE_BACKEND_URL': JSON.stringify(env.VITE_BACKEND_URL),
     },
   }
 });
