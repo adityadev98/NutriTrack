@@ -1,7 +1,8 @@
 import axios, { AxiosError } from "axios";
+import { BACKEND_URL } from './env';
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL,
+  baseURL: BACKEND_URL,
   withCredentials: true, // if you're using cookies/sessions
   headers: {
     'Content-Type': 'application/json',

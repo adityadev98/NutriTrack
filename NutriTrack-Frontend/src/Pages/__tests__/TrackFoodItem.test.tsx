@@ -3,6 +3,10 @@ import FoodItem from '../CustomerPages/TrackFoodItem';
 import { MemoryRouter } from 'react-router-dom';
 import fetchMock from 'jest-fetch-mock';
 
+jest.mock('../../utils/env', () => ({
+  BACKEND_URL: 'http://localhost:5000',
+}));
+
 interface Measure {
     serving_weight: number;
     qty: number;
