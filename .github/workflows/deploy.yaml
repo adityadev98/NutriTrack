@@ -10,7 +10,7 @@ env:
   PROJECT_ID: nutritrack-651
   CLUSTER_NAME: nutritrack-cluster
   CLUSTER_REGION: us-central1
-  IMAGE_NAME: nutritrack-fullstack
+  IMAGE_NAME: nutritrack-image
   IMAGE_TAG: us-central1-docker.pkg.dev/nutritrack-651/nutritrack-fullstack
 
 jobs:
@@ -36,7 +36,8 @@ jobs:
 
       - name: Build and Push Docker Image to Artifact Registry
         run: |
-          docker build -t $IMAGE_TAG:$GITHUB_SHA \
+          IMAGE_TAG=us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME:$GITHUB_SHA
+          docker build -t $IMAGE_TAG \
             --build-arg VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }} \
             --build-arg VITE_NUTRITIONIX_APP_ID=${{ secrets.VITE_NUTRITIONIX_APP_ID }} \
             --build-arg VITE_NUTRITIONIX_API_KEY=${{ secrets.VITE_NUTRITIONIX_API_KEY }} \
