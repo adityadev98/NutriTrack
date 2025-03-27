@@ -1,9 +1,10 @@
 name: Deploy to GKE
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Node.js CI"]
+    types:
+      - completed
 
 env:
   PROJECT_ID: nutritrack-651
@@ -13,6 +14,7 @@ env:
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
