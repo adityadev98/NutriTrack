@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         "/api": {
           target: `http://localhost:${env.VITE_PORT || 5000}`,
+          // target: `http://localhost:5000}`,
           changeOrigin: true,
         },
       },

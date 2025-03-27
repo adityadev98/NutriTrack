@@ -83,7 +83,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
 
     try {
       // console.log("Making API call to /api/auth/login");
-      const response = await axiosInstance.post("/api/auth/login", {
+      const response = await axiosInstance.post('/api/auth/login', {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
       });
