@@ -10,6 +10,7 @@ env:
   PROJECT_ID: nutritrack-651
   CLUSTER_NAME: nutritrack-cluster
   CLUSTER_REGION: us-central1
+  REPO_NAME: nutritrack-fullstack
   IMAGE_NAME: nutritrack-image
   IMAGE_TAG: us-central1-docker.pkg.dev/nutritrack-651/nutritrack-fullstack
 
