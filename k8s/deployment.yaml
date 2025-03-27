@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nutritrack
-          image: gcr.io/nutritrack-651/nutritrack-fullstack
+          image: us-central1-docker.pkg.dev/nutritrack-651/nutritrack-fullstack:<use-latest-or-$GITHUB_SHA>
           ports:
             - containerPort: 5000
           envFrom:
