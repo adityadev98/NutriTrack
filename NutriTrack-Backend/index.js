@@ -16,6 +16,7 @@ const __dirname = path.resolve();
 
 const app = express();
 
+// Added line for cors error
 const corsOptions = {
   origin: ['https://nutritrack.onixpace.com'], // your frontend URL
   credentials: true,
