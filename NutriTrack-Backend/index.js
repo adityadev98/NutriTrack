@@ -37,7 +37,7 @@ app.use("/api/coach", coachRoutes)
 
 app.listen(PORT, () => {
   connectDB();
-  console.log("✅ Server is up and running @ http://localhost:",PORT);
+  console.log("✅ Server is up and running @ https://nutritrack.onixpace.com");
 });
 
 // For deployment
