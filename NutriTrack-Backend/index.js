@@ -17,7 +17,7 @@ const __dirname = path.resolve();
 const app = express();
 
 const corsOptions = {
-  origin: ['http://nutritrack.onixpace.com'], // your frontend URL
+  origin: ['https://nutritrack.onixpace.com'], // your frontend URL
   credentials: true,
 };
 
