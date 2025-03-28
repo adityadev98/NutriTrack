@@ -19,8 +19,7 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         "/api": {
-          target: `${env.VITE_BACKEND_URL}`,
-          // target: `http://localhost:5000}`,
+          target: process.env.VITE_BACKEND_URL,
           changeOrigin: true,
         },
       },
