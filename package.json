@@ -8,7 +8,8 @@
     "build": "npm install && npm install --prefix NutriTrack-Frontend && npm run build --prefix NutriTrack-Frontend",
     "start": "cross-env NODE_ENV=production node NutriTrack-Backend/index.js",
     "test": "jest --outputFile=NutriTrack-Backend/test-results.json --json && npx prettier --write NutriTrack-Backend/test-results.json",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:selenium": "jest --config=jest.selenium.config.cjs"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.26.0",
     "bcryptjs": "^2.4.3",
+    "chromedriver": "^134.0.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
@@ -30,6 +32,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-google-token": "^0.1.2",
+    "selenium-webdriver": "^4.30.0",
     "stripe": "^17.7.0",
     "supertest": "^7.0.0"
   },

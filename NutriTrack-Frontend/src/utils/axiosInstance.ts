@@ -1,6 +1,13 @@
 import axios, { AxiosError } from "axios";
+import { BACKEND_URL } from './env';
 
-const axiosInstance = axios.create(); // No need for baseURL since Vite proxy is handling it
+const axiosInstance = axios.create({
+  baseURL: BACKEND_URL,
+  withCredentials: true, // if you're using cookies/sessions
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 // Intercept requests to check for token expiration
 axiosInstance.interceptors.request.use((config) => {

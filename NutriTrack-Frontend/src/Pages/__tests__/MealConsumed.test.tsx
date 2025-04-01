@@ -5,6 +5,10 @@ import fetchMock from 'jest-fetch-mock';
 
 fetchMock.enableMocks();
 
+jest.mock('../../utils/env', () => ({
+  BACKEND_URL: 'http://localhost:5000',
+}));
+
 const mockMeals = [
   {
     foodName: 'banana',

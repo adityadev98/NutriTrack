@@ -16,9 +16,14 @@ const __dirname = path.resolve();
 
 const app = express();
 
+const corsOptions = {
+  origin: ['https://nutritrack.onixpace.com'], // your frontend URL
+  credentials: true,
+};
+
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -32,7 +37,7 @@ app.use("/api/coach", coachRoutes)
 
 app.listen(PORT, () => {
   connectDB();
-  console.log("✅ Server is up and running @ http://localhost:", PORT);
+  console.log("✅ Server is up and running @ https://nutritrack.onixpace.com");
 });
 
 // For deployment
