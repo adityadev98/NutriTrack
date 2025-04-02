@@ -12,7 +12,21 @@ describe("Selenium Tests", () => {
             const chromeDriverPath = path.resolve(process.env.SELENIUM_CHROMEDRIVER_PATH); // Update this path to your ChromeDriver location
             const myService = new chrome.ServiceBuilder(chromeDriverPath);
 
-            driver = await new Builder().forBrowser("chrome").setChromeService(myService).build();
+            const options = new chrome.Options();
+            // 1️⃣ Completely disable Safe Browsing (removes protection settings)
+            options.addArguments("--disable-features=SafeBrowsingEnhancedProtection");
+
+            // 2️⃣ Disable password manager popups
+            options.setUserPreferences({
+                "credentials_enable_service": false,  // Disables password saving
+                "profile.password_manager_enabled": false, // Disables password prompts
+                "safebrowsing.enabled": false, // Turns off Safe Browsing completely
+            });
+
+            // 3️⃣ Use a fresh Chrome profile (ensures no saved settings override this)
+            options.addArguments("--guest"); 
+
+            driver = await new Builder().forBrowser("chrome").setChromeService(myService).setChromeOptions(options).build();
             console.log("WebDriver initialized successfully.");
         } catch (error) {
             console.error("Error initializing WebDriver:", error);
@@ -64,50 +78,69 @@ describe("Selenium Tests", () => {
     });
 
     test("User can navigate to the Track page", async () => {
-        const trackButton = await driver.findElement(By.xpath("//a[@href='/track']"));
+        //const trackButton = await driver.findElement(By.xpath("//a[@href='/track']"));
+        await driver.executeScript(`
+            document.querySelector('div[role="dialog"] button:last-child')?.click();
+        `);
+        const trackButton = await driver.wait(
+            until.elementLocated(By.xpath("//a[@href='/track']")),
+            10000
+        );
         await trackButton.click();
         const searchInput = await driver.wait(
             until.elementLocated(By.xpath("//input[contains(@placeholder, 'Search Food Item')]")),
             5000
         );
         expect(await searchInput.isDisplayed()).toBe(true);
-    });
+    },10000);
 
     test("User can navigate to the Meals Consumed page", async () => {
-        const mealsConsumedButton = await driver.findElement(By.xpath("//a[@href='/mealsConsumed']"));
+        const mealsConsumedButton = await driver.wait(
+            until.elementLocated(By.xpath("//a[@href='/mealsConsumed']")),
+            10000
+        );
         await mealsConsumedButton.click();
         await driver.wait(until.urlContains("mealsConsumed"), 5000);
         const currentUrl = await driver.getCurrentUrl();
         expect(currentUrl).toBe(process.env.FRONTEND_BASE_URL + "/mealsConsumed");
-    });
+    },10000);
 
     test("User can navigate to the Custom Food page", async () => {
-        const customButton = await driver.findElement(By.xpath("//a[@href='/customFood']"));
+        const customButton = await driver.wait(
+            until.elementLocated(By.xpath("//a[@href='/customFood']")),
+            10000
+        );
         await customButton.click();
         const customPage = await driver.wait(
             until.elementLocated(By.xpath("//*[contains(text(), 'Create Your Own Meal')]")),
             10000
         );
         expect(await customPage.isDisplayed()).toBe(true);
-    });
+    },10000);
 
     test("User can navigate to the Daily Dashboard page", async () => {
-        const dailyDashButton = await driver.findElement(By.xpath("//a[@href='/dailydashboard']"));
+        const dailyDashButton = await driver.wait(
+            until.elementLocated(By.xpath("//a[@href='/dailydashboard']")),
+            10000
+        );
         await dailyDashButton.click();
         const dailyDashPage = await driver.wait(
             until.elementLocated(By.xpath("//*[contains(text(), 'Nutrient Intake')]")),
             10000
         );
         expect(await dailyDashPage.isDisplayed()).toBe(true);
-    });
+    },10000);
 
     test("User can navigate to the Historical page", async () => {
-        const historicalButton = await driver.findElement(By.xpath("//a[@href='/historical']"));
+        const historicalButton = await driver.wait(
+            until.elementLocated(By.xpath("//a[@href='/historical']")),
+            10000
+        );
         await historicalButton.click();
         const historicalPage = await driver.wait(
             until.elementLocated(By.xpath("//*[contains(text(), 'Historical Nutrient Intake')]")),
             10000
         );
         expect(await historicalPage.isDisplayed()).toBe(true);
-    });
+    },10000);
 });
