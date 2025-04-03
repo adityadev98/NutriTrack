@@ -256,6 +256,30 @@ const promoteToAdmin = async (req, res) => {
     }
   };
 
+const getUserIdByEmail = async (req, res) => {
+    try {
+      const { email } = req.body;
+  
+      if (!email) {
+        return res.status(400).json({ success: false, message: "Email is required" });
+      }
+  
+      const user = await User.findOne({ email });
+  
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+      }
+  
+      return res.status(200).json({
+        success: true,
+        userId: user._id,
+      });
+    } catch (error) {
+      console.error("Error fetching user by email:", error);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+  };
+
 export {
     appointmentsAdmin,
     appointmentCancel,
@@ -263,4 +287,5 @@ export {
     adminDashboard,
     promoteToAdmin,
     promoteToCoach,
+    getUserIdByEmail,
 }

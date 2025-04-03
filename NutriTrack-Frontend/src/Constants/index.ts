@@ -3,13 +3,14 @@ import navLinks from './navLinks';
 import footerLinks from './footerLinks';
 import AdminNavLinks from './adminnavLinks';
 import DashNavLinks from './dashnavLinks';
-
+import CoachNavLinks from './coachnavLinks';
 export {
   FeaturesList,
   navLinks,
   footerLinks,
   AdminNavLinks,
   DashNavLinks,
+  CoachNavLinks,
 }
 
 

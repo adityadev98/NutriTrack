@@ -24,6 +24,8 @@ import RecipePage from "./CustomerPages/RecipePage";
 import BookCoach from "./CustomerPages/BookCoach";
 import Verify from "./CustomerPages/Verify";
 import Appointments from "./CustomerPages/Appointments";
+import CoachAppointments from "./CoachPages/CoachAppointments";
+import CoachProfile from "./CoachPages/CoachProfile";
 
 export {
     HomePage,
@@ -52,4 +54,6 @@ export {
     ResetPassword,
     CoachDashboard,
     OtpVerification,
+    CoachAppointments,
+    CoachProfile,
 };

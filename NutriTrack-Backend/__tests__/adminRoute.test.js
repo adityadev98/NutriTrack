@@ -14,7 +14,9 @@ jest.mock("../controllers/adminController.js", () => ({
   adminDashboard: jest.fn((req, res) => res.status(200).json({ message: "Dashboard data fetched", data: {} })),
   promoteToAdmin: jest.fn((req, res) => res.status(200).json({ message: "Promoted to admin" })),
   promoteToCoach: jest.fn((req, res) => res.status(200).json({ message: "Promoted to coach" })),
+  getUserIdByEmail: jest.fn((req, res) => res.status(200).json({ success: true, userId: "mock-user-id" })),
 }));
+
 
 jest.mock("../controllers/coachController.js", () => ({
   changeAvailablity: jest.fn((req, res) => res.status(200).json({ message: "Availability changed" })),
