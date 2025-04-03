@@ -9,6 +9,7 @@ jest.mock("../controllers/userController.js", () => ({
   cancelAppointment: jest.fn((req, res) => res.status(200).json({ message: "Appointment canceled successfully" })),
   paymentStripe: jest.fn((req, res) => res.status(200).json({ message: "Payment processed successfully" })),
   verifyStripe: jest.fn((req, res) => res.status(200).json({ message: "Payment verified successfully" })),
+  listAvailableCoaches: jest.fn((req, res) => res.status(200).json({ success: true, coaches: [] })), // ✅ ADD THIS LINE
 }));
 
 // Mock authentication middleware

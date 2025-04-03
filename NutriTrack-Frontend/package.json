@@ -76,7 +76,8 @@
     },
     "moduleNameMapper": {
       "\\.(css|less|scss|sass)$": "identity-obj-proxy",
-      "\\.svg$": "<rootDir>/__mocks__/svgMock.js"
+      "\\.svg$": "<rootDir>/__mocks__/svgMock.js",
+      "\\.(jpg|jpeg|png|webp)$": "<rootDir>/__mocks__/fileMock.js"
     },
     "moduleFileExtensions": [
       "ts",
