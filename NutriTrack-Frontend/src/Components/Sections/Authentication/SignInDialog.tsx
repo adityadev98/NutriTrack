@@ -214,6 +214,7 @@ const SignInDialog = ({ open, onClose, openSignUp, openForgotPassword}: SignInDi
           name: userProfile.name,
           profileCompleted,
           userType,
+          verified,
           tokenExpiry, // Store in localStorage
         }));
 
