@@ -64,4 +64,24 @@ describe('ProfileSetup', () => {
     // For example, you can mock the axios.post call and check if it was called with the correct data
   });
   
+
+  // test('shows validation errors when submitting an empty form', async () => {
+  //   render(
+  //     <BrowserRouter>
+  //       <ProfileSetup />
+  //     </BrowserRouter>
+  //   );
+  
+  //   fireEvent.click(screen.getByRole('button', { name: /Save/i }));
+  
+  //   expect(await screen.findByText(/Name is required/i)).toBeInTheDocument();
+  //   // expect(await screen.findByText(/Age is required/i)).toBeInTheDocument();
+  //   // expect(await screen.findByText(/Gender is required/i)).toBeInTheDocument();
+  //   // expect(await screen.findByText(/Activity Level is required/i)).toBeInTheDocument();
+  //   // expect(await screen.findByText(/Height is required/i)).toBeInTheDocument();
+  //   // expect(await screen.findByText(/Weight is required/i)).toBeInTheDocument();
+  // });
+
+  
+
 });
