@@ -52,7 +52,7 @@ export default function HomepageHero() {
       <MotionHeading
         fontFamily={"Deacon, sans-serif"}
         fontWeight={800}
-        fontSize={{ base: "clamp(4rem, 10vw, 22rem)" }} 
+        fontSize={{ base: "clamp(4rem, 10vw, 8rem)" }} 
         lineHeight={"60%"}
         color={'var(--bright-green)'}
         initial={{ opacity: 0, y: 50 }}
@@ -60,7 +60,7 @@ export default function HomepageHero() {
         transition={{ duration: 1, delay: 0.2 }}
         zIndex={8} position="relative"
       >
-        THE FUTURE
+        SHAPE YOUR FUTURE
       </MotionHeading>
 
         <MotionText
@@ -76,8 +76,7 @@ export default function HomepageHero() {
           fontWeight={400} 
           zIndex={9} position="relative"
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+        Take control of your nutrition journey with personalized insights, smart tracking, and expert guidance — all in one place. Whether you're aiming for better health, peak performance, or balanced living, NutriTrack is your companion every step of the way.
         </MotionText>
         {!loggedUser ? (
             <>

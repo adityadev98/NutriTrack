@@ -24,7 +24,8 @@ import {
   MenuList,
   MenuItem,
   Tooltip,
-  HStack
+  HStack,
+  Text,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, AddIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons"; // Improved icons
 
@@ -232,7 +233,17 @@ const CreateCustomFoodPage: React.FC = () => {
 
   return (
     <Sidenav>
-      <Box textAlign="center" p={6}>
+      <Box bg="white" boxShadow="md" borderRadius="lg" p={0} mb={10}>
+        <Box bg="var(--dark-green)" borderTopRadius="lg" px={6} py={4}>
+          <Heading size="lg" color="white">Create and Track Custom Meals</Heading>
+        </Box>
+        <Box p={6} borderBottomRadius="lg" color="var(--dark-green)">
+          <Text fontSize="md" fontWeight="medium">
+            Build your own custom food items and log them as part of your daily meal tracking. Perfect for homemade or unique recipes!
+          </Text>
+        </Box>
+      </Box>
+      <Box bg="white" boxShadow="md" borderRadius="lg" textAlign="center" p={6}>
       <HStack justifyContent="space-between" alignItems="center" mb={6}>
           <Heading
             as="h1"
