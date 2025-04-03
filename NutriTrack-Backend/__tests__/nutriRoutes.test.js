@@ -9,6 +9,8 @@ jest.mock("../controllers/nutriControllers.js", () => ({
   addCustomFoodItem: jest.fn((req, res) => res.status(200).send("Custom food added")),
   getCustomFoods: jest.fn((req, res) => res.status(200).json([])),
   getMealsConsumed: jest.fn((req, res) => res.status(200).json([])),
+  updateCustomFoodItem: jest.fn((req, res) => res.status(200).send("Custom food updated")),
+  deleteCustomFoodItem: jest.fn((req, res) => res.status(200).send("Custom food deleted")),
 }));
 
 jest.mock("../controllers/histController.js", () => ({

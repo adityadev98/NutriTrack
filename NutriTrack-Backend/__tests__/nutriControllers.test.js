@@ -11,6 +11,8 @@ import {
   getMealsConsumed,
   addCustomFoodItem,
   getCustomFoods,
+  updateCustomFoodItem,
+  deleteCustomFoodItem,
 } from "../controllers/nutriControllers.js";
 
 const app = express();
@@ -24,6 +26,8 @@ app.post("/api/track", trackfoodItem);
 app.get("/api/mealsConsumed", getMealsConsumed);
 app.post("/api/customFood", addCustomFoodItem);
 app.get("/api/getCustomFood", getCustomFoods);
+app.put("/api/updateCustomFood/:id", updateCustomFoodItem);
+app.delete("/api/deleteCustomFood/:id", deleteCustomFoodItem);
 
 describe("NutriControllers", () => {
   let mongoServer;
@@ -427,6 +431,146 @@ describe("NutriControllers", () => {
       expect(res.body).toStrictEqual({
         failure: true,
         message: "Error in retrieving data",
+      });
+    });
+  });
+
+  describe("PUT /api/updateCustomFood/:id", () => {
+    let userId, customFoodId;
+
+    beforeEach(async () => {
+      userId = new mongoose.Types.ObjectId().toString();
+      const customFood = await customFoodModel.create({
+        userId,
+        foodName: "Test Food",
+        details: { calories: 100, protein: 10, carbohydrates: 20, fat: 5, fiber: 2 },
+        serving_unit: "grams",
+        serving_weight_grams: 100,
+      });
+      customFoodId = customFood._id.toString();
+    });
+
+    it("should update a custom food item", async () => {
+      const res = await request(app)
+        .put(`/api/updateCustomFood/${customFoodId}`)
+        .set("user-id", userId)
+        .send({
+          foodName: "Updated Test Food",
+          details: { calories: 150, protein: 15, carbohydrates: 25, fat: 8, fiber: 3 },
+          serving_unit: "grams",
+          serving_weight_grams: 120,
+        });
+
+      console.log("Response:", res.body);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body).toMatchObject({
+        success: true,
+        message: "Custom food updated successfully",
+        data: {
+          foodName: "Updated Test Food",
+          serving_unit: "grams",
+          serving_weight_grams: 120,
+        },
+      });
+    });
+
+    it("should return 404 if food item not found or unauthorized", async () => {
+      const wrongId = new mongoose.Types.ObjectId().toString();
+      const res = await request(app)
+        .put(`/api/updateCustomFood/${wrongId}`)
+        .set("user-id", userId)
+        .send({
+          foodName: "Updated Test Food",
+        });
+
+      console.log("Response:", res.body);
+      expect(res.statusCode).toEqual(404);
+      expect(res.body).toEqual({
+        failure: true,
+        message: "Custom food item not found or you don’t have permission to update it",
+      });
+    });
+
+    it("should return 500 if there is an error", async () => {
+      jest.spyOn(customFoodModel, "findOneAndUpdate").mockImplementationOnce(() => {
+        throw new Error("Test error");
+      });
+
+      const res = await request(app)
+        .put(`/api/updateCustomFood/${customFoodId}`)
+        .set("user-id", userId)
+        .send({
+          foodName: "Updated Test Food",
+        });
+
+      console.log("Error Response:", res.body);
+      expect(res.statusCode).toEqual(500);
+      expect(res.body).toStrictEqual({
+        failure: true,
+        message: "Some problem in updating custom food",
+      });
+    });
+  });
+
+  describe("DELETE /api/deleteCustomFood/:id", () => {
+    let userId, customFoodId;
+
+    beforeEach(async () => {
+      userId = new mongoose.Types.ObjectId().toString();
+      const customFood = await customFoodModel.create({
+        userId,
+        foodName: "Test Food",
+        details: { calories: 100, protein: 10, carbohydrates: 20, fat: 5, fiber: 2 },
+        serving_unit: "grams",
+        serving_weight_grams: 100,
+      });
+      customFoodId = customFood._id.toString();
+    });
+
+    it("should delete a custom food item", async () => {
+      const res = await request(app)
+        .delete(`/api/deleteCustomFood/${customFoodId}`)
+        .set("user-id", userId);
+
+      console.log("Response:", res.body);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body).toStrictEqual({
+        success: true,
+        message: "Custom food deleted successfully",
+      });
+
+      const deletedFood = await customFoodModel.findById(customFoodId);
+      expect(deletedFood).toBeNull();
+    });
+
+    it("should return 404 if food item not found or unauthorized", async () => {
+      const wrongId = new mongoose.Types.ObjectId().toString();
+      const res = await request(app)
+        .delete(`/api/deleteCustomFood/${wrongId}`)
+        .set("user-id", userId);
+
+      console.log("Response:", res.body);
+      expect(res.statusCode).toEqual(404);
+      expect(res.body).toStrictEqual({
+        failure: true,
+        message: "Custom food item not found or you don’t have permission to delete it",
+      });
+    });
+
+    it("should return 500 if there is an error", async () => {
+      jest.spyOn(customFoodModel, "findOneAndDelete").mockImplementationOnce(() => {
+        throw new Error("Test error");
+      });
+
+      const res = await request(app)
+        .delete(`/api/deleteCustomFood/${customFoodId}`)
+        .set("user-id", userId);
+
+      console.log("Error Response:", res.body);
+      expect(res.statusCode).toEqual(500);
+      expect(res.body).toStrictEqual({
+        failure: true,
+        message: "Some problem in deleting custom food",
       });
     });
   });
