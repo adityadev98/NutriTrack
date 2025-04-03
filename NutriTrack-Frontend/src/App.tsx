@@ -27,6 +27,8 @@ import {
   NotFound,
   CoachDashboard,
   RecipePage,
+  CoachAppointments,
+  CoachProfile,
 } from "./Pages"
 
 import { ProtectedRoute, AdminRoute, PublicRoute, CoachRoute } from "./Routes"
@@ -80,6 +82,8 @@ function App() {
         {/* ✅ Coach-only Routes */}
         <Route element={<CoachRoute />}>
             <Route path="/coach-dashboard" element={<CoachDashboard />} />
+            <Route path="/coach-appointments" element={<CoachAppointments />} />
+            <Route path='/coach-profile' element={<CoachProfile />} />
         </Route>
 
           {/* 404 Page Route */}

@@ -1,5 +1,5 @@
 import express from 'express';
-import { appointmentsAdmin, appointmentCancel, allCoaches, adminDashboard, promoteToAdmin, promoteToCoach} from '../controllers/adminController.js';
+import { appointmentsAdmin, appointmentCancel, allCoaches, adminDashboard, promoteToAdmin, promoteToCoach, getUserIdByEmail} from '../controllers/adminController.js';
 import { changeAvailablity } from '../controllers/coachController.js';
 import { authMiddleware } from "../middleware/authMiddleware.js";
 const adminRouter = express.Router();
@@ -12,4 +12,5 @@ adminRouter.post("/change-availability", authMiddleware, changeAvailablity)
 adminRouter.get("/dashboard", authMiddleware, adminDashboard)
 adminRouter.post("/promote-to-admin", authMiddleware, promoteToAdmin);
 adminRouter.post("/promote-to-coach", authMiddleware, promoteToCoach);
+adminRouter.post("/getID", authMiddleware, getUserIdByEmail);
 export default adminRouter;

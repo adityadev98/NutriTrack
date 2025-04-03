@@ -10,6 +10,7 @@ import AuthModal from "./Authentication/AuthModal.tsx";
 import Sidebar from "./AdminSections/Sidebar.tsx";
 import Sidenav from "./CustomerSections/Sidenav.tsx";
 import HomepageEndSection from "./HomepageSections/HomepageEndSection.tsx";
+import CoachNav from "./CoachSections/CoachNav.tsx";
 export {
     Navbar,
     Footer,
@@ -23,4 +24,5 @@ export {
     AuthModal,
     BmiCalculatorBox,
     HomepageEndSection,
+    CoachNav,
 };

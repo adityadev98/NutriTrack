@@ -159,13 +159,15 @@ const coachDashboard = async (req, res) => {
             }
         })
 
-
+         // ✅ Fetch coach profile to get availability
+        const coachProfile = await coachModel.findOne({ coachId })
 
         const dashData = {
             earnings,
             appointments: appointments.length,
             patients: patients.length,
-            latestAppointments: appointments.reverse()
+            latestAppointments: appointments.reverse(),
+            available: coachProfile?.available || false
         }
 
         res.json({ success: true, dashData })
