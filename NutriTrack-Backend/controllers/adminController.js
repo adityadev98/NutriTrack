@@ -1,6 +1,7 @@
 import appointmentModel from "../models/appointmentModel.js";
 import coachModel from "../models/coachModel.js";
 import {User} from "../models/index.js";
+import { userProfile as UserProfile } from "../models/index.js";
 import mongoose from "mongoose";
 
 // API to get all appointments list
@@ -212,11 +213,42 @@ const promoteToAdmin = async (req, res) => {
       // Promote the user to admin
       user.userType = "coach";
       await user.save();
-  
+      // Fetch user profile for name
+      let coachName = "Coach Name"; // fallback
+      const userProfile = await UserProfile.findOne({ user: user._id });
+      if (userProfile && userProfile.name?.trim()) {
+        coachName = userProfile.name.trim();
+      }
+
+      // Check if coach profile already exists
+      const existingCoach = await coachModel.findOne({ coachId: user._id });
+
+      if (!existingCoach) {
+        // Create minimal coach profile to ensure entry exists
+        const coachProfile = new coachModel({
+          coachId: user._id,
+          name: coachName,
+          speciality: "Update Required",
+          degree: "Update Required",
+          experience: "Update Required",
+          about: "Update Required",
+          fees: 0,
+          address: {
+            city: "",
+            state: "",
+            zip: ""
+          },
+          date: Date.now()
+        });
+
+        await coachProfile.save();
+      }
+      // Send success response
       res
         .status(200)
         .json({ success: true, message: "User promoted to coach successfully." });
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error promoting user:", error);
       res
         .status(500)

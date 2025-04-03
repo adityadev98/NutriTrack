@@ -55,7 +55,7 @@ const bookAppointment = async (req, res) => {
         // ✅ Save updated `slots_booked` to `coachModel`
         await coachModel.findByIdAndUpdate(coachData._id, { slots_booked });
 
-        res.json({ success: true, message: "Appointment Booked" });
+        res.json({ success: true, message: "Appointment Booked", appointmentId: newAppointment._id });
 
     } catch (error) {
         console.log(error);
@@ -147,7 +147,23 @@ const listAppointment = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
-
+// API to get available coaches for frontend
+const listAvailableCoaches = async (req, res) => {
+    try {
+      const coaches = await coachModel.find({ available: true }).select("-password");
+  
+      res.status(200).json({
+        success: true,
+        coaches,
+      });
+    } catch (error) {
+      console.error("Error fetching available coaches:", error);
+      res.status(500).json({
+        success: false,
+        message: "Server error while fetching coaches.",
+      });
+    }
+  };
 // API to make payment of appointment using Stripe
 const paymentStripe = async (req, res) => {
     try {
@@ -211,6 +227,7 @@ const verifyStripe = async (req, res) => {
 export {
     bookAppointment,
     listAppointment,
+    listAvailableCoaches, 
     cancelAppointment,
     paymentStripe,
     verifyStripe

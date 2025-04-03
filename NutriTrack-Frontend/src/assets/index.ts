@@ -8,6 +8,12 @@ import arrowUp from "./arrow-up.svg";
 import linkedin from "./linkedin.svg";
 import HeroPic from "./HeroPic.svg";
 import error from "./404error.svg"
+import coach_1 from "./coach_1.webp";
+import coach_2 from "./coach_2.webp";
+import coach_3 from "./coach_3.webp";
+import coach_4 from "./coach_4.webp";
+import coach_5 from "./coach_5.webp";
+
 export { 
   logo,
   sm_logo,
@@ -19,4 +25,9 @@ export {
   google,
   HeroPic,
   error,
+  coach_1,
+  coach_2,
+  coach_3,
+  coach_4,
+  coach_5,
 };

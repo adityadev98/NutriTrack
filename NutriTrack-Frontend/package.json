@@ -23,6 +23,7 @@
     "next-themes": "^0.4.4",
     "nutritrack": "file:..",
     "react": "^18.3.1",
+    "react-calendar": "^5.1.0",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
     "react-otp-input": "^3.1.1",
@@ -75,7 +76,8 @@
     },
     "moduleNameMapper": {
       "\\.(css|less|scss|sass)$": "identity-obj-proxy",
-      "\\.svg$": "<rootDir>/__mocks__/svgMock.js"
+      "\\.svg$": "<rootDir>/__mocks__/svgMock.js",
+      "\\.(jpg|jpeg|png|webp)$": "<rootDir>/__mocks__/fileMock.js"
     },
     "moduleFileExtensions": [
       "ts",

@@ -85,8 +85,12 @@ const changeAvailablity = async (req, res) => {
     try {
 
         const coachId = req.user.id;
-        const coachData = await coachModel.findById(coachId)
-        await coachModel.findByIdAndUpdate(coachId, { available: !coachData.available })
+        const coachData = await coachModel.findOne({ coachId });
+        if (!coachData) {
+            return res.status(404).json({ success: false, message: "Coach profile not found" });
+        }
+        coachData.available = !coachData.available;
+        await coachData.save();
         res.json({ success: true, message: 'Availablity Changed' })
 
     } catch (error) {
@@ -100,7 +104,7 @@ const coachProfile = async (req, res) => {
     try {
 
         const coachId = req.user.id;
-        const profileData = await coachModel.findById(coachId).select('-password')
+        const profileData = await coachModel.findOne({ coachId }).select('-password')
 
         res.json({ success: true, profileData })
 
@@ -116,7 +120,13 @@ const updateCoachProfile = async (req, res) => {
 
         const { fees, address, available } = req.body
         const coachId = req.user.id;
-        await coachModel.findByIdAndUpdate(coachId, { fees, address, available })
+        const coach = await coachModel.findOne({ coachId });
+        if (!coach) 
+            return res.status(404).json({ success: false, message: "Coach profile not found." });
+        coach.fees = fees;
+        coach.address = address;
+        coach.available = available;
+        await coach.save();
 
         res.json({ success: true, message: 'Profile Updated' })
 

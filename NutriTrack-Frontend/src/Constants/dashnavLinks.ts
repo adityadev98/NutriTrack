@@ -5,6 +5,8 @@ import { MdNoMeals,MdDashboardCustomize,MdTrackChanges,MdSearch } from "react-ic
 import { GoGraph } from "react-icons/go";
 import { GiHotMeal } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
+import { FaUserDoctor } from "react-icons/fa6";
+import { FaCalendarCheck } from "react-icons/fa6";
 
 const DashNavLinks = [
     {
@@ -26,6 +28,16 @@ const DashNavLinks = [
       id: "customFood",
       title: "Custom Food",
       icon: MdSearch,
+    },
+    {
+      id: "book-coach",
+      title: "Book Coach",
+      icon: FaUserDoctor,
+    },
+    {
+      id: "appointments",
+      title: "Appointments",
+      icon: FaCalendarCheck,
     },
     {
       id: "dailydashboard",
