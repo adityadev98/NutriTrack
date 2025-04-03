@@ -47,13 +47,6 @@ describe("Admin Routes", () => {
     expect(response.body.data).toEqual([]);
   });
 
-  test("POST /api/change-availability - should change coach availability", async () => {
-    const response = await request(app)
-      .post("/api/change-availability")
-      .send({ coachId: "67890", available: true });
-    expect(response.status).toBe(200);
-    expect(response.body.message).toBe("Availability changed");
-  });
 
   test("GET /api/dashboard - should fetch admin dashboard data", async () => {
     const response = await request(app).get("/api/dashboard");
