@@ -109,68 +109,76 @@ const RecipePage: React.FC = () => {
 
     return (
         <Sidenav>
-        <Box p={5}>
-            <Heading  textAlign="center" as="h1" size="xl" mb={10}>Recipes</Heading>
-            <Box display="flex" gap={3} mb={5}>
-            <Input
-                        placeholder="Search meal by name"
-                        value={query}
-                        onChange={handleSearchChange}
-                    />                
+            <Box p={8}>
+            <Box bg="white" boxShadow="md" borderRadius="lg" p={0} mb={10}>
+                <Box bg="var(--dark-green)" borderTopRadius="lg" px={6} py={4}>
+                <Heading size="lg" color="white">Discover Recipes</Heading>
+                </Box>
+                <Box p={6}  borderBottomRadius="lg" color="var(--dark-green)">
+                <Text fontSize="md" fontWeight="medium">
+                    Search by name or filter by cuisine to explore delicious and healthy recipes. Tap on a recipe to view detailed ingredients and step-by-step instructions.
+                </Text>
+                </Box>
             </Box>
-            {searchResults.length > 0 && (
-                    <List spacing={1} bg="white" boxShadow="md" borderRadius="md" maxHeight="300px" overflowY="auto">
-                        {searchResults.map((meal) => (
-                            <ListItem
-                                key={meal.idMeal}
-                                display="flex"
-                                alignItems="center"
-                                padding={2}
-                                cursor="pointer"
-                                onClick={() => getMealDetails(meal.idMeal)}
-                            >
-                                <ListIcon as={Image} src={meal.strMealThumb} boxSize="40px" mr={2} />
-                                <Text>{meal.strMeal}</Text>
-                            </ListItem>
-                        ))}
-                    </List>
+
+            <Box bg="white" boxShadow="md" borderRadius="lg" p={6}>
+                <Box display="flex" gap={3} mb={5}>
+                <Input
+                    placeholder="Search meal by name"
+                    value={query}
+                    onChange={handleSearchChange}
+                />
+                </Box>
+
+                {searchResults.length > 0 && (
+                <List spacing={1} bg="white" boxShadow="md" borderRadius="md" maxHeight="300px" overflowY="auto">
+                    {searchResults.map((meal) => (
+                    <ListItem
+                        key={meal.idMeal}
+                        display="flex"
+                        alignItems="center"
+                        padding={2}
+                        cursor="pointer"
+                        onClick={() => getMealDetails(meal.idMeal)}
+                    >
+                        <ListIcon as={Image} src={meal.strMealThumb} boxSize="40px" mr={2} />
+                        <Text>{meal.strMeal}</Text>
+                    </ListItem>
+                    ))}
+                </List>
                 )}
-            <Box display="flex" gap={3} mb={5}>
+
+                <Box display="flex" gap={3} mb={5}>
                 <Select data-testid="filterType-select" onChange={(e) => setFilterType(e.target.value as 'category' | 'area')}>
                     <option value="category">Category</option>
                     <option value="area">Cuisine</option>
                 </Select>
                 {filterType === 'category' && (
-                    <Select  data-testid="category-select" onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
-                        {categories.map((category, index) => (
-                            <option key={index} value={category}>{category}</option>
-                        ))}
+                    <Select data-testid="category-select" onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
+                    {categories.map((category, index) => (
+                        <option key={index} value={category}>{category}</option>
+                    ))}
                     </Select>
                 )}
-                  {filterType === 'area' && (
-                    <Select   data-testid="area-select" onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
-                        {areas.map((area, index) => (
-                            <option key={index} value={area}>{area}</option>
-                        ))}
+                {filterType === 'area' && (
+                    <Select data-testid="area-select" onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Cuisine">
+                    {areas.map((area, index) => (
+                        <option key={index} value={area}>{area}</option>
+                    ))}
                     </Select>
                 )}
                 <Button onClick={filterMeals} colorScheme="green">Filter</Button>
-            </Box>
-            <SimpleGrid columns={3} spacing={5}>
+                </Box>
+
+                <SimpleGrid columns={[1, 2, 3]} spacing={5}>
                 {meals.map(meal => (
                     <Box key={meal.idMeal} onClick={() => getMealDetails(meal.idMeal)} cursor="pointer" p={3} borderWidth={1} borderRadius="lg">
-                        <Image src={meal.strMealThumb} alt={meal.strMeal} />
-                        <Text mt={2} fontWeight="bold">{meal.strMeal}</Text>
+                    <Image src={meal.strMealThumb} alt={meal.strMeal} />
+                    <Text mt={2} fontWeight="bold">{meal.strMeal}</Text>
                     </Box>
                 ))}
-            </SimpleGrid>
-            {/* {selectedMeal && (
-                <Box mt={5} p={5} borderWidth={1} borderRadius="lg">
-                    <Text fontSize="2xl" fontWeight="bold">{selectedMeal.strMeal}</Text>
-                    <Image src={selectedMeal.strMealThumb} alt={selectedMeal.strMeal} />
-                    <Text mt={3}>{selectedMeal.strInstructions}</Text>
-                </Box>
-            )} */}
+                </SimpleGrid>
+            </Box>
         </Box>
         {/* Modal for Meal Details */}
             <Modal isOpen={isOpen} onClose={onClose} size="xl">
