@@ -1,4 +1,4 @@
-import { trackingModel, customFoodModel } from "../models/index.js";
+import { trackingModel, customFoodModel} from "../models/index.js";
 
 export const trackfoodItem = async (req, res) => {
   let trackData = req.body;
@@ -66,3 +66,67 @@ export const getCustomFoods = async (req, res) => {
       .send({ failure: true, message: "Error in retrieving data" });
   }
 };
+export const updateCustomFoodItem = async (req, res) => {
+  const { id } = req.params; // Food item ID from URL parameters
+  const updatedFoodData = req.body; // Updated data from request body
+  const userId = req.user.id; // User ID from authMiddleware
+
+  try {
+    // Find and update the food item by both ID and userId
+    const updatedFood = await customFoodModel.findOneAndUpdate(
+      { _id: id, userId: userId }, // Match both food ID and user ID
+      updatedFoodData,
+      { new: true, runValidators: true } // Return updated document, run schema validation
+    );
+
+    if (!updatedFood) {
+      return res.status(404).send({
+        failure: true,
+        message: "Custom food item not found or you don’t have permission to update it",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Custom food updated successfully",
+      data: updatedFood,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      failure: true,
+      message: "Some problem in updating custom food",
+    });
+  }
+};
+
+export const deleteCustomFoodItem = async (req, res) => {
+  const { id } = req.params; // Food item ID from URL parameters
+  const userId = req.user.id; // User ID from authMiddleware
+
+  try {
+    // Find and delete the food item by both ID and userId
+    const deletedFood = await customFoodModel.findOneAndDelete({
+      _id: id,
+      userId: userId, // Match both food ID and user ID
+    });
+
+    if (!deletedFood) {
+      return res.status(404).send({
+        failure: true,
+        message: "Custom food item not found or you don’t have permission to delete it",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Custom food deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      failure: true,
+      message: "Some problem in deleting custom food",
+    });
+  }
+}
