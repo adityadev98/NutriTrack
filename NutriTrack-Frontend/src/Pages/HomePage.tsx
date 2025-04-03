@@ -1,4 +1,4 @@
-import {Navbar, Footer, HomepageHero, HomepageMidSection1} from "../Components/Sections";
+import {Navbar, Footer, HomepageHero, HomepageMidSection1, BmiCalculatorBox, HomepageEndSection} from "../Components/Sections";
 import { Box} from "@chakra-ui/react";
 //import styles from "../../style";
 
@@ -16,10 +16,12 @@ const HomePage = () => {
 			<Box className="flex-grow pt-[80px] bg-primary">  
 				<HomepageHero />
 			</Box>
-			<Box className="flex-grow pt-[80px] bg-primary">  
-				<HomepageMidSection1 />
-			</Box>
-	
+			{/* ✅ Mid Section */}
+			<HomepageMidSection1 />		
+			{/* ✅ Bmi Calculator */}
+				<BmiCalculatorBox />		
+			{/* ✅ End Section */}
+				<HomepageEndSection />	
 			{/* ✅ Footer stays at bottom */}
 			<Box className="w-full mt-auto bg-footer">
 				<Footer />

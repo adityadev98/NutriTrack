@@ -104,9 +104,20 @@ const MealsConsumedPage = () => {
   }
 return (
     <Sidenav>
+      <Box bg="white" boxShadow="md" borderRadius="lg" p={0} mb={10}>
+        <Box bg="var(--dark-green)" borderTopRadius="lg" px={6} py={4}>
+          <Heading size="lg" color="white">Meals Consumed Today</Heading>
+        </Box>
+        <Box p={6} borderBottomRadius="lg" color="var(--dark-green)">
+          <Text fontSize="md" fontWeight="medium">
+            Review all meals you've consumed today. Check total calories, proteins, carbs, and fats to stay on track with your goals.
+          </Text>
+        </Box>
+      </Box>
+    <Box bg="white" boxShadow="md" borderRadius="lg" p={6}>
     <Container maxW="container.lg" py={6}>
      <HStack justifyContent="space-between" mb={6}>
-        <Heading as="h1" size="xl">Meals Consumed Today</Heading>
+        <Heading as="h1" size="xl">Tracked Meals</Heading>
         <HStack>
           <Button mt={4} data-testid="Search-Food" colorScheme="blue" onClick={() => navigate('/track')}>Search Food</Button>
           <Button mt={4} data-testid="Add-Your-Own-Meal" colorScheme="green" onClick={() => navigate('/customFood')}>Add Your Own Meal</Button>
@@ -183,6 +194,7 @@ return (
   </SimpleGrid>
 </Box>
     </Container>
+  </Box>
   </Sidenav>
   );
 };

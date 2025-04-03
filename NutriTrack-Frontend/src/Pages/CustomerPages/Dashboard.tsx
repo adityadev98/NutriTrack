@@ -273,9 +273,19 @@ const Dashboard: React.FC = () => {
 
   return (
     <Sidenav> 
+      <Box bg="white" boxShadow="md" borderRadius="lg" p={0} mb={10}>
+        <Box bg="var(--dark-green)" borderTopRadius="lg" px={6} py={4}>
+          <Heading size="lg" color="white">Dashboard</Heading>
+        </Box>
+        <Box p={6} borderBottomRadius="lg" color="var(--dark-green)">
+          <Text fontSize="md" fontWeight="medium">
+            View your personalized health summary including daily calorie needs, BMI, hydration goals, and more. Use the Edit Profile button to keep your stats updated.
+          </Text>
+        </Box>
+      </Box>
+
       <Container maxW="container.lg" py={6}>
         <VStack gap={4} align="center">
-          <Heading color="var(--dark-green)">Dashboard</Heading>
           <Box p={5} shadow="md" borderWidth="1px" borderRadius="md" bg="var(--soft-white)" width="100%">
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
               <Stat>
