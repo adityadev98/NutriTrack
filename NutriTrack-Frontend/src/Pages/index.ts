@@ -21,6 +21,7 @@ import ResetPassword from "./ResetPassword";
 import CoachDashboard from "./CoachPages/CoachDashboard";
 import OtpVerification from "./CustomerPages/OtpVerification";
 import RecipePage from "./CustomerPages/RecipePage";
+import BookCoach from "./CustomerPages/BookCoach";
 
 export {
     HomePage,
@@ -34,6 +35,7 @@ export {
     MealsConsumedPage,
     TrackPage,
     TrackCustomFoodPage,
+    BookCoach,
     DailyDashboardPage,
     Dashboard,
     ProfileSetup,
