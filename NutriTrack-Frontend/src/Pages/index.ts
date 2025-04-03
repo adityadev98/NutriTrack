@@ -26,6 +26,7 @@ import Verify from "./CustomerPages/Verify";
 import Appointments from "./CustomerPages/Appointments";
 import CoachAppointments from "./CoachPages/CoachAppointments";
 import CoachProfile from "./CoachPages/CoachProfile";
+import Chat from "./CustomerPages/Chat";
 
 export {
     HomePage,
@@ -56,4 +57,5 @@ export {
     OtpVerification,
     CoachAppointments,
     CoachProfile,
+    Chat,
 };

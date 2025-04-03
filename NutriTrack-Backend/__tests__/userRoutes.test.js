@@ -9,8 +9,15 @@ jest.mock("../controllers/userController.js", () => ({
   cancelAppointment: jest.fn((req, res) => res.status(200).json({ message: "Appointment canceled successfully" })),
   paymentStripe: jest.fn((req, res) => res.status(200).json({ message: "Payment processed successfully" })),
   verifyStripe: jest.fn((req, res) => res.status(200).json({ message: "Payment verified successfully" })),
-  listAvailableCoaches: jest.fn((req, res) => res.status(200).json({ success: true, coaches: [] })), // ✅ ADD THIS LINE
+  listAvailableCoaches: jest.fn((req, res) => res.status(200).json({ success: true, coaches: [] })),
+  chatWithGPT: jest.fn((req, res) => 
+    res.status(200).json({
+      success: true,
+      reply: { role: "assistant", content: "Here’s a sample meal plan for today." }
+    })
+  ),
 }));
+
 
 // Mock authentication middleware
 jest.mock("../middleware/authMiddleware.js", () => ({
