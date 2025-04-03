@@ -55,7 +55,7 @@ const bookAppointment = async (req, res) => {
         // ✅ Save updated `slots_booked` to `coachModel`
         await coachModel.findByIdAndUpdate(coachData._id, { slots_booked });
 
-        res.json({ success: true, message: "Appointment Booked" });
+        res.json({ success: true, message: "Appointment Booked", appointmentId: newAppointment._id });
 
     } catch (error) {
         console.log(error);

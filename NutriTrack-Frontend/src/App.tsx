@@ -19,6 +19,8 @@ import {
   CreateCustomFoodPage,
   TrackCustomFoodPage, 
   BookCoach,
+  Verify,
+  Appointments,
   DailyDashboardPage, 
   HistoricalViewPage,
   AdminDashboard,
@@ -63,6 +65,8 @@ function App() {
             <Route path="/customFood" element={<CreateCustomFoodPage />} />
             <Route path="/trackCustomFood" element={<TrackCustomFoodPage />} />
             <Route path="/book-coach" element={<BookCoach />} />
+            <Route path="/verify" element={<Verify />} />
+            <Route path="/appointments" element={<Appointments />} />
             <Route path="/dailydashboard" element={<DailyDashboardPage />} />
             <Route path='/historical' element={<HistoricalViewPage />} />
             <Route path='/recipe' element={<RecipePage />} />

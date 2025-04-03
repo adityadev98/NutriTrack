@@ -22,6 +22,8 @@ import CoachDashboard from "./CoachPages/CoachDashboard";
 import OtpVerification from "./CustomerPages/OtpVerification";
 import RecipePage from "./CustomerPages/RecipePage";
 import BookCoach from "./CustomerPages/BookCoach";
+import Verify from "./CustomerPages/Verify";
+import Appointments from "./CustomerPages/Appointments";
 
 export {
     HomePage,
@@ -36,6 +38,8 @@ export {
     TrackPage,
     TrackCustomFoodPage,
     BookCoach,
+    Verify,
+    Appointments,
     DailyDashboardPage,
     Dashboard,
     ProfileSetup,
