@@ -24,8 +24,7 @@ import {
   MenuList,
   MenuItem,
   Tooltip,
-  HStack,
-  Grid,
+  HStack
 } from "@chakra-ui/react";
 import { ChevronDownIcon, AddIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons"; // Improved icons
 
@@ -85,7 +84,20 @@ const CreateCustomFoodPage: React.FC = () => {
       [name as keyof typeof formData]: value,
     });
   };
-
+  // Reset formData when opening the Create modal
+  const handleCreateOpen = () => {
+    setFormData({
+      foodName: "",
+      calories: "",
+      protein: "",
+      carbohydrates: "",
+      fat: "",
+      fiber: "",
+      serving_unit: "",
+      serving_weight_grams: ""
+    });
+    onCreateOpen();
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -239,7 +251,7 @@ const CreateCustomFoodPage: React.FC = () => {
             boxShadow="sm"
             _hover={{ boxShadow: "md", bg: "green.600" }}
             transition="all 0.2s"
-            onClick={onCreateOpen}
+            onClick={handleCreateOpen}
           >
             Create a Meal
           </Button>
@@ -250,7 +262,7 @@ const CreateCustomFoodPage: React.FC = () => {
           <ModalOverlay />
           <ModalContent borderRadius="lg" boxShadow="xl">
             <ModalHeader bg="green.500" p={4}>
-            <Heading as="h2" size="md" align="center" color="white">
+            <Heading as="h2" size="md" textAlign="center" color="white">
                 Add Food Item
               </Heading>
             </ModalHeader>
@@ -301,7 +313,7 @@ const CreateCustomFoodPage: React.FC = () => {
           <ModalOverlay />
           <ModalContent>
             <ModalHeader bg="green.500" p={4}>
-              <Heading as="h2" size="md" align="center" color="white">Edit Food Item</Heading>
+              <Heading as="h2" size="md" textAlign="center" color="white">Edit Food Item</Heading>
             </ModalHeader>
             <ModalBody mt={4} p={6}>
               <form onSubmit={handleEditSubmit}>
@@ -333,7 +345,7 @@ const CreateCustomFoodPage: React.FC = () => {
               <Button colorScheme="green" type="submit" onClick={handleEditSubmit}>
                 Save Changes
               </Button>
-              <Button onClick={onEditClose} ml={3}  ml={3} colorScheme="red">
+              <Button onClick={onEditClose} ml={3} colorScheme="red">
                 Cancel
               </Button>
             </ModalFooter>
