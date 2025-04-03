@@ -7,6 +7,7 @@ import { GiHotMeal } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
 import { FaUserDoctor } from "react-icons/fa6";
 import { FaCalendarCheck } from "react-icons/fa6";
+import { TbMessageChatbotFilled } from "react-icons/tb";
 
 const DashNavLinks = [
     {
@@ -38,6 +39,11 @@ const DashNavLinks = [
       id: "appointments",
       title: "Appointments",
       icon: FaCalendarCheck,
+    },
+    {
+      id: "chat",
+      title: "NutriBot",
+      icon: TbMessageChatbotFilled,
     },
     {
       id: "dailydashboard",

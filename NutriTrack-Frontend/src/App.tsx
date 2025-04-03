@@ -29,6 +29,7 @@ import {
   RecipePage,
   CoachAppointments,
   CoachProfile,
+  Chat,
 } from "./Pages"
 
 import { ProtectedRoute, AdminRoute, PublicRoute, CoachRoute } from "./Routes"
@@ -69,6 +70,7 @@ function App() {
             <Route path="/book-coach" element={<BookCoach />} />
             <Route path="/verify" element={<Verify />} />
             <Route path="/appointments" element={<Appointments />} />
+            <Route path='/chat' element={<Chat />} />
             <Route path="/dailydashboard" element={<DailyDashboardPage />} />
             <Route path='/historical' element={<HistoricalViewPage />} />
             <Route path='/recipe' element={<RecipePage />} />
