@@ -95,6 +95,94 @@ describe("NutriControllers", () => {
         message: "Some Problem in adding the food",
       });
     });
+    //test: Default foodId
+  it("should add a food item with default foodId if not provided", async () => {
+    const userId = new mongoose.Types.ObjectId();
+    const res = await request(app)
+      .post("/api/track")
+      .send({
+        userId: userId,
+        foodName: "apple",
+        details: {
+          calories: 50,
+          protein: 1,
+          carbohydrates: 15,
+          fat: 0,
+          fiber: 1,
+        },
+        eatenDate: new Date().toISOString().split("T")[0],
+        quantity: 1,
+        servingUnit: "grams",
+        eatenWhen: "breakfast",
+      });
+
+    console.log("Response:", res.body);
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toStrictEqual({ success: true, message: "Food Added" });
+    const trackedFood = await trackingModel.findOne({ userId, foodName: "apple" });
+    expect(trackedFood).toBeTruthy();
+    expect(mongoose.Types.ObjectId.isValid(trackedFood.foodId)).toBe(true); // Check if foodId is a valid ObjectId
+  });
+
+  //test: Default eatenDate
+  it("should add a food item with default eatenDate if not provided", async () => {
+    const userId = new mongoose.Types.ObjectId();
+    const res = await request(app)
+      .post("/api/track")
+      .send({
+        userId: userId,
+        foodId: new mongoose.Types.ObjectId(),
+        foodName: "orange",
+        details: {
+          calories: 45,
+          protein: 1,
+          carbohydrates: 11,
+          fat: 0,
+          fiber: 2,
+        },
+        quantity: 1,
+        servingUnit: "grams",
+        eatenWhen: "lunch",
+      });
+
+    console.log("Response:", res.body);
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toStrictEqual({ success: true, message: "Food Added" });
+    // Verify the document in the database
+    const trackedFood = await trackingModel.findOne({ userId, foodName: "orange" });
+    expect(trackedFood).toBeTruthy();
+    expect(trackedFood.eatenDate).toEqual(new Date().toLocaleDateString('en-CA')); // Check if eatenDate is today's date
+  });
+
+  // New test: Both defaults
+  it("should add a food item with default foodId and eatenDate if not provided", async () => {
+    const userId = new mongoose.Types.ObjectId();
+    const res = await request(app)
+      .post("/api/track")
+      .send({
+        userId: userId,
+        foodName: "grape",
+        details: {
+          calories: 70,
+          protein: 1,
+          carbohydrates: 18,
+          fat: 0,
+          fiber: 1,
+        },
+        quantity: 1,
+        servingUnit: "grams",
+        eatenWhen: "PM snack",
+      });
+
+    console.log("Response:", res.body);
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toStrictEqual({ success: true, message: "Food Added" });
+    // Verify the document in the database
+    const trackedFood = await trackingModel.findOne({ userId, foodName: "grape" });
+    expect(trackedFood).toBeTruthy();
+    expect(mongoose.Types.ObjectId.isValid(trackedFood.foodId)).toBe(true); // Check if foodId is a valid ObjectId
+    expect(trackedFood.eatenDate).toEqual(new Date().toLocaleDateString('en-CA')); // Check if eatenDate is today's date
+  });
   });
 
   describe("GET /api/mealsConsumed", () => {

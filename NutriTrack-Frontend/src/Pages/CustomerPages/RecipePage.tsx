@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Input, Select, Button, Box, Image, Text, SimpleGrid,
+    Input, Select, Button, Box, Image, Text, SimpleGrid, Heading,
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody,
     ModalCloseButton, useDisclosure, List, ListItem, ListIcon
 } from '@chakra-ui/react';
-import { fetchMealsByName, fetchMealsByFilter, fetchRecipeDetails, fetchCategoriesByName,fetchArea } from '@/Services/recipeAPI';
-import { Sidenav } from '@/Components/Sections';
+import { fetchMealsByName, fetchMealsByFilter, fetchRecipeDetails, fetchCategoriesByName,fetchArea } from '../../Services/recipeAPI';
+import { Sidenav } from '../../Components/Sections';
 import { debounce } from 'lodash'; 
 
 interface Meal {
@@ -83,7 +83,7 @@ const RecipePage: React.FC = () => {
 
     const getMealDetails = async (id: string) => {
         const meal = await fetchRecipeDetails(id);
-        const ingredients = [];
+        const ingredients: string[] = []; 
         for (let i = 1; i <= 20; i++) {
             const ingredient = meal[`strIngredient${i}`];
             const measure = meal[`strMeasure${i}`];
@@ -110,6 +110,7 @@ const RecipePage: React.FC = () => {
     return (
         <Sidenav>
         <Box p={5}>
+            <Heading  textAlign="center" as="h1" size="xl" mb={10}>Recipes</Heading>
             <Box display="flex" gap={3} mb={5}>
             <Input
                         placeholder="Search meal by name"
@@ -135,19 +136,19 @@ const RecipePage: React.FC = () => {
                     </List>
                 )}
             <Box display="flex" gap={3} mb={5}>
-                <Select onChange={(e) => setFilterType(e.target.value as 'category' | 'area')}>
+                <Select data-testid="filterType-select" onChange={(e) => setFilterType(e.target.value as 'category' | 'area')}>
                     <option value="category">Category</option>
                     <option value="area">Cuisine</option>
                 </Select>
                 {filterType === 'category' && (
-                    <Select onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
+                    <Select  data-testid="category-select" onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
                         {categories.map((category, index) => (
                             <option key={index} value={category}>{category}</option>
                         ))}
                     </Select>
                 )}
                   {filterType === 'area' && (
-                    <Select onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
+                    <Select   data-testid="area-select" onChange={(e) => setFilterValue(e.target.value)} placeholder="Select Category">
                         {areas.map((area, index) => (
                             <option key={index} value={area}>{area}</option>
                         ))}
@@ -198,7 +199,7 @@ const RecipePage: React.FC = () => {
                                             <Text mt={3} fontWeight="bold">Instructions:</Text>
                                             <ol style={{ paddingLeft: "20px" }}>
                                                 {selectedMeal.strInstructions
-                                                    ?.split(/\. (?=[A-Z])/g) // ✅ Splits at periods followed by an uppercase letter
+                                                    ?.split(/\. (?=[A-Z])/g) 
                                                     .map((step, index) => step.trim() && (
                                                         <li key={index} style={{ marginBottom: "8px" }}>
                                                             {`${index + 1}. ${step}.`}

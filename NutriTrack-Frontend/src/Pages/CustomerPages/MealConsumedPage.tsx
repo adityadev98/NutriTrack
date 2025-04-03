@@ -102,18 +102,7 @@ const MealsConsumedPage = () => {
       </Sidenav>
     );
   }
-
-  if (error) {
-    return (
-      <Sidenav>
-      <Container centerContent>
-        <Text color="red.500">{error}</Text>
-      </Container>
-      </Sidenav>
-    );
-  }
-
-  return (
+return (
     <Sidenav>
     <Container maxW="container.lg" py={6}>
      <HStack justifyContent="space-between" mb={6}>
@@ -123,6 +112,13 @@ const MealsConsumedPage = () => {
           <Button mt={4} data-testid="Add-Your-Own-Meal" colorScheme="green" onClick={() => navigate('/customFood')}>Add Your Own Meal</Button>
         </HStack>
       </HStack>
+      
+      {error && (
+        <Container centerContent>
+          <Text color="red.500">{error}</Text>
+        </Container>
+      )}
+
 
       {/* Loop through the categories and render them */}
       {Object.keys(categorizedMeals).map((mealTime) => (
