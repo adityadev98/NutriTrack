@@ -5,6 +5,8 @@ import { getNutrientHistory } from "../controllers/histController.js";
 import { getMealsConsumed } from "../controllers/nutriControllers.js";
 import { addCustomFoodItem } from "../controllers/nutriControllers.js";
 import { getCustomFoods } from "../controllers/nutriControllers.js";
+import { updateCustomFoodItem } from "../controllers/nutriControllers.js";
+import { deleteCustomFoodItem } from "../controllers/nutriControllers.js";
 
 const router = express.Router();
 
@@ -16,6 +18,12 @@ router.post("/customFood", authMiddleware, addCustomFoodItem);
 
 // endpoint to fetch custom food
 router.get("/getCustomFood", authMiddleware, getCustomFoods);
+
+// endpoint to update custom food
+router.put("/updateCustomFood/:id", authMiddleware, updateCustomFoodItem);
+
+// endpoint to delete custom food
+router.delete("/deleteCustomFood/:id", authMiddleware, deleteCustomFoodItem);
 
 // // endpoint to view meals consumed
 router.get("/mealsConsumed", authMiddleware, getMealsConsumed);

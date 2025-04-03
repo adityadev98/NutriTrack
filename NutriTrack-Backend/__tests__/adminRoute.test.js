@@ -1,57 +1,73 @@
 import request from "supertest";
 import express from "express";
-import router from "../routes/nutriRoutes.js";
-// import { authMiddleware } from "../middleware/authMiddleware.js";
-// import { trackfoodItem, getMealsConsumed, addCustomFoodItem, getCustomFoods } from "../controllers/nutriControllers.js";
-// import { getNutrientHistory } from "../controllers/histController.js";
+import adminRouter from "../routes/adminRoute.js"; // Adjust path to your adminRouter.js
 
+// Mock dependencies
 jest.mock("../middleware/authMiddleware.js", () => ({
   authMiddleware: jest.fn((req, res, next) => next()),
 }));
 
-jest.mock("../controllers/nutriControllers.js", () => ({
-  trackfoodItem: jest.fn((req, res) => res.status(200).json({ message: "Food tracked successfully" })),
-  getMealsConsumed: jest.fn((req, res) => res.status(200).json({ meals: [] })),
-  addCustomFoodItem: jest.fn((req, res) => res.status(201).json({ message: "Custom food added" })),
-  getCustomFoods: jest.fn((req, res) => res.status(200).json({ customFoods: [] })),
+jest.mock("../controllers/adminController.js", () => ({
+  appointmentsAdmin: jest.fn((req, res) => res.status(200).json({ message: "Appointments fetched", data: [] })),
+  appointmentCancel: jest.fn((req, res) => res.status(200).json({ message: "Appointment cancelled" })),
+  allCoaches: jest.fn((req, res) => res.status(200).json({ message: "Coaches fetched", data: [] })),
+  adminDashboard: jest.fn((req, res) => res.status(200).json({ message: "Dashboard data fetched", data: {} })),
+  promoteToAdmin: jest.fn((req, res) => res.status(200).json({ message: "Promoted to admin" })),
+  promoteToCoach: jest.fn((req, res) => res.status(200).json({ message: "Promoted to coach" })),
 }));
 
-jest.mock("../controllers/histController.js", () => ({
-  getNutrientHistory: jest.fn((req, res) => res.status(200).json({ history: [] })),
+jest.mock("../controllers/coachController.js", () => ({
+  changeAvailablity: jest.fn((req, res) => res.status(200).json({ message: "Availability changed" })),
 }));
 
 const app = express();
 app.use(express.json());
-app.use("/api/nutrition", router);
+app.use("/api", adminRouter);
 
-describe("Nutrition Routes", () => {
-  test("POST /api/nutrition/track - should track food item", async () => {
-    const response = await request(app).post("/api/nutrition/track").send({ food: "apple" });
+describe("Admin Routes", () => {
+  test("GET /api/appointments - should fetch appointments", async () => {
+    const response = await request(app).get("/api/appointments");
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe("Food tracked successfully");
+    expect(response.body.message).toBe("Appointments fetched");
+    expect(response.body.data).toEqual([]);
   });
 
-  test("POST /api/nutrition/customFood - should add custom food", async () => {
-    const response = await request(app).post("/api/nutrition/customFood").send({ name: "Protein Shake" });
-    expect(response.status).toBe(201);
-    expect(response.body.message).toBe("Custom food added");
+  test("POST /api/cancel-appointment - should cancel an appointment", async () => {
+    const response = await request(app)
+      .post("/api/cancel-appointment")
+      .send({ appointmentId: "12345" });
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe("Appointment cancelled");
   });
 
-  test("GET /api/nutrition/getCustomFood - should fetch custom foods", async () => {
-    const response = await request(app).get("/api/nutrition/getCustomFood");
+  test("GET /api/all-coaches - should fetch all coaches", async () => {
+    const response = await request(app).get("/api/all-coaches");
     expect(response.status).toBe(200);
-    expect(response.body.customFoods).toEqual([]);
+    expect(response.body.message).toBe("Coaches fetched");
+    expect(response.body.data).toEqual([]);
   });
 
-  test("GET /api/nutrition/mealsConsumed - should return meals consumed", async () => {
-    const response = await request(app).get("/api/nutrition/mealsConsumed");
+
+  test("GET /api/dashboard - should fetch admin dashboard data", async () => {
+    const response = await request(app).get("/api/dashboard");
     expect(response.status).toBe(200);
-    expect(response.body.meals).toEqual([]);
+    expect(response.body.message).toBe("Dashboard data fetched");
+    expect(response.body.data).toEqual({});
   });
 
-  test("GET /api/nutrition/history - should return nutrient history", async () => {
-    const response = await request(app).get("/api/nutrition/history");
+  test("POST /api/promote-to-admin - should promote a user to admin", async () => {
+    const response = await request(app)
+      .post("/api/promote-to-admin")
+      .send({ userId: "12345" });
     expect(response.status).toBe(200);
-    expect(response.body.history).toEqual([]);
+    expect(response.body.message).toBe("Promoted to admin");
+  });
+
+  test("POST /api/promote-to-coach - should promote a user to coach", async () => {
+    const response = await request(app)
+      .post("/api/promote-to-coach")
+      .send({ userId: "12345" });
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe("Promoted to coach");
   });
 });

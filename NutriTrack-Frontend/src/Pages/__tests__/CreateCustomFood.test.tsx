@@ -174,7 +174,7 @@ describe('CreateCustomFoodPage', () => {
     fireEvent.click(screen.getByRole('button',{name: 'Add Food Item'}));
 
     await waitFor(() => {
-      expect(global.alert).toHaveBeenCalledWith(expect.stringContaining("Error adding food item.Error: Failed to add food item"));
+      expect(global.alert).toHaveBeenCalledWith(expect.stringContaining("Error adding food item: Error: Failed to add food item"));
     });
 });
   
@@ -208,7 +208,7 @@ describe('CreateCustomFoodPage', () => {
   
 
     await waitFor(() => {
-      expect(global.alert).toHaveBeenCalledWith(expect.stringContaining("Error fetching custom foods.Error: Error in retrieving data"));
+      expect(global.alert).toHaveBeenCalledWith(expect.stringContaining("Error fetching custom foods: Error: Error in retrieving data"));
     });
   });
 
