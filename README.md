@@ -24,7 +24,7 @@ Please replace `<username>` and `<password>` with your actual MongoDB credential
 
 ## Running the Project
 
-### **Development Mode**
+### **Development mode**
 For development, run:
 ```sh
 npm run dev
