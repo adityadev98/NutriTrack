@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nutritrack
-          image: us-central1-docker.pkg.dev/nutritrack-651/nutritrack-fullstack/nutritrack-image:latest
+          image: us-central1-docker.pkg.dev/nutritrack-app-460406/nutritrack-fullstack/nutritrack-image:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
