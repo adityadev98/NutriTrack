@@ -35,6 +35,10 @@ app.use("/api/booking", userRoutes)
 app.use("/api/admin", adminRoutes)
 app.use("/api/coach", coachRoutes)
 
+app.get('/healthz', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.listen(PORT, () => {
   connectDB();
   console.log("✅ Server is up and running @ https://nutritrack.onixpace.com");
